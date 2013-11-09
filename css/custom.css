@@ -1,0 +1,42 @@
+.nav-example .ui-btn .ui-icon {
+width: 48px!important;
+height: 48px!important;
+margin-left: -15px !important;
+box-shadow: none!important;
+-moz-box-shadow: none!important;
+-webkit-box-shadow: none!important;
+-webkit-border-radius: 0 !important;
+border-radius: 0 !important;
+}
+
+.nav-example .ui-btn .ui-btn-inner {
+padding-top: 40px !important;
+padding-left: 19px !important;
+}
+
+/* custom icons */
+#home .ui-icon {
+	background: url(../images/icons-white.png) no-repeat;
+	background-position: -96px -240px;
+}
+
+#chat .ui-icon {
+	background: url(../images/icons-white.png) no-repeat;
+	background-position: -384px 0;
+}
+
+#contact .ui-icon {
+	background: url(../images/icons-white.png) no-repeat;
+	background-position: -48px -528px;
+}
+
+#settings .ui-icon {
+	background: url(../images/icons-white.png) no-repeat;
+	background-position: -384px -48px;
+}
+
+/*img.scan {
+	width:48px;
+	height:48px;
+	background:url(../images/icons-white.png) 0 -240px;
+}*/
