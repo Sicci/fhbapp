@@ -35,6 +35,19 @@ padding-left: 19px !important;
 	background-position: -384px -48px;
 }
 
+.header-text {
+    color:#34c3ff;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: small;
+}
+
+.footer {
+    font-size: x-small;
+    padding-left:10px;
+}
+
 /*img.scan {
 	width:48px;
 	height:48px;

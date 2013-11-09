@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>FH-Brandenburg App</title>
+    <title>FH-Brandenburg App Home</title>
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 	<link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
@@ -12,34 +12,102 @@
 	<script src="js/jquery.mobile-1.3.2.min.js"></script>-->
 </head>
 <body>
-    <div data-role="page">
- 
-        <div data-role="header">
-            <h1>FH-Brandenburg App</h1>
-			<div data-iconpos="top" data-role="navbar" class="nav-example">
-				<ul>
-			<li><a id="home" data-icon="custom" href="#">Home</a></li>
-			<li><a id="chat" data-icon="custom" href="#">Chat</a></li>
-			<li><a id="contact" data-icon="custom" href="#">Kontakte</a></li>
-			<li><a id="settings" data-icon="custom" data-icon="gear" href="#">Settings</a></li>
-		</ul>
-			</div>
+    <!-- Start of home page -->
+    <div id="page_home" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
         </div><!-- /header -->
- 
         <div data-role="content">
-			<div><br><ul data-role="listview">
-				<li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-				<li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-				<li><a href="*"><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Auswahlliste f�r Stati</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-				<li><a href="*"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-				</ul><br>
-			</div>
+            <div><br><ul data-role="listview">
+                <li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Auswahlliste für Stati</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
+            </ul><br>
+            </div>
         </div><!-- /content -->
- 
-        <div data-role="footer">
-            <h4>My Footer</h4>
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
         </div><!-- /footer -->
- 
+    </div><!-- /page -->
+
+    <!-- Start of chat page -->
+    <div id="page_chat" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            chats
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- start of contacts page -->
+    <div id="page_contacts" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            kontakte
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- Start of settings page -->
+    <div id="page_settings" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            settings
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
     </div><!-- /page -->
 </body>
 </html>
