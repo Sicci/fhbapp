@@ -1,17 +1,57 @@
+
 .nav-example .ui-btn .ui-icon {
-width: 48px!important;
-height: 48px!important;
-margin-left: -15px !important;
-box-shadow: none!important;
--moz-box-shadow: none!important;
--webkit-box-shadow: none!important;
--webkit-border-radius: 0 !important;
-border-radius: 0 !important;
+    width: 48px!important;
+    height: 48px!important;
+    margin-left: -22px !important;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+.nav-example .ui-btn .ui-btn-inner {
+    padding-top: 30px !important;
+    padding-left: 5px !important;
 }
 
-.nav-example .ui-btn .ui-btn-inner {
-padding-top: 40px !important;
-padding-left: 19px !important;
+/*  set icon to a center position */
+#home .ui-icon {
+    margin-top: -4px !important;
+}
+#settings .ui-icon {
+    margin-top: -4px !important;
+}
+#contact .ui-icon {
+    margin-top: -12px !important;
+}
+#chat .ui-icon {
+     margin-top: -10px !important;
+}
+
+/*  set home and setting button to a smaller horizontal size
+    set home and setting text to "" */
+.nav-example ul #home {
+    width: 70% !important;
+    height: 50px !important;
+}
+.nav-example ul #chat {
+    width:130%;
+    left:-30%;
+    height: 50px !important;
+}
+.nav-example ul #contact {
+    width:130%;
+    height: 50px !important;
+}
+.nav-example ul #settings {
+    width: 70% !important;
+    left:30%;
+    height: 50px !important;
+}
+
+/* set colour for clicking a tab button */
+.nav-example li a:hover{
+    background:red !important;
 }
 
 /* custom icons */
