@@ -3,7 +3,7 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.hello-world"
+        id        = "com.phonegap.fhb-app"
         version   = "1.0.0">
 
     <name>FH-Brandenburg App</name>
@@ -12,9 +12,11 @@
         description of the app.
     </description>
 
+    <!-- deploy only for android -->
+    <gap:platform name="android" />
    
     <!-- Plugins can also be added here. -->
-    <gap:plugin name="com.phonegap.plugins.barcodescanner" />
+    <gap:plugin name="com.phonegap.plugins.barcodescanner" version="1.1.0" />
     <!--
         <gap:plugin name="Example" />
         A list of available plugins are available at https://build.phonegap.com/docs/plugins

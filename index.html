@@ -17,16 +17,18 @@
     <script type="text/javascript">
 
         function scanCode() {
-            alert("ENTRA");
-            window.plugins.barcodeScanner.scan( function(result) {
+            alert("scan qr code");
+            cordova.plugins.barcodeScanner.scan(
+                    function (result) {
                         alert("We got a barcode\n" +
                                 "Result: " + result.text + "\n" +
                                 "Format: " + result.format + "\n" +
                                 "Cancelled: " + result.cancelled);
-                    }, function(error) {
+                    },
+                    function (error) {
                         alert("Scanning failed: " + error);
                     }
-            );};
+            )};
 
         function encodeData(){
             var data = document.getElementById("data").value;
