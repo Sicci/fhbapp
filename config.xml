@@ -14,7 +14,7 @@
 
    
     <!-- Plugins can also be added here. -->
-	<gap:plugin name="com.phonegap.plugins.example" />
+    <gap:plugin name="com.phonegap.plugins.barcodescanner" />
     <!--
         <gap:plugin name="Example" />
         A list of available plugins are available at https://build.phonegap.com/docs/plugins
