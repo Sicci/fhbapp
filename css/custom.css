@@ -1,79 +1,62 @@
-
 .nav-example .ui-btn .ui-icon {
-    width: 48px!important;
-    height: 48px!important;
-    margin-left: -22px !important;
-    box-shadow: none!important;
-    -moz-box-shadow: none!important;
-    -webkit-box-shadow: none!important;
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
+width: 48px!important;
+height: 48px!important;
+margin-left: -22px !important;
+box-shadow: none!important;
+-moz-box-shadow: none!important;
+-webkit-box-shadow: none!important;
+-webkit-border-radius: 0 !important;
+border-radius: 0 !important;
 }
+
 .nav-example .ui-btn .ui-btn-inner {
-    padding-top: 30px !important;
-    padding-left: 5px !important;
+padding-top: 30px !important;
+padding-left: 5px !important;
 }
 
-/*  set icon to a center position */
+/* change navigation icon position */
+#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
+     margin-top: -12px !important;
+}
+
+/* change height of navigation buttons */
+.nav-example ul #home, #chat, #settings, #contact {
+     height: 50px !important;
+}
+
+/* custom icons for the navigation */
+#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
+    background: url(../images/icons-white.png) no-repeat;
+}
 #home .ui-icon {
-    margin-top: -4px !important;
-}
-#settings .ui-icon {
-    margin-top: -4px !important;
-}
-#contact .ui-icon {
-    margin-top: -12px !important;
-}
-#chat .ui-icon {
-     margin-top: -10px !important;
-}
-
-/*  set home and setting button to a smaller horizontal size
-    set home and setting text to "" */
-.nav-example ul #home {
-    width: 70% !important;
-    height: 50px !important;
-}
-.nav-example ul #chat {
-    width:130%;
-    left:-30%;
-    height: 50px !important;
-}
-.nav-example ul #contact {
-    width:130%;
-    height: 50px !important;
-}
-.nav-example ul #settings {
-    width: 70% !important;
-    left:30%;
-    height: 50px !important;
-}
-
-/* set colour for clicking a tab button */
-.nav-example li a:hover{
-    background:red !important;
-}
-
-/* custom icons */
-#home .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -96px -240px;
 }
-
 #chat .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -384px 0;
 }
-
 #contact .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -48px -528px;
 }
-
 #settings .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -384px -48px;
 }
+
+.header-text {
+    color:#FFFFFF;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: small;
+}
+
+.footer {
+    font-size: x-small;
+    padding-left:10px;
+}
+
+/*p.ui-li-aside {
+         !important;
+}*/
 
 /*img.scan {
 	width:48px;
