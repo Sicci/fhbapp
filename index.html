@@ -17,7 +17,7 @@
     </script>
 </head>
 <body>
-    <!-- Start of home page -->
+    <!-- home page -->
     <div id="page_home" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
@@ -46,7 +46,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- Start of chat page -->
+    <!-- chat page -->
     <div id="page_chat" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
@@ -69,7 +69,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- start of contacts page -->
+    <!-- contacts page -->
     <div id="page_contacts" data-role="page" data-theme="a">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
@@ -84,7 +84,7 @@
         </div><!-- /header -->
         <div data-role="content">
             <ul data-role="listview" data-theme="c" data-divider-theme="a" data-autodividers="true" data-filter="true" data-filter-placeholder="Kontakte durchsuchen...">
-                <li><a onclick="openProfilePage('amelina')" href="#page_profile" data-transition="slide">Amelina</a></li>
+                <li><a onclick="openProfilePage('amelina')" href="#page_profile">Amelina</a></li>
                 <li><a onclick="openProfilePage('anke')" href="#page_profile">Anke</a></li>
                 <li><a onclick="openProfilePage('boris')" href="#page_profile">Boris</a></li>
                 <li><a onclick="openProfilePage('dennis')" href="#page_profile">Dennis</a></li>
@@ -99,7 +99,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- start of profile page -->
+    <!-- profile page -->
     <div id="page_profile" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
@@ -113,7 +113,13 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <div id="showParmHere"></div>
+            <ul data-role="listview">
+                <li><h3>Name</h3><p style="font-weight: bold" id="showParmHere"></p></li>
+                <li><h3>Status</h3><p><strong>[Auf dem Weg zur FH]</strong></p></li>
+                <li><h3>E-Mail</h3><p><strong>[email-adresse]</strong></p></li>
+                <li><h3>Wohnort</h3><p><strong>[wohnort]</strong></p></li>
+            </ul>
+            </div>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -122,7 +128,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- Start of settings page -->
+    <!-- settings page -->
     <div id="page_settings" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
