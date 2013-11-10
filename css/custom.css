@@ -1,7 +1,7 @@
 .nav-example .ui-btn .ui-icon {
 width: 48px!important;
 height: 48px!important;
-margin-left: -15px !important;
+margin-left: -22px !important;
 box-shadow: none!important;
 -moz-box-shadow: none!important;
 -webkit-box-shadow: none!important;
@@ -10,9 +10,37 @@ border-radius: 0 !important;
 }
 
 .nav-example .ui-btn .ui-btn-inner {
-padding-top: 40px !important;
-padding-left: 19px !important;
+padding-top: 30px !important;
+padding-left: 5px !important;
 }
+
+/*  change navigation icon position */
+#home .ui-icon {
+     margin-top: -12px !important;
+ }
+#settings .ui-icon {
+     margin-top: -12px !important;
+ }
+#contact .ui-icon {
+     margin-top: -12px !important;
+ }
+#chat .ui-icon {
+      margin-top: -12px !important;
+ }
+
+/*  change height of navigation buttons*/
+.nav-example ul #home {
+     height: 50px !important;
+ }
+.nav-example ul #chat {
+     height: 50px !important;
+ }
+.nav-example ul #contact {
+     height: 50px !important;
+ }
+.nav-example ul #settings {;
+     height: 50px !important;
+ }
 
 /* custom icons */
 #home .ui-icon {

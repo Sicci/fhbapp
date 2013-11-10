@@ -38,16 +38,23 @@
         </div><!-- /header -->
         <div data-role="content">
             <div><br><ul data-role="listview">
-                <li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-                <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-                <li><a href="*"><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Auswahlliste für Stati</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
-                <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p><p class="ui-li-aside"><strong>$19.99</strong></p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
+                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>&Auml;ndern Sie Ihren aktuellen Status</p>
+                    <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
+                    <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
+                        <option value="standard">Auf dem Weg zur FH</option>
+                        <option value="rush">[room]</option>
+                        <option value="express">[status]</option>
+                    </select>
+                    <!--</a>--></li>
+                <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p></a></li>
             </ul><br>
             </div>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -70,7 +77,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -106,7 +113,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -139,12 +146,12 @@
             </ul><br><br>
             <!--
             TODO:
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+                Select Men&uuml; muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
-            <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
+            <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzuf&uuml;gen:</label>
             <select data-native-menu="false" name="select-choice-min" id="select-choice-min" data-mini="true">
-                <option data-placeholder="true">Kontakt zu einer Gruppe hinzufügen</option>
+                <option data-placeholder="true">Kontakt zu einer Gruppe hinzuf&uuml;gen</option>
                 <option value="grp1">Mobile Informationssysteme</option>
                 <option value="grp2">[Gruppe2]</option>
                 <option value="grp3">[Gruppe3]</option>
@@ -152,7 +159,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -184,13 +191,13 @@
             </ul><br><br>
             <!--
             TODO:
-                Kontakte zur Gruppe hinzufügen ändern
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+                Kontakte zur Gruppe hinzuf&uuml;gen &auml;ndern
+                Select Men&uuml; muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
-            <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
+            <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzuf&uuml;gen:</label>
             <select data-native-menu="false" name="select-choice-min2" id="select-choice-min2" data-mini="true">
-                <option data-placeholder="true">Kontakt hinzufügen</option>
+                <option data-placeholder="true">Kontakt hinzuf&uuml;gen</option>
                 <option value="grp1">[Kontakt 1]</option>
                 <option value="grp2">[Kontakt 2]</option>
                 <option value="grp3">[Kontakt 3]</option>
@@ -198,7 +205,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -221,7 +228,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -254,7 +261,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -274,11 +281,11 @@
         </div><!-- /header -->
         <div data-role="content">
             <h3>Positionsbestimmung</h3>
-            <p style="font-weight: bold" id="showParmHere3"></p>
+            <p style="font-weight: bold" id="showParmHere3"></p> befindet sich im Raum [raum]
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
