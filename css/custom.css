@@ -14,52 +14,30 @@ padding-top: 30px !important;
 padding-left: 5px !important;
 }
 
-/*  change navigation icon position */
-#home .ui-icon {
+/* change navigation icon position */
+#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
      margin-top: -12px !important;
- }
-#settings .ui-icon {
-     margin-top: -12px !important;
- }
-#contact .ui-icon {
-     margin-top: -12px !important;
- }
-#chat .ui-icon {
-      margin-top: -12px !important;
- }
+}
 
-/*  change height of navigation buttons*/
-.nav-example ul #home {
+/* change height of navigation buttons */
+.nav-example ul #home, #chat, #settings, #contact {
      height: 50px !important;
- }
-.nav-example ul #chat {
-     height: 50px !important;
- }
-.nav-example ul #contact {
-     height: 50px !important;
- }
-.nav-example ul #settings {;
-     height: 50px !important;
- }
+}
 
-/* custom icons */
+/* custom icons for the navigation */
+#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
+    background: url(../images/icons-white.png) no-repeat;
+}
 #home .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -96px -240px;
 }
-
 #chat .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -384px 0;
 }
-
 #contact .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -48px -528px;
 }
-
 #settings .ui-icon {
-	background: url(../images/icons-white.png) no-repeat;
 	background-position: -384px -48px;
 }
 
