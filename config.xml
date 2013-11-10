@@ -12,6 +12,8 @@
         description of the app.
     </description>
 
+    <preference name="phonegap-version" value="3.0.0" />
+
     <!-- deploy only for android -->
     <gap:platform name="android" />
    
