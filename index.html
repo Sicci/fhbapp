@@ -16,18 +16,17 @@
 	<script src="js/jquery.mobile-1.3.2.min.js"></script>-->
     <script type="text/javascript">
 
-        function scanCode(){
-            window.plugins.barcodeScanner.scan(
-                    function(result){
-                        alert("Scanned Code: " + result.text
-                                + ". Format: " + result.format
-                                + ". Cancelled: " + result.cancelled);
-                    },
-                    function(error){
-                        alert("Scan failed: " + error);
+        function scanCode() {
+            alert("ENTRA");
+            window.plugins.barcodeScanner.scan( function(result) {
+                        alert("We got a barcode\n" +
+                                "Result: " + result.text + "\n" +
+                                "Format: " + result.format + "\n" +
+                                "Cancelled: " + result.cancelled);
+                    }, function(error) {
+                        alert("Scanning failed: " + error);
                     }
-            );
-        }
+            );};
 
         function encodeData(){
             var data = document.getElementById("data").value;
