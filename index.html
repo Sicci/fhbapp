@@ -49,6 +49,13 @@
             }
         }
 
+        function sendMessage(){
+            <!--
+            TODO:
+                methode implementieren
+            -->
+        }
+
         function openProfilePage(name) {
             $("#showParmHere").html(name);
         }
@@ -183,12 +190,12 @@
         </div><!-- /header -->
         <div data-role="content">
             <div style="text-align: left;">
-                <a data-inline="true" data-mini="true" data-role="button" href="#">Nachricht senden</a>
+                <a data-inline="true" data-mini="true" data-role="button" href="#page_chatsingle">Nachricht senden</a>
                 <a data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a>
             </div>
             <br>
             <ul data-role="listview">
-                <li><h3>Name</h3><p style="font-weight: bold" id="showParmHere"></p><p class="ui-li-aside" > <a data-inline="true" data-mini="true" data-role="button" href="#">Nachricht senden</a></p></li>
+                <li><h3>Name</h3><p style="font-weight: bold" id="showParmHere"></p><p class="ui-li-aside" > <a data-inline="true" data-mini="true" data-role="button" href="#page_chatsingle">Nachricht senden</a></p></li>
                 <li><h3>Status</h3><p><strong>[Auf dem Weg zur FH]</strong></p><p class="ui-li-aside" ><a onclick="openPositionPage($('#showParmHere').html())" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p></li>
                 <li><h3>E-Mail</h3><p><strong>[email-adresse]</strong></p></li>
                 <li><h3>Wohnort</h3><p><strong>[wohnort]</strong></p></li>
@@ -354,6 +361,35 @@
         <div data-role="content">
             <h3>Positionsbestimmung</h3>
             <p style="font-weight: bold" id="showParmHere3"></p> befindet sich im Raum [raum]
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- chat page -->
+    <div id="page_chatsingle" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <h4 data-inline="true" >Chat mit Person X</h4>
+            <p data-inline="true" >Person X: Hallo</p>
+            <p data-inline="true" >Ich: Ho</p>
+            <p data-inline="true" >Person X: Na wie gehts</p>
+            <div class="chatText"><input type="text" name="data" id="data" /></div>
+            <div class="chatButton"><input type="button" value="Absenden" onclick="sendMessage();"/></div>
+
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
