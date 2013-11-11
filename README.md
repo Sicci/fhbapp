@@ -8,3 +8,9 @@ kwoxer
 nur ein test
 
 test online...
+
+
+TODO:
+gruppen
+chats
+settings
