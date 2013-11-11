@@ -20,12 +20,7 @@ padding-left: 5px !important;
     left:15px;
     right:15px;
 }
-.chatButton {
-    position: absolute;
-    bottom:50px;
-    left:15px;
-    right:15px;
-}
+
 .select {
     width: auto;
     float: left;
@@ -35,6 +30,13 @@ padding-left: 5px !important;
 }
 .left {
     float: left;
+}
+
+.bottom {
+    position: absolute;
+    bottom:50px;
+    left:15px;
+    right:15px;
 }
 
 /* change navigation icon position */
@@ -66,7 +68,7 @@ padding-left: 5px !important;
 
 .header-text {
     color:#34c3ff;
-    padding-top: 15px;
+    padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
     font-size: small;
