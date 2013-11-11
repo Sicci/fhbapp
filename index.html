@@ -369,7 +369,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- chat page -->
+    <!-- single chat page -->
     <div id="page_chatsingle" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
@@ -383,12 +383,12 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <h4 data-inline="true" >Chat mit Person X</h4>
-            <p data-inline="true" >Person X: Hallo</p>
-            <p data-inline="true" >Ich: Ho</p>
-            <p data-inline="true" >Person X: Na wie gehts</p>
-            <div class="chatText"><input type="text" name="data" id="data" /></div>
-            <div class="chatButton"><input type="button" value="Absenden" onclick="sendMessage();"/></div>
+            <h4>Chat mit Person X</h4>
+            <p>Person X: Hallo</p>
+            <p>Ich: Ho</p>
+            <p>Person X: Na wie gehts</p>
+            <div class="chatText"><input type="text" name="chatText" id="chatText" /></div>
+            <div class="chatButton"><a onclick="sendMessage()" href="#" data-role="button">Absenden</a></div>
 
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
