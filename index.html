@@ -69,10 +69,10 @@
     </script>
 </head>
 <body>
-    <!-- home page -->
+    <!-- home page student -->
     <div id="page_home" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Student</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -86,6 +86,42 @@
             <div><br><ul data-role="listview">
                 <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
+                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
+                    <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
+                    <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
+                        <option value="standard">Auf dem Weg zur FH</option>
+                        <option value="rush">[room]</option>
+                        <option value="express">[status]</option>
+                    </select>
+                    <!--</a>--></li>
+                <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p></a></li>
+            </ul><br>
+            </div>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- home page dozent-->
+    <div id="page_homeDozent" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Dozent</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <div><br><ul data-role="listview">
+                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
                 <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
                     <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
                     <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
