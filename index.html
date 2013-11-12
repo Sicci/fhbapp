@@ -84,7 +84,7 @@
         </div><!-- /header -->
         <div data-role="content">
             <div><br><ul data-role="listview">
-                <li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
                 <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
                     <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
@@ -137,7 +137,7 @@
     <!-- chat page -->
     <div id="page_chat" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Chats</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -160,7 +160,7 @@
     <!-- contacts page -->
     <div id="page_contacts" data-role="page" data-theme="a">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Kontakte</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -178,18 +178,12 @@
                 <li><a onclick="openProfilePage('dennis')" href="#page_profile">Dennis</a></li>
                 <li><a onclick="openProfilePage('martin')" href="#page_profile">Martin</a></li>
                 <li><a onclick="openProfilePage('pablo')" href="#page_profile">Pablo</a></li>
-                <li><a onclick="openProfilePage('amelina')" href="#page_profile">Amelina</a></li>
-                <li><a onclick="openProfilePage('anke')" href="#page_profile">Anke</a></li>
-                <li><a onclick="openProfilePage('boris')" href="#page_profile">Boris</a></li>
-                <li><a onclick="openProfilePage('dennis')" href="#page_profile">Dennis</a></li>
-                <li><a onclick="openProfilePage('martin')" href="#page_profile">Martin</a></li>
-                <li><a onclick="openProfilePage('pablo')" href="#page_profile">Pablo</a></li>
             </ul>
             <br><br>
             <ul data-role="listview" data-theme="c" data-divider-theme="b">
                 <li data-role="list-divider"><h3>Gruppen</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#">Neue Gruppe anlegen</a> </div> </li>
-                <li><a onclick="openGroupProfilePage('Mobile Informationssysteme')" href="#page_group"><h3>Mobile Informationssysteme</h3><div class="ui-li-count">18</div><p>Beschreibung</p></a></li>
-                <li><a onclick="openGroupProfilePage('[gruppe2]')" href="#page_group"><h3>[Gruppe 2]</h3><div class="ui-li-count">[number]</div><p>[description]</p></a></li>
+                <li><a onclick="openGroupProfilePage('Mobile Informationssysteme')" href="#page_groupProfile"><h3>Mobile Informationssysteme</h3><div class="ui-li-count">18</div><p>Beschreibung</p></a></li>
+                <li><a onclick="openGroupProfilePage('[gruppe2]')" href="#page_groupProfile"><h3>[Gruppe 2]</h3><div class="ui-li-count">[number]</div><p>[description]</p></a></li>
             </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
@@ -202,7 +196,7 @@
     <!-- profile page -->
     <div id="page_profile" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Profil von [Name]</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -231,7 +225,7 @@
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
             <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
-            <select data-native-menu="false" name="select-choice-min" id="select-choice-min" data-mini="true">
+            <select data-native-menu="true" name="select-choice-min" id="select-choice-min" data-mini="true">
                 <option data-placeholder="true">Kontakt zu einer Gruppe hinzufügen</option>
                 <option value="grp1">Mobile Informationssysteme</option>
                 <option value="grp2">[Gruppe2]</option>
@@ -246,9 +240,9 @@
     </div><!-- /page -->
 
     <!-- group profile page -->
-    <div id="page_group" data-role="page">
+    <div id="page_groupProfile" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Gruppe [Gruppenname]</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -277,7 +271,7 @@
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
             <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
-            <select data-native-menu="false" name="select-choice-min2" id="select-choice-min2" data-mini="true">
+            <select data-native-menu="true" name="select-choice-min2" id="select-choice-min2" data-mini="true">
                 <option data-placeholder="true">Kontakt hinzufügen</option>
                 <option value="grp1">[Kontakt 1]</option>
                 <option value="grp2">[Kontakt 2]</option>
@@ -294,7 +288,7 @@
     <!-- settings page -->
     <div id="page_settings" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Einstellungen</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -329,7 +323,7 @@
     <!-- navigation page -->
     <div id="page_navigation" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Navigation</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -362,7 +356,7 @@
     <!-- position page -->
     <div id="page_position" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Position von [Name]</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -386,7 +380,7 @@
     <!-- single chat page -->
     <div id="page_chatSingle" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Privater Chat mit [Name]</div> <!-- TODO: Übergabeparameter -->
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
