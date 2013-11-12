@@ -1,73 +1,32 @@
-.nav-example .ui-btn .ui-icon {
-width: 48px !important;
-height: 48px !important;
-margin-left: -22px !important;
-box-shadow: none !important;
--moz-box-shadow: none !important;
--webkit-box-shadow: none !important;
--webkit-border-radius: 0 !important;
-border-radius: 0 !important;
-}
-
-.nav-example .ui-btn .ui-btn-inner {
-padding-top: 30px !important;
-padding-left: 5px !important;
-}
-
-.chatText {
-    position: absolute;
-    bottom:100px;
-    left:15px;
-    right:15px;
-}
+/* ------------------------------- default --------------------------------- */
 
 .select {
     width: auto;
     float: left;
 }
+
 .right {
     float: right;
 }
+
 .left {
     float: left;
 }
 
 .bottom {
     position: absolute;
-    bottom:50px;
-    left:15px;
-    right:15px;
+    bottom: 50px;
+    left: 15px;
+    right: 15px;
 }
 
-/* change navigation icon position */
-#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
-     margin-top: -12px !important;
+.bold {
+    font-weight: bold !important;
 }
-
-/* change height of navigation buttons */
-.nav-example ul #home, #chat, #settings, #contact {
-     height: 50px !important;
-}
-
-/* custom icons for the navigation */
-#home .ui-icon, #chat .ui-icon , #contact .ui-icon , #settings .ui-icon {
-    background: url(../images/icons-white.png) no-repeat;
-}
-#home .ui-icon {
-	background-position: -96px -240px;
-}
-#chat .ui-icon {
-	background-position: -384px 0;
-}
-#contact .ui-icon {
-	background-position: -48px -528px;
-}
-#settings .ui-icon {
-	background-position: -384px -48px;
-}
+/* ------------------------------- header/footer --------------------------------- */
 
 .header-text {
-    color:#34c3ff;
+    color: #34c3ff;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -76,15 +35,81 @@ padding-left: 5px !important;
 
 .footer {
     font-size: x-small;
-    padding-left:10px;
+    padding-left: 10px;
+}
+/* ------------------------------- navigation --------------------------------- */
+
+.nav-example .ui-btn .ui-icon {
+    width: 48px !important;
+    height: 48px !important;
+    margin-left: -22px !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
 }
 
-/*p.ui-li-aside {
-         !important;
-}*/
+.nav-example .ui-btn .ui-btn-inner {
+    padding-top: 30px !important;
+    padding-left: 5px !important;
+}
 
-/*img.scan {
-	width:48px;
-	height:48px;
-	background:url(../images/icons-white.png) 0 -240px;
-}*/
+/* change navigation icon position */
+#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon {
+    margin-top: -12px !important;
+}
+
+/* change height of navigation buttons */
+.nav-example ul #home, #chat, #settings, #contact {
+    height: 50px !important;
+}
+
+/* custom icons for the navigation */
+#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon {
+    background: url(../images/icons-white.png) no-repeat;
+}
+
+#home .ui-icon {
+    background-position: -96px -240px;
+}
+
+#chat .ui-icon {
+    background-position: -384px 0;
+}
+
+#contact .ui-icon {
+    background-position: -48px -528px;
+}
+
+#settings .ui-icon {
+    background-position: -384px -48px;
+}
+/* ------------------------------- lists --------------------------------- */
+
+.ui-li-aside {
+    width: auto !important;
+}
+/* ------------------------------- chat --------------------------------- */
+.msgContainerDiv {
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    /*max-width: 320px;*/
+height: 300px;
+    }
+
+.message {
+    padding: 5px 5px 5px 5px;
+}
+
+.username {
+    font-weight: bold;
+    color: #34c3ff;
+}
+
+/*.chatText {
+    position: absolute;
+    bottom: 100px;
+    left: 15px;
+    right: 15px;
+} */
