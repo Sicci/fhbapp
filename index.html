@@ -28,7 +28,8 @@
                     function (error) {
                         alert("Scanning failed: " + error);
                     }
-            )};
+            );
+        }
 
         function encodeData(){
             var data = document.getElementById("data").value;
@@ -77,7 +78,7 @@
                     <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -85,7 +86,7 @@
             <div><br><ul data-role="listview">
                 <li><a href="*"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="*"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
-                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>&Auml;ndern Sie Ihren aktuellen Status</p>
+                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
                     <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
                     <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
                         <option value="standard">Auf dem Weg zur FH</option>
@@ -104,16 +105,16 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- chat page -->
-    <div id="page_chat" data-role="page">
+    <!-- scan position page -->
+    <div id="page_scanPosition" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App</div>
+            <div class="header-text">FH-Brandenburg App - Position scannen</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -128,7 +129,30 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- chat page -->
+    <div id="page_chat" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <h3>Chats</h3>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -142,7 +166,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a class="ui-btn-active ui-state-persist" id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -170,7 +194,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -184,18 +208,18 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
         <div data-role="content">
             <div style="text-align: left;">
-                <a data-inline="true" data-mini="true" data-role="button" href="#page_chatsingle">Nachricht senden</a>
+                <a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a>
                 <a data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a>
             </div>
             <br>
             <ul data-role="listview">
-                <li><h3>Name</h3><p style="font-weight: bold" id="showParmHere"></p><p class="ui-li-aside" > <a data-inline="true" data-mini="true" data-role="button" href="#page_chatsingle">Nachricht senden</a></p></li>
+                <li><h3>Name</h3><p style="font-weight: bold" id="showParmHere"></p><p class="ui-li-aside" > <a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
                 <li><h3>Status</h3><p><strong>[Auf dem Weg zur FH]</strong></p><p class="ui-li-aside" ><a onclick="openPositionPage($('#showParmHere').html())" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p></li>
                 <li><h3>E-Mail</h3><p><strong>[email-adresse]</strong></p></li>
                 <li><h3>Wohnort</h3><p><strong>[wohnort]</strong></p></li>
@@ -203,12 +227,12 @@
             </ul><br><br>
             <!--
             TODO:
-                Select Men&uuml; muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
-            <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzuf&uuml;gen:</label>
+            <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
             <select data-native-menu="false" name="select-choice-min" id="select-choice-min" data-mini="true">
-                <option data-placeholder="true">Kontakt zu einer Gruppe hinzuf&uuml;gen</option>
+                <option data-placeholder="true">Kontakt zu einer Gruppe hinzufügen</option>
                 <option value="grp1">Mobile Informationssysteme</option>
                 <option value="grp2">[Gruppe2]</option>
                 <option value="grp3">[Gruppe3]</option>
@@ -216,7 +240,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -230,7 +254,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -248,13 +272,13 @@
             </ul><br><br>
             <!--
             TODO:
-                Kontakte zur Gruppe hinzuf&uuml;gen &auml;ndern
-                Select Men&uuml; muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+                Kontakte zur Gruppe hinzufügen ändern
+                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
-            <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzuf&uuml;gen:</label>
+            <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
             <select data-native-menu="false" name="select-choice-min2" id="select-choice-min2" data-mini="true">
-                <option data-placeholder="true">Kontakt hinzuf&uuml;gen</option>
+                <option data-placeholder="true">Kontakt hinzufügen</option>
                 <option value="grp1">[Kontakt 1]</option>
                 <option value="grp2">[Kontakt 2]</option>
                 <option value="grp3">[Kontakt 3]</option>
@@ -262,7 +286,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -276,7 +300,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -288,16 +312,6 @@
                     <option value="yes">Ja</option>
                 </select>
             </div>
-            <br><br>
-            <label for="select-choice-theme" class="select">Theme-Wahl:</label>
-            <div class="right">
-                <select data-native-menu="false" name="select-choice-theme" id="select-choice-theme" data-mini="true">
-                    <option data-placeholder="true">Theme</option>
-                    <option value="optimized">FHB-optimized</option>
-                    <option value="standard">Standard</option>
-                    <option value="corporate">Corporate Design</option>
-                </select>
-            </div>
             <div class="bottom">
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a"><a href="index.html" data-role="button" data-icon="delete" data-iconpos="left">Verwerfen</a></div>
@@ -307,7 +321,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -321,7 +335,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -340,7 +354,7 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
@@ -354,7 +368,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -364,13 +378,13 @@
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
 
     <!-- single chat page -->
-    <div id="page_chatsingle" data-role="page">
+    <div id="page_chatSingle" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
@@ -378,7 +392,7 @@
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
                     <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
                     <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="settings" data-icon="custom" data-icon="gear" href="#page_settings" data-transition="none">Settings</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
                 </ul>
             </div>
         </div><!-- /header -->
@@ -387,13 +401,13 @@
             <p>Person X: Hallo</p>
             <p>Ich: Ho</p>
             <p>Person X: Na wie gehts</p>
-            <div class="chatText"><input type="text" name="chatText" id="chatText" /></div>
+            <div class="chatText"><<label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" /></div>
             <div class="bottom"><a onclick="sendMessage()" href="#" data-role="button">Absenden</a></div>
 
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
-                <p>Ihr Ger&auml;t ist mit dem Account [email-adresse] verbunden.</p>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
             </div>
         </div><!-- /footer -->
     </div><!-- /page -->
