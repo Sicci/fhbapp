@@ -85,6 +85,31 @@
 #settings .ui-icon {
     background-position: -384px -48px;
 }
+
+#custom-grid {
+    padding-right:27px;
+}
+
+#custom-grid .ui-block-a {
+    width: 97% !important;
+}
+
+#custom-grid .ui-block-b {
+    width: 3% !important;
+}
+
+.ui-btn-icon-notext {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.ui-grid-a .ui-btn {
+    margin-top: 0;
+}
+
+.ui-btn-icon-notext .ui-btn-inner {
+    padding: 2px !important;
+}
 /* ------------------------------- lists --------------------------------- */
 
 .ui-li-aside {

@@ -87,13 +87,18 @@
                 <br><ul data-role="listview">
                 <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="#page_verifyAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
-                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
-                    <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
-                    <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
-                        <option value="standard">Auf dem Weg zur FH</option>
-                        <option value="rush">[room]</option>
-                        <option value="express">[status]</option>
-                    </select>
+                <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png" /><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
+                    <fieldset id="custom-grid" class="ui-grid-a">
+                        <div class="ui-block-a"> <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
+                            <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
+                                <option value="standard">Auf dem Weg zur FH</option>
+                                <option value="rush">[room]</option>
+                                <option value="express">[status]</option>
+                            </select></div>
+                        <div class="ui-block-b"> <a href="#" data-role="button" data-mini="false" data-inline="false" data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
+                    </fieldset>
+
+
                     <!--</a>--></li>
                 <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p></a></li>
                 </ul><br>
@@ -126,6 +131,7 @@
                 <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="#page_controlAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
                 <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
+                    <!-- TODO: add refresh button, see home student -->
                     <label for="select-choice-min3" class="select ui-hidden-accessible">Status</label>
                     <select name="select-choice-min3" id="select-choice-min3" data-mini="true">
                         <option value="standard">Auf dem Weg zur FH</option>
