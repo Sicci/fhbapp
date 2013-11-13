@@ -241,7 +241,42 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <h3>Chats</h3>
+            <a href="#page_chatgroup" data-icon="star" data-role="button" data-theme="e">Globaler Chat</a>
+            <h4>Gruppen-Chats</h4>
+            <div data-role="controlgroup">
+                <a href="#page_chatgroup" data-icon="star" data-role="button">Mobile Informationssysteme</a>
+                <a href="#page_chatgroup" data-icon="star" data-role="button">Projekt XYZ</a>
+                <a href="#page_chatgroup" data-icon="star" data-role="button">Gruppen-Chat "Freunde"</a>
+            </div>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- group chat page -->
+    <div id="page_chatgroup" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Chats</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv">
+                <div class="message"><span class="username">[name]</span>: Hallo </div>
+                <div class="message"><span class="username">[name]</span>: Hi</div>
+                <div class="message"><span class="username">[name]</span>: Wie geht's?</div>
+            </div>
+            <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
+            <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
