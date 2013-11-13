@@ -273,10 +273,16 @@
             <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv">
                 <div class="message"><span class="username">[name]</span>: Hallo </div>
                 <div class="message"><span class="username">[name]</span>: Hi</div>
-                <div class="message"><span class="username">[name]</span>: Wie geht's?</div>
+                <div class="message"><span class="username">[name]</span>: Wie geht'sawawdawdwadawdawdawdawdwad?</div>
             </div>
-            <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
-            <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
+            <div class="bottom">
+                <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><a href="#" data-role="button" data-icon="delete" data-iconpos="left">Chat-Teilnehmer</a></div>
+                    <div class="ui-block-b"><a href="#" onclick="sendMessage()" data-role="button" data-icon="check" data-iconpos="left" data-theme="b">Absenden</a></div>
+                </fieldset>
+            </div>
+
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -524,8 +530,10 @@
                 <div class="message"><span class="username">[name]</span>: Hi</div>
                 <div class="message"><span class="username">[name]</span>: Wie geht's?</div>
             </div>
+            <div class="bottom">
             <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
             <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
+            </div>
             <!--
             <h4>Chat mit Person [Name]
             <p>Person X: Hallo</p>
