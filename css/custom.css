@@ -136,6 +136,11 @@
     font-weight: bold;
     color: #34c3ff;
 }
+/* ------------------------------- start page --------------------------------- */
+
+.startPage {
+    margin-top: -35px !important;
+}
 
 /*.chatText {
     position: absolute;

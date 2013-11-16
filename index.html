@@ -17,8 +17,15 @@
     <script type="text/javascript">
 
         /* whenever a msg was send to chat do:
-        document.getElementById('shoutContainer').scrollTop = 10000;document.getElementById('shoutContainer').scrollTop = 10000;
+        document.getElementById('shoutContainer').scrollTop = 10000;
         */
+
+        $(document).delegate('.ui-page', 'pageshow', function () {
+            var objDiv = document.getElementById("incomingMessages");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        });
+
+
 
         function scanCode() {
             alert("scan qr code");
@@ -88,7 +95,7 @@
         </div><!-- /header -->
         <div data-role="content">
             <div>
-                <br><ul data-role="listview">
+                <br><ul data-role="listview" class="startPage">
                 <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="#page_verifyAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3><p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
                 <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png" /><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
@@ -131,7 +138,7 @@
         </div><!-- /header -->
         <div data-role="content">
             <div>
-                <br><ul data-role="listview">
+                <br><ul data-role="listview"  class="startPage">
                 <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
                 <li><a href="#page_controlAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
                 <li><!--<a href="*">--><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
