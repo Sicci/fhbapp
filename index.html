@@ -29,6 +29,28 @@
             //alert('Loaded data from json: '+data.string); //works, comment cause it's annoying to get an alert after every refresh
         });
 
+        /*
+        ajax vs getJSON
+         http://stackoverflow.com/questions/15476635/how-to-get-json-data-into-jquery-mobile-application
+         $.ajax({
+         type       : "POST",
+         url        : "http://domain/public/login",
+         crossDomain: true,
+         beforeSend : function() {$.mobile.loading('show')},
+         complete   : function() {$.mobile.loading('hide')},
+         data       : {username : 'subin', password : 'passwordx'},
+         dataType   : 'json',
+         success    : function(response) {
+         //console.error(JSON.stringify(response));
+         alert('Works!');
+         },
+         error      : function() {
+         //console.error("error");
+         alert('Not working!');
+         }
+         });
+         */
+
         function scanCode() {
             alert("scan qr code");
             cordova.plugins.barcodeScanner.scan(
