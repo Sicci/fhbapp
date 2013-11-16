@@ -25,7 +25,9 @@
             objDiv.scrollTop = objDiv.scrollHeight;
         });
 
-
+        $.getJSON('test.json', function(data) {
+            //alert('Loaded data from json: '+data.string); //works, comment cause it's annoying to get an alert after every refresh
+        });
 
         function scanCode() {
             alert("scan qr code");
