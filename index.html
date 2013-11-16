@@ -259,7 +259,7 @@
     <!-- group chat page -->
     <div id="page_chatgroup" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Chats</div>
+            <div class="header-text">FH-Brandenburg App - [Chatname/Group]</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -270,15 +270,27 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv">
+            <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv"> <!-- TODO: höhe muss kleiner, sonst sind nachrichten über den buttons -->
                 <div class="message"><span class="username">[name]</span>: Hallo </div>
                 <div class="message"><span class="username">[name]</span>: Hi</div>
-                <div class="message"><span class="username">[name]</span>: Wie geht'sawawdawdwadawdawdawdawdwad?</div>
+                <div class="message"><span class="username">[name]</span>: Wie geht's? Dies ist ein langer Text um zu überprüfen ob die Nachricht automatisch umgebrochen wird, wenn die Breite des Fensters überschritten wird.</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
+                <div class="message"><span class="username">[name]</span>: Nachricht um Höhe des Chats zu überprüfen...</div>
             </div>
             <div class="bottom">
                 <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
                 <fieldset class="ui-grid-a">
-                    <div class="ui-block-a"><a href="#" data-role="button" data-icon="delete" data-iconpos="left">Chat-Teilnehmer</a></div>
+                    <div class="ui-block-a"><a href="#" data-role="button" data-icon="grid" data-iconpos="left">Chat-Teilnehmer</a></div> <!-- TODO: button needs a new position -->
                     <div class="ui-block-b"><a href="#" onclick="sendMessage()" data-role="button" data-icon="check" data-iconpos="left" data-theme="b">Absenden</a></div>
                 </fieldset>
             </div>

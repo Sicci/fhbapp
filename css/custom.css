@@ -120,6 +120,7 @@
     overflow-y: scroll;
     overflow-wrap: break-word;
     /*max-width: 320px;*/
+    /*height:300px*/
     height: 66%;
     width:  96%;
     position: fixed;
