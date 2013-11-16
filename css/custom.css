@@ -121,9 +121,11 @@
     overflow-wrap: break-word;
     /*max-width: 320px;*/
     /*height:300px*/
-    height: 66%;
-    width:  96%;
-    position: fixed;
+    position: absolute;
+    right: 15px;
+    left: 15px;
+    top: 95px;
+    bottom: 155px;
     }
 
 .message {
