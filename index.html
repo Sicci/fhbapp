@@ -115,11 +115,22 @@
                 <label class="ui-hidden-accessible" for="login_password">Passwort</label>
                 <input type="password" id="login_password" placeholder="Password"/>
                 <div class="ui-grid-a">
-                    <div class="ui-block-a"><a data-role="button" id="btn_register" href="#">Registrieren</a> </div>
+                    <div class="ui-block-a"><a data-role="button" id="btn_register" href="#page_register">Registrieren</a> </div>
                     <div class="ui-block-b"><input type="submit" id="login_submit" value="Anmelden" /></div>
                 </div><!-- /grid-a -->
-                <a href="#page_home" data-role="button">Weiter ohne Login</a>
             </form>
+            <a href="#page_home" data-role="button">Weiter ohne Login</a>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <!-- register page -->
+    <div id="page_register" data-role="page">
+        <div data-role="content">
+            <div align="center"><img src="./images/fhb_logo.png" /> <h1>FHB-App</h1><br><br></div>
+            <div>
+            Sie können sich nur mit ihren Nutzerdaten der FH Brandenburg einloggen.<br><br>
+            Sollte Sie Schwierigkeiten bei der Anmeldung haben, wenden Sie sich bitte an einen <a href="http://fh-brandenburg.de/1404.html">Systemadministrator</a>.</div>
+            <a href="#page_login" data-role="button">Zurück zur Anmeldung</a>
         </div><!-- /content -->
     </div><!-- /page -->
 
