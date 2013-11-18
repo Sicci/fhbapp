@@ -104,6 +104,25 @@
     </script>
 </head>
 <body>
+
+    <!-- login page -->
+    <div id="page_login" data-role="page">
+        <div data-role="content">
+            <div align="center"><img src="./images/fhb_logo.png" /> <h1>FHB-App</h1><br><br></div>
+            <form action="form.php" method="post">
+                <label class="ui-hidden-accessible" for="login_name">Nutzername</label>
+                <input type="text" id="login_name" placeholder="Username"/>
+                <label class="ui-hidden-accessible" for="login_password">Passwort</label>
+                <input type="password" id="login_password" placeholder="Password"/>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><a data-role="button" id="btn_register" href="#">Registrieren</a> </div>
+                    <div class="ui-block-b"><input type="submit" id="login_submit" value="Anmelden" /></div>
+                </div><!-- /grid-a -->
+                <a href="#page_home" data-role="button">Weiter ohne Login</a>
+            </form>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
     <!-- home page student -->
     <div id="page_home" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
