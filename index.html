@@ -6,15 +6,54 @@
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 	<link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jqm-datebox-1.1.0.css">
     <script src="phonegap.js"></script>
     <script src="barcodescanner.js"></script>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <!-- jQuery Datebox -->
+    <script type="text/javascript" src="js/jqm-datebox-1.1.0.core.js"></script>
+    <script type="text/javascript" src="js/jqm-datebox-1.1.0.mode.calbox.js"></script>
+    <script type="text/javascript" src="js/jqm-datebox-1.1.0.mode.datebox.js"></script>
+    <script type="text/javascript" src="js/jqm-datebox-1.1.0.mode.flipbox.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.datebox.i18n.de.utf8.js"></script>
+    <!-- jQuery Validate -->
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/additional-methods.min.js"></script>
+
 
 	<!--<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/jquery.mobile-1.3.2.min.js"></script>-->
     <script type="text/javascript">
+
+        $(document).on('pageinit', function(){ // <-- you must use this to ensure the DOM is ready
+
+            var formNewEvent=$("#form_newEvent").validate({
+                rules: {
+                    newEventName: {required:true, minlength:3},
+                    newEventDate: "required",
+                    newEventTime: "required",
+                    newEventGroup: "required"
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") === "newEventGroup") {
+                        error.insertAfter($(element).parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+
+                /* //check if necessary
+                submitHandler: function(form) {
+                    //resetForm is a method on the validation object, not the form
+                    v.resetForm();
+                    form.reset();
+
+                }*/
+            });
+
+        });
 
         /* whenever a msg was send to chat do:
         document.getElementById('shoutContainer').scrollTop = 10000;
@@ -23,6 +62,14 @@
         $(document).delegate('.ui-page', 'pageshow', function () {
             var objDiv = document.getElementById("incomingMessages");
             objDiv.scrollTop = objDiv.scrollHeight;
+        });
+
+        $(document).delegate('#page_newEvent', 'pageshow', function () {
+            $('#form_newEvent').data('validator').resetForm();
+            $('#form_newEvent').each(function(){
+                this.reset();
+            });
+            $('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
         });
 
         $.getJSON('test.json', function(data) {
@@ -50,6 +97,14 @@
          }
          });
          */
+
+        function sortListByDate() {
+            $("p").sort(function(a,b){
+                return new Date($(a).attr("data-date")) > new Date($(b).attr("data-date"));
+            }).each(function(){
+                        $("body").prepend(this);
+                    });
+        }
 
         function scanCode() {
             alert("scan qr code");
@@ -87,8 +142,7 @@
 
         function sendMessage(){
             /*
-            TODO:
-                methode implementieren
+            TODO: methode implementieren
             */
         }
 
@@ -284,6 +338,66 @@
         </div><!-- /header -->
         <div data-role="content">
             <h3>Anwesenheitskontrolle</h3>
+            <a href="#page_newEvent" data-role="button">Neues Event erstellen</a><br>
+            <ul data-role="listview">
+                <li data-role="list-divider">Erstellte Events</li>
+                <li data-date="Fri, 26 Aug 2011 20:58:39 GMT"><a href="#"><h3>Mobile Informationssysteme</h3><p>Erstellt am <span>11.10.2013</span></p></a></li>
+                <li data-date="Fri, 25 Aug 2011 20:58:39 GMT"><a href="#"><h3>[Event 2]</h3><p>Erstellt am <span>[datum]</span></p></a></li>
+            </ul>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- new event page -->
+    <div id="page_newEvent" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Neues Event erstellen</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <!-- TODO: clear event form on page load -->
+            <h3>Neues Event erstellen</h3>
+            <form id="form_newEvent" action="form.php" method="post">
+                <fieldset data-role="fieldcontain">
+                    <label for="newEventName">Eventname</label>
+                    <input type="text" id="newEventName" name="newEventName" placeholder="Eventname" />
+                </fieldset>
+                <fieldset data-role="fieldcontain">
+                    <label for="newEventDate">Datum</label>
+                    <input placeholder="Eventdatum" id="newEventDate" name="newEventDate" type="date" data-role="datebox" data-options='{"mode": "calbox", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
+                </fieldset>
+                <fieldset data-role="fieldcontain">
+                    <label for="newEventTime">Zeitpunkt</label>
+                    <input placeholder="Eventzeitpunkt" id="newEventTime" name="newEventTime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "useFocus": true}'>
+                </fieldset>
+                <fieldset data-role="fieldcontain">
+                    <label for="newEventGroup" class="select ui-hidden-accessible">Gruppe auswählen:</label>
+                    <select name="newEventGroup" id="newEventGroup">
+                        <option data-placeholder="true" value="">Gruppe auswählen</option>
+                        <option value="a">Mobile Informationssystem Gruppe</option>
+                        <option value="b">[Gruppe 2]</option>
+                        <option value="c">[Gruppe 3]</option>
+                    </select>
+                </fieldset>
+                <!--<a href="#" data-role="button" class="ui-disabled">Gruppe erstellen</a>-->
+                <br>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a> </div>
+                    <div class="ui-block-b"><input type="submit" value="Erstellen" /></div>
+                </div><!-- /grid-a -->
+
+            </form>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>

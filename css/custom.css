@@ -142,6 +142,19 @@
     margin-top: -35px !important;
 }
 
+.ui-input-datebox {
+    margin: .5em 0;
+    width:auto !important;
+
+}
+
+label.error {
+    float: left;
+    color: red;
+    padding-top: .5em;
+    vertical-align: top;
+    font-weight:bold
+}
 /*.chatText {
     position: absolute;
     bottom: 100px;
