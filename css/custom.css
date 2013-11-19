@@ -155,6 +155,17 @@ label.error {
     vertical-align: top;
     font-weight:bold
 }
+
+.ui-popup-screen.in {
+    opacity: 0.8 !important;
+    filter:Alpha(Opacity=80);
+}
+
+div.ui-overlay-e {
+    background: #000000 !important;
+}
+
+
 /*.chatText {
     position: absolute;
     bottom: 100px;

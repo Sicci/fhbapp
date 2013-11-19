@@ -341,8 +341,8 @@
             <a href="#page_newEvent" data-role="button">Neues Event erstellen</a><br>
             <ul data-role="listview">
                 <li data-role="list-divider">Erstellte Events</li>
-                <li data-date="Fri, 26 Aug 2011 20:58:39 GMT"><a href="#"><h3>Mobile Informationssysteme</h3><p>Erstellt am <span>11.10.2013</span></p></a></li>
-                <li data-date="Fri, 25 Aug 2011 20:58:39 GMT"><a href="#"><h3>[Event 2]</h3><p>Erstellt am <span>[datum]</span></p></a></li>
+                <li data-date="Fri, 26 Aug 2011 20:58:39 GMT"><a href="#page_eventDetails"><h3>Mobile Informationssysteme</h3><p>Erstellt am <span>11.10.2013</span></p></a></li>
+                <li data-date="Fri, 25 Aug 2011 20:58:39 GMT"><a href="#page_eventDetails"><h3>[Event 2]</h3><p>Erstellt am <span>[datum]</span></p></a></li>
             </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
@@ -398,6 +398,36 @@
                 </div><!-- /grid-a -->
 
             </form>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- event detail page -->
+    <div id="page_eventDetails" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Event [Name]</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <div data-role="popup" data-theme="a" data-overlay-theme="e" id="popup_eventQrcode"><p style="text-align: center">QR-Code zur Teilnehmerverifikation</p><img class="qrcode" src="images/qrcode.png" /></div>
+            <a data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a><br>
+            <ul data-role="listview">
+                <li><h3>Eventname</h3><!--<p class="bold" id="showParmHere"></p><p class="ui-li-aside" > <a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p>--></li>
+                <li><h3>Erstellt am</h3><p><strong>[datum]</strong></p><!--<p class="ui-li-aside" ><a onclick="openPositionPage($('#showParmHere').html())" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p>--></li>
+                <li><h3>Zeitpunkt</h3><p><strong>[uhrzeit]</strong></p></li>
+                <li><a href="#">Teilnehmerliste</a></li>
+            </ul><br><br>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
