@@ -1,7 +1,8 @@
 fhbapp
 ======
 TODO: 
-- [x] Anwesenheitskontrolle - Page + Erstellung von QR-Code
+- [x] Anwesenheitskontrolle - Page
+- [ ] Erstellung eines QR-Codes für Anwesenheitskontrolle
 - [x] Authentifizierungspage + Error Page
 - [ ] Darstellung der Teilnehmerliste für Anwesenheitskontrolle
 - [ ] Anwesenheitsverifikation - Succes / Error Page
