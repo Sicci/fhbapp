@@ -26,6 +26,18 @@
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/jquery.mobile-1.3.2.min.js"></script>-->
     <script type="text/javascript">
+        $(document).on('change', '#activateSemester', function () {
+            if ($(this).val() == 'off') { //if switch is off
+                $("#sliderSemester").slider('disable');
+                $("#sliderSemester").slider('refresh');
+                $("#sliderSemester").textinput('disable');
+            }
+            else {
+                $("#sliderSemester").slider('enable');
+                $("#sliderSemester").slider('refresh');
+                $("#sliderSemester").textinput('enable');
+            }
+        });
 
         $(document).on('pageinit', function(){ // <-- you must use this to ensure the DOM is ready
 
@@ -64,7 +76,7 @@
             objDiv.scrollTop = objDiv.scrollHeight;
         });
 
-        $(document).delegate('#page_newEvent', 'pageshow', function () {
+        $(document).delegate('#page_createEvent', 'pageshow', function () {
             $('#form_newEvent').data('validator').resetForm();
             $('#form_newEvent').each(function(){
                 this.reset();
@@ -338,7 +350,7 @@
         </div><!-- /header -->
         <div data-role="content">
             <h3>Anwesenheitskontrolle</h3>
-            <a href="#page_newEvent" data-role="button">Neues Event erstellen</a><br>
+            <a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>
             <ul data-role="listview">
                 <li data-role="list-divider">Erstellte Events</li>
                 <li data-date="Fri, 26 Aug 2011 20:58:39 GMT"><a href="#page_eventDetails"><h3>Mobile Informationssysteme</h3><p>Erstellt am <span>11.10.2013</span></p></a></li>
@@ -352,10 +364,10 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- new event page -->
-    <div id="page_newEvent" data-role="page">
+    <!-- create new event page -->
+    <div id="page_createEvent" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Neues Event erstellen</div>
+            <div class="header-text">FH-Brandenburg App - Event erstellen</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
@@ -390,7 +402,7 @@
                         <option value="c">[Gruppe 3]</option>
                     </select>
                 </fieldset>
-                <!--<a href="#" data-role="button" class="ui-disabled">Gruppe erstellen</a>-->
+                <a href="#page_createGroup" data-role="button" class="ui-disabled">Gruppe erstellen</a>
                 <br>
                 <div class="ui-grid-a">
                     <div class="ui-block-a"><a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a> </div>
@@ -547,7 +559,7 @@
             </ul>
             <br><br>
             <ul data-role="listview" data-theme="c" data-divider-theme="b">
-                <li data-role="list-divider"><h3>Gruppen</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#">Neue Gruppe anlegen</a> </div> </li>
+                <li data-role="list-divider"><h3>Gruppen</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#page_createGroup">Neue Gruppe erstellen</a> </div> </li>
                 <li><a onclick="openGroupProfilePage('Mobile Informationssysteme')" href="#page_groupProfile"><h3>Mobile Informationssysteme</h3><div class="ui-li-count">18</div><p>Beschreibung</p></a></li>
                 <li><a onclick="openGroupProfilePage('[gruppe2]')" href="#page_groupProfile"><h3>[Gruppe 2]</h3><div class="ui-li-count">[number]</div><p>[description]</p></a></li>
             </ul>
@@ -651,6 +663,72 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
+    <!-- create group page -->
+    <div id="page_createGroup" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Gruppe erstellen</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#page_home" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <form id="createGroup" method="post" action="#"> <!-- TODO: form post -->
+                <fieldset data-role="fieldcontain">
+                    <label for="newGroupName">Gruppenname:</label>
+                    <input type="text" name="newGroupName" id="newGroupName" value="" placeholder="Gruppenname"/>
+                </fieldset>
+                <fieldset data-role="fieldcontain">
+                    <label for="newGroupFachbereich">Fachbereich:</label>
+                    <input type="text" name="newGroupFachbereich" id="newGroupFachbereich" value=""
+                           placeholder="Fachbereich"/>
+                </fieldset>
+                <fieldset data-role="fieldcontain">
+                    <!--<label for="newGroupSemester">Semester:</label>
+                    <input type="text" name="newGroupSemester" id="newGroupSemester" value="" placeholder="Semester"  />-->
+
+                    <div class="onFormRight"><label class="ui-hidden-accessible" for="activateSemester">Semester
+                        aktivieren:</label>
+                        <select name="activateSemester" id="activateSemester" data-role="slider">
+                            <option value="off">Aus</option>
+                            <option value="on">Ein</option>
+                        </select>
+                    </div>
+                    <br><br>
+                    <label for="sliderSemester">Semester:</label>
+                    <input disabled type="range" name="slider-1" id="sliderSemester" value="1" min="1" max="6"/>
+                </fieldset>
+                <fieldset data-role="controlgroup">
+                    <legend>Kontakte auswählen:</legend>
+                    <!-- TODO: generate automatically -->
+                    <input type="checkbox" name="contact-0" id="contact-0" class="custom"/>
+                    <label for="contact-0">Kontakt 0</label>
+                    <input type="checkbox" name="contact-1" id="contact-1" class="custom"/>
+                    <label for="contact-1">Kontakt 1</label>
+                    <input type="checkbox" name="contact-2" id="contact-2" class="custom"/>
+                    <label for="contact-2">Kontakt 2</label>
+                </fieldset>
+                <br>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><a data-role="button" id="btn_backToControlAttendance"
+                                               href="#page_controlAttendance">Abbrechen</a></div>
+                    <div class="ui-block-b"><input type="submit" value="Erstellen"/></div>
+                </div><!-- /grid-a -->
+
+
+            </form>
+        </div> <!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account [email-adresse] verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
     <!-- settings page -->
     <div id="page_settings" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
@@ -709,8 +787,8 @@
                 <li><a onclick="openPositionPage('martin')" href="#page_position">Martin</a></li>
                 <li><a onclick="openPositionPage('pablo')" href="#page_position">Pablo</a></li>
             </ul><br><br>
-            <h3>Liste der zuletzt gesuchten Personen</h3>
-            [Curtis]<br>[Josef]
+            <!--<h3>Liste der zuletzt gesuchten Personen</h3>
+            [Curtis]<br>[Josef]-->
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>

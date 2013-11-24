@@ -138,16 +138,32 @@
 }
 /* ------------------------------- start page --------------------------------- */
 
+/*Elemente auf der Startpage beginnen sofort nach der Navigation*/
 .startPage {
     margin-top: -35px !important;
 }
 
-.ui-input-datebox {
-    margin: .5em 0;
-    width:auto !important;
+/* ------------------------------- popup --------------------------------- */
 
+/*Schwarzes Overlay bei Popups*/
+div.ui-overlay-e {
+    background: #000000 !important;
 }
 
+/*Deckkraft des Overlays*/
+.ui-popup-screen.in {
+    opacity: 0.8 !important;
+    filter:Alpha(Opacity=80);
+}
+
+/* ------------------------------- form --------------------------------- */
+
+/*Elemente in einem Form auf der rechten Seite darstellen*/
+.onFormRight {
+    float:right;
+}
+
+/*Darstellung für Fehlernachrichten in einem Form*/
 label.error {
     float: left;
     color: red;
@@ -156,19 +172,16 @@ label.error {
     font-weight:bold
 }
 
-.ui-popup-screen.in {
-    opacity: 0.8 !important;
-    filter:Alpha(Opacity=80);
+/*Länge der Time- und Datebox*/
+.ui-input-datebox {
+    /*margin: .5em 0;*/
+    width: auto !important;
 }
 
-div.ui-overlay-e {
-    background: #000000 !important;
+/* ------------------------------- sonstiges --------------------------------- */
+
+/*Length-Fix für Selectboxen*/
+.ui-field-contain .ui-select {
+    width: 100% !important;
 }
 
-
-/*.chatText {
-    position: absolute;
-    bottom: 100px;
-    left: 15px;
-    right: 15px;
-} */
