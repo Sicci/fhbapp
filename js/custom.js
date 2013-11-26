@@ -3,6 +3,8 @@ var currentUser = [];
 
 /* ajax calls to get data from db in jsonp format */
 
+/* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
+
 function getContacts() {
     $.ajax({url: url+"users/",
         dataType: "jsonp",
@@ -32,8 +34,8 @@ function getUserDetails(userID) {
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
-            showProfilePage();
+            showUserDetailPage();
+            ajax.parseJSONP(result.user);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -78,7 +80,144 @@ function checkLogin(loginName) {
         }
     }
 }
+function getGroups() {
+    $.ajax({url: url+"groups/",
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
 
+    var ajax = {
+        parseJSONP:function(result){
+            $(".deleteForReset").remove();
+            $.each( result.groups, function(i, group) {
+                $(".groupDivider").after("<li class='deleteForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gruppenname+"</h3></a></li>");
+                console.log(group);
+            });
+            $('#groupList').listview('refresh');
+        }
+    }
+}
+function getGroupDetails() {
+    $.ajax({url: url + "group/",
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            showGroupDetailPage();
+            ajax.parseJSONP(result.group);
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP: function (group) {
+            $(".deleteForReset").remove();
+            $(".groupDetailName").html(group.gruppenname);
+            $.each(group.users, function (i, user) {
+                $("#groupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " "+ user.nachname + "</a></li>");
+            });
+            $("#groupDetailsList").listview('refresh');
+            $("#groupDetailsListContacts").listview('refresh');
+        }
+    }
+}
+function getContactGroups() {
+    $.ajax({url: url+"contactgroups/",
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    function insertGroupListDetails(contactGroup) {
+        var foo = "";
+        if (contactGroup.fachbereich != null) { /* TODO: check if null is correct */
+            foo = contactGroup.fachbereich;
+        }
+
+        if (contactGroup.fachbereich != null && contactGroup.semester != null) {
+            foo = foo + ", Semester "+contactGroup.semester;
+        } else if (contactGroup.semester != null) {
+            foo = "Semester " + contactGroup.semester;
+        }
+
+        $(".groupListDetails").html(foo);
+    }
+
+    var ajax = {
+        parseJSONP:function(result){
+            $.each( result.contactgroups, function(i, contactGroup) {
+                $(".privateGroupDivider").after("<li class='deleteForReset'><a onclick=\"getContactGroupDetails("+contactGroup.kgid+")\" href=\"#\"><h3>"+contactGroup.gruppenname+"</h3><p class='groupListDetails'></p></a></li>");
+                insertGroupListDetails(contactGroup);
+                console.log(contactGroup);
+            });
+            $('#groupList').listview('refresh');
+        }
+    }
+}
+function getContactGroupDetails(kgid) {
+    $.ajax({url: url + "contactgroup/?kgid="+kgid,
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            showContactGroupDetailPage();
+            ajax.parseJSONP(result.contactgroup);
+
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
+    function insertContactGroupListDetails(contactGroup) {
+        if (contactGroup.fachbereich != null && contactGroup.semester != null) {
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.fachbereich+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
+        }
+        else if (contactGroup.fachbereich != null) { /* TODO: check if null is correct */
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.fachbereich+"</h3><p class=''>Fachbereich</p></li>");
+        } else if (contactGroup.semester != null) {
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.semester+".tes Semester</h3><p class=''>Studienhalbjahr</p></li>");
+        }
+    }
+
+    var ajax = {
+        parseJSONP: function (contactGroup) {
+            $(".deleteForReset").remove();
+            $(".contactgroupDetailName").html(contactGroup.kontaktgruppenname);
+            insertContactGroupListDetails(contactGroup);
+            /* TODO: insert creation date somewhere*/
+            $.each(contactGroup.users, function (i, user) {
+                $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a></li>");
+            });
+
+            if (contactGroup.users.length < 2) { /* TODO: change number */
+                if (contactGroup.users.length == 0) {
+                    $("#contactgroupDetailsListContacts").append("<li style='text-align: center' class='deleteForReset'>keine Kontakte vorhanden</li>");
+                }
+                $( ".collapsibleContacts" ).trigger( "expand" );
+
+            }
+            else {
+                $( ".collapsibleContacts" ).trigger( "collapse" );
+            }
+
+            $("#contactgroupDetailsList").listview('refresh');
+            $("#contactgroupDetailsListContacts").listview('refresh');
+        }
+    }
+}
 
 function showHomePage() {
     insertEmailToFooter();
@@ -103,8 +242,16 @@ function showDozentHomePage() {
     console.log("showDozentPage");
     $.mobile.changePage("#page_homeDozent");
 }
-function showProfilePage() {
-    console.log("showProfilePage")
+function showGroupDetailPage() {
+    console.log("showGroupDetailPage")
+    $.mobile.changePage("#page_groupDetails");
+}
+function showContactGroupDetailPage() {
+    console.log("showContactGroupDetailPage")
+    $.mobile.changePage("#page_contactgroupDetails");
+}
+function showUserDetailPage() {
+    console.log("showUserDetailPage")
     $.mobile.changePage("#page_profile");
 }
 
@@ -113,7 +260,11 @@ function insertEmailToFooter() {
 }
 
 
-
+/*load groups and contactGroups via jsonp*/
+$(document).on('pagebeforeshow', '#page_groups', function(e, data){
+    getGroups();
+    getContactGroups();
+});
 
 
 

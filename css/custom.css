@@ -193,4 +193,11 @@ label.error {
     width: 100% !important;
 }
 
+.hugeTitle {
+    font-size: 27px !important;;
+    font-weight: bold !important;
+}
 
+.collapsibleContacts{
+    margin-top: -4px;
+}

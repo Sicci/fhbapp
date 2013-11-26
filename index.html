@@ -506,10 +506,9 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <ul data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Gruppen durchsuchen...">
-                <li data-role="list-divider"><h3>Gruppen</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#page_createGroup">Neue Gruppe erstellen</a> </div> </li>
-                <li><a onclick="openGroupProfilePage('Mobile Informationssysteme')" href="#page_groupProfile"><h3>Mobile Informationssysteme</h3><div class="ui-li-count">18</div><p>Informatik und Medien Master, Semester 3</p></a></li>
-                <li><a onclick="openGroupProfilePage('[gruppe2]')" href="#page_groupProfile"><h3>[Gruppe 2]</h3><div class="ui-li-count">[number]</div><p>[Fachbereich, Semester]</p></a></li>
+            <ul id="groupList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Gruppen durchsuchen...">
+                <li class="groupDivider" data-role="list-divider"><h3>Gruppen</h3></li>
+                <li class="privateGroupDivider" data-role="list-divider"><h3>Private Gruppen</h3><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createGroup">Neue Gruppe erstellen</a></div></li>
             </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
@@ -541,8 +540,7 @@
                 <li><h3>Gruppen</h3><p><strong><span class="profile_gruppen"></span></strong></p></li>
             </ul><br><br>
             <!--
-            TODO:
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+            TODO: Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
             <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
@@ -560,10 +558,10 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <!-- group profile page -->
-    <div id="page_groupProfile" data-role="page">
+    <!-- group profile details page -->
+    <div id="page_groupDetails" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Gruppe [Gruppenname]</div>
+            <div class="header-text">FH-Brandenburg App - Gruppe <span class="groupDetailName"></span></div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
@@ -574,25 +572,70 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <ul data-role="listview">
-                <li><h3>Name</h3><p class="bold" id="showParmHere2"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p></li>
-                <li><h3>Semester</h3><p><strong>[3. Master Informatik und Medien]</strong></p></li>
-                <li><h3>Dozent</h3><p><strong>[Dipl.-Inf. Stecklina]</strong></p></li>
-                <li><h3>Kontakte</h3><p><strong>[liste von kontakten die in der gruppe sind]</strong></p></li>
-            </ul><br><br>
+            <ul id="groupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
+                <li><h3 class="groupDetailName"></h3><p>Gruppenname</p><p class="ui-li-aside button" > <a id="btnToGroupChat" data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p></li>
+                <!--<li class="groupDetailsContactDivider" data-role="list-divider"><h3>Kontakte</h3><p class="bold groupDetailContacts"></p></li>-->
+            </ul><br>
+            <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
+                <h4>Kontakte</h4>
+                <ul id="groupDetailsListContacts" data-role="listview">
+                </ul>
+            </div>
             <!--
-            TODO:
-                Kontakte zur Gruppe hinzufügen ändern
+            TODO: Kontakte zur Gruppe hinzufügen ändern
                 Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
                 Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
             -->
-            <label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
+            <!--<label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
             <select data-native-menu="true" name="select-choice-min2" id="select-choice-min2" data-mini="true">
                 <option data-placeholder="true">Kontakt hinzufügen</option>
                 <option value="grp1">[Kontakt 1]</option>
                 <option value="grp2">[Kontakt 2]</option>
                 <option value="grp3">[Kontakt 3]</option>
-            </select>
+            </select>-->
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- contactgroup profile details page -->
+    <div id="page_contactgroupDetails" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Private Gruppe <span class="contactgroupDetailName"></span></div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <ul id="contactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
+                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p></li>
+            </ul><br>
+            <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
+                <h4>Kontakte</h4>
+                <ul id="contactgroupDetailsListContacts" data-role="listview">
+                </ul>
+            </div>
+
+            <!--
+            TODO: Kontakte zur Gruppe hinzufügen ändern
+                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
+                Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
+            -->
+            <!--<label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
+            <select data-native-menu="true" name="select-choice-min2" id="select-choice-min2" data-mini="true">
+                <option data-placeholder="true">Kontakt hinzufügen</option>
+                <option value="grp1">[Kontakt 1]</option>
+                <option value="grp2">[Kontakt 2]</option>
+                <option value="grp3">[Kontakt 3]</option>
+            </select>-->
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -660,41 +703,6 @@
 
             </form>
         </div> <!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
-    </div><!-- /page -->
-
-    <!-- settings page -->
-    <div id="page_settings" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Einstellungen</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="settings" data-icon="custom" href="#page_settings" data-transition="none">Settings</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
-            <label for="test2" class="select" >Speicherung von Daten erlauben</label>
-            <div class="right">
-                <select name="flip-3" id="test2" data-role="slider" data-theme="a" data-inline="true" data-mini="true">
-                    <option value="no">Nein</option>
-                    <option value="yes">Ja</option>
-                </select>
-            </div>
-            <div class="bottom">
-                <fieldset class="ui-grid-a">
-                    <div class="ui-block-a"><a href="index.html" data-role="button" data-icon="delete" data-iconpos="left">Verwerfen</a></div>
-                    <div class="ui-block-b"><a href="index.html" data-role="button" data-icon="check" data-iconpos="left" data-theme="b">Speichern</a></div>
-                </fieldset>
-            </div>
-        </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
                 <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
@@ -789,6 +797,37 @@
             <p>Person X: Na wie gehts</p>-->
             <!--<div class="chatText"><label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" /></div>
             <div class="bottom"><a onclick="sendMessage()" href="#" data-role="button">Absenden</a></div>-->
+
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <div id="page_test" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Privater Chat mit [Name]</div> <!-- TODO: Übergabeparameter -->
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+
+                    <div data-role="collapsible" class="">
+                        <h4>Kontakte</h4>
+                        <ul data-role="listview">
+                            <li data-role="list-divider"><a href="#">List item 1</a></li>
+                            <li><a href="#">List item 2</a></li>
+                            <li><a href="#">List item 3</a></li>
+                        </ul>
+                    </div>
 
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
