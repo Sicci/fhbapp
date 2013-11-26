@@ -1,0 +1,12 @@
+{
+    "uid":1,
+  "name": "Amelina",
+  "status": "Auf dem Weg zur FH",
+  "email": "amelina@fh-brandenburg.de",
+  "wohnort": "Berlin",
+  "gruppen": [
+    "Mobile Informationssysteme",
+    "Informatiktheorie",
+    "Gruppe 3"
+  ]
+}

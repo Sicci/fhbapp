@@ -44,9 +44,6 @@
     height: 48px !important;
     margin-left: -22px !important;
     box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
 }
 
@@ -56,17 +53,17 @@
 }
 
 /* change navigation icon position */
-#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon {
+#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon, #group .ui-icon {
     margin-top: -12px !important;
 }
 
 /* change height of navigation buttons */
-.nav-example ul #home, #chat, #settings, #contact {
+.nav-example ul #home, #chat, #settings, #contact, #group {
     height: 50px !important;
 }
 
 /* custom icons for the navigation */
-#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon {
+#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon, #group .ui-icon  {
     background: url(../images/icons-white.png) no-repeat;
 }
 
@@ -79,6 +76,10 @@
 }
 
 #contact .ui-icon {
+    background-position: 0px -528px;
+}
+
+#group .ui-icon {
     background-position: -48px -528px;
 }
 
@@ -114,6 +115,13 @@
 
 .ui-li-aside {
     width: auto !important;
+}
+
+/*Buttons in einer Liste auf der rechten Seite anders ausrichten*/
+.ui-li-aside.button {
+    position:absolute !important;
+    right:2px !important;
+    margin-top:-7px !important;
 }
 /* ------------------------------- chat --------------------------------- */
 .msgContainerDiv {
@@ -184,4 +192,5 @@ label.error {
 .ui-field-contain .ui-select {
     width: 100% !important;
 }
+
 
