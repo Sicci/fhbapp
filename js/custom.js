@@ -94,7 +94,7 @@ function getGroups() {
 
     var ajax = {
         parseJSONP:function(result){
-            $(".deleteForReset").remove();
+
             $.each( result.groups, function(i, group) {
                 $(".groupDivider").after("<li class='deleteForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gruppenname+"</h3></a></li>");
                 console.log(group);
@@ -123,6 +123,14 @@ function getGroupDetails() {
             $.each(group.users, function (i, user) {
                 $("#groupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " "+ user.nachname + "</a></li>");
             });
+
+            if (group.users.length < 6) {
+                $( ".collapsibleContacts" ).trigger( "expand" );
+            }
+            else {
+                $( ".collapsibleContacts" ).trigger( "collapse" );
+            }
+
             $("#groupDetailsList").listview('refresh');
             $("#groupDetailsListContacts").listview('refresh');
         }
@@ -262,6 +270,7 @@ function insertEmailToFooter() {
 
 /*load groups and contactGroups via jsonp*/
 $(document).on('pagebeforeshow', '#page_groups', function(e, data){
+    $(".deleteForReset").remove();
     getGroups();
     getContactGroups();
 });

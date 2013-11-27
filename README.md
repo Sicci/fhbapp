@@ -34,6 +34,7 @@ Javascript:
 - [ ] Pages mit Ajax-Calls an REST sollten über JS geladen werden und nicht über href?!
 - [ ] Back to Login preventen durch überprüfung beforepageload ob eingeloggt
 - [ ] Login mit LoginName und Password --> Redirect to error / login again
+- [ ] insert ajax loader for ajax requests
 
 
 Server:
@@ -47,3 +48,4 @@ Geringere Priorität
 - [ ] Eigenes Theme erstellen
 - [ ] Re-Formatierung des CSS und JS Codes
 - [ ] Nur eindeutige ID's verwenden
+- [ ] Gruppenliste und Kontaktgruppenliste als Collapsible
