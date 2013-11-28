@@ -1,6 +1,7 @@
 {
-    "uid":1,
-  "name": "Amelina",
+  "uid":1,
+  "nachname": "Mögelin",
+  "vorname": "Josef",
   "status": "Auf dem Weg zur FH",
   "email": "amelina@fh-brandenburg.de",
   "wohnort": "Berlin",
