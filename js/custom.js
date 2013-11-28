@@ -24,7 +24,67 @@ function test() {
 
 /* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
 
-//fafsad
+function getEvents() {
+    $.ajax({url: url+"events/",
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(result){
+            $(".deleteForReset").remove();
+
+
+            $.each(result.events, function(i, event) {
+                var d = new Date(event.eventdate);
+                var hours = d.getHours();
+                var minutes = d.getMinutes();
+                var day = d.getDate();
+                var month = d.getMonth()+1;
+                var year = d.getFullYear();
+                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.eventname+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+" um "+hours+":"+minutes+""+"</p></li>");
+            });
+            $('#eventList').listview('refresh');
+        }
+    }
+}
+/*function getEventDetails(eventID) {
+    console.log(url+"event/?eid="+eventID);
+    $.ajax({url: url + "event/?eid="+eventID,
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            showUserDetailPage();
+            ajax.parseJSONP(result.event);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(result){
+
+            $(".profile_name").html(result.vorname + " " + result.nachname);
+            $(".profile_email").html(result.email);
+            $(".profile_status").html(result.status);
+            $(".profile_wohnort").html(result.wohnort);
+
+            $(".profile_gruppen").empty();
+            $.each( result.gruppen, function(i, gruppe) {
+
+                $(".profile_gruppen").append(gruppe+"<br>");
+            });
+        }
+    }
+}*/
+
 function getContacts() {
     $.ajax({url: url+"users/",
         dataType: "jsonp",
@@ -263,7 +323,7 @@ function showHomePage() {
         console.log("show error page for login"); //maybe redirect to login page
     }
     else {
-        if (currentUser["dozent"] == 0) {
+        if (currentUser["isdozent"] == 0) {
             showStudentHomePage();
         }
         else {
@@ -310,6 +370,11 @@ $(document).on('pagebeforeshow', '#page_groups', function(e, data){
 $(document).on('pagebeforeshow', '#page_contacts', function(e, data){
     getContacts();
 });
+/*load events via jsonp*/
+$(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
+    getEvents();
+});
+
 
 $(document).on('change', '#activateSemester', function () {
     if ($(this).val() == 'off') { //if switch is off

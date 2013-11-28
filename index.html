@@ -243,10 +243,9 @@
         <div data-role="content">
             <!--<h3>Anwesenheitskontrolle</h3>-->
             <!--<a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>-->
-            <ul data-role="listview" data-divider-theme="c" data-content-theme="d" data-filter="true" data-filter-placeholder="Events durchsuchen...">
+            <ul id="eventList" data-role="listview" data-divider-theme="c" data-content-theme="d" data-filter="true" data-filter-placeholder="Events durchsuchen...">
                 <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
-                <li data-date="Fri, 26 Aug 2011 20:58:39 GMT"><a onclick="openEventProfilePage('Mobile Informationssysteme')" href="#page_eventDetails"><h3>Mobile Informationssysteme</h3><p>Erstellt am <span>11.10.2013</span></p></a></li>
-                <li data-date="Fri, 25 Aug 2011 20:58:39 GMT"><a onclick="openEventProfilePage('Event 2')" href="#page_eventDetails"><h3>[Event 2]</h3><p>Erstellt am <span>[datum]</span></p></a></li>
+
             </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
@@ -725,7 +724,7 @@
                 <br>
                 <div class="ui-grid-a">
                     <div class="ui-block-a"><a data-role="button" id="btn_backToControlAttendance"
-                                               href="#page_controlAttendance">Abbrechen</a></div>
+                                               href="#page_controlAttendance" >Abbrechen</a></div>
                     <div class="ui-block-b"><input type="submit" value="Erstellen"/></div>
                 </div><!-- /grid-a -->
 
