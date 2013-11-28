@@ -1,6 +1,25 @@
 var url = "http://fhbapp.rumbledore.de/";
 var currentUser = [];
 
+function test() {
+    $.ajax({url: "http://fhbapp.no-ip.biz/",
+        dataType: "json",
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(result){
+            console.log(result.message);
+    }
+}
+}
+
 /* ajax calls to get data from db in jsonp format */
 
 /* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
@@ -63,7 +82,8 @@ function checkLogin(loginName) {
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            console.log("success")
+            ajax.parseJSONP(result.login);
             showHomePage();
         },
         error: function (request,error) {
@@ -180,7 +200,7 @@ function getContactGroupDetails(kgid) {
         async: true,
         success: function (result) {
             showContactGroupDetailPage();
-            ajax.parseJSONP(result.contactgroup);
+            ajax.parseJSONP(kgid, result.contactgroup);
 
         },
         error: function (request, error) {
@@ -201,7 +221,11 @@ function getContactGroupDetails(kgid) {
     }
 
     var ajax = {
-        parseJSONP: function (contactGroup) {
+        parseJSONP: function (kgid, contactGroup) {
+            $('#btnManageContactgroupContacts').on('click', function() {
+                manageContactgroupContacts(kgid);
+            });
+
             $(".deleteForReset").remove();
             $(".contactgroupDetailName").html(contactGroup.kontaktgruppenname);
             insertContactGroupListDetails(contactGroup);
@@ -225,6 +249,10 @@ function getContactGroupDetails(kgid) {
             $("#contactgroupDetailsListContacts").listview('refresh');
         }
     }
+}
+
+function manageContactgroupContacts(kgid) {
+    console.log("addContactsToGroup: "+kgid);
 }
 
 function showHomePage() {
@@ -296,7 +324,6 @@ $(document).on('change', '#activateSemester', function () {
 });
 
 $(document).on('pageinit', function(){ // <-- you must use this to ensure the DOM is ready
-
     var formNewEvent=$("#form_newEvent").validate({
         rules: {
             newEventName: {required:true, minlength:3},

@@ -117,6 +117,17 @@
     width: auto !important;
 }
 
+span.button {
+    position:absolute !important;
+    right:2px !important;
+    margin-top:-50px !important;
+    width: auto !important;
+}
+
+div .button {
+    font-size: 12.5px !important;
+}
+
 /*Buttons in einer Liste auf der rechten Seite anders ausrichten*/
 .ui-li-aside.button {
     position:absolute !important;
@@ -191,11 +202,6 @@ label.error {
 /*Length-Fix für Selectboxen*/
 .ui-field-contain .ui-select {
     width: 100% !important;
-}
-
-.hugeTitle {
-    font-size: 27px !important;;
-    font-weight: bold !important;
 }
 
 .collapsibleContacts{
