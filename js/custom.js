@@ -24,6 +24,7 @@ function test() {
 
 /* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
 
+//fafsad
 function getContacts() {
     $.ajax({url: url+"users/",
         dataType: "jsonp",
