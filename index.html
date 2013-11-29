@@ -324,12 +324,12 @@
         </div><!-- /header -->
         <div data-role="content">
             <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode"><p style="text-align: center">QR-Code zur Teilnehmerverifikation</p><img class="qrcode" src="images/qrcode.png" /></div>
-            <ul data-role="listview">
-                <li><h3>Eventname</h3><p class="bold" id="showEventName"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-theme="b" data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a></p></li>
-                <li><h3>Erstellt am</h3><p><strong>[datum]</strong></p></li>
-                <li><h3>Zeitpunkt</h3><p><strong>[uhrzeit]</strong></p></li>
+            <ul id="eventDetailsList" data-role="listview">
+                <li id="eventInsertAfter"><h3 class="eventDetailName">Eventname</h3><p class="bold" id="showEventName"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-theme="b" data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a></p></li>
                 <li><a href="#page_attendees">Teilnehmerliste</a></li>
             </ul>
+
+
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>

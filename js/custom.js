@@ -40,51 +40,61 @@ function getEvents() {
         parseJSONP:function(result){
             $(".deleteForReset").remove();
 
-
             $.each(result.events, function(i, event) {
                 //var d = new Date(event.ecreationdate);
-                var d = new Date(1385716798000);
+               // alert(event.edate);
+                var d = new Date(event.edate);
                 var hours = d.getHours();
                 var minutes = d.getMinutes();
                 var day = d.getDate();
                 var month = d.getMonth()+1;
                 var year = d.getFullYear();
-                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+" um "+hours+":"+minutes+""+"</p></li>");
+                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+"</p></li>");
             });
             $('#eventList').listview('refresh');
         }
     }
 }
-/*function getEventDetails(eventID) {
-    console.log(url+"event/?eid="+eventID);
-    $.ajax({url: url + "event/?eid="+eventID,
+
+function getEventDetails(eid) {
+    $.ajax({url: url + "event/?eid="+eid,
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            showUserDetailPage();
-            ajax.parseJSONP(result.event);
+            showEventDetailPage();
+            ajax.parseJSONP(eid, result.event);
         },
-        error: function (request,error) {
+        error: function (request, error) {
             alert('Network error has occurred please try again!');
         }
     });
 
+    /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
+    function insertEventListDetails(event) {
+        //alert(event.ecreationdate);
+        var d = new Date(event.ecreationdate);
+        var hours = d.getHours();
+        var minutes = d.getMinutes();
+        var day = d.getDate();
+        var month = d.getMonth()+1;
+        var year = d.getFullYear();
+        $("#eventInsertAfter").after("<li class='deleteForReset'><h3>Erstellt am</h3><p>"+day+"."+month+"</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteForReset'><h3>Zeitpunkt</h3><p>"+hours+":"+minutes+"</p></li>");
+    }
+
     var ajax = {
-        parseJSONP:function(result){
-
-            $(".profile_name").html(result.vorname + " " + result.nachname);
-            $(".profile_email").html(result.email);
-            $(".profile_status").html(result.status);
-            $(".profile_wohnort").html(result.wohnort);
-
-            $(".profile_gruppen").empty();
-            $.each( result.gruppen, function(i, gruppe) {
-
-                $(".profile_gruppen").append(gruppe+"<br>");
-            });
+        parseJSONP: function (kgid, event) {
+           /* $('#btnManageContactgroupContacts').on('click', function() {
+                manageContactgroupContacts(kgid);
+            });*/
+            $(".deleteForReset").remove();
+            $(".eventDetailName").html(event.ename);
+            insertEventListDetails(event);
+            $("#eventDetailsList").listview('refresh');
         }
     }
-}*/
+}
+
 
 function getContacts() {
     $.ajax({url: url+"users/",
@@ -351,6 +361,10 @@ function showContactGroupDetailPage() {
 function showUserDetailPage() {
     console.log("showUserDetailPage")
     $.mobile.changePage("#page_profile");
+}
+function showEventDetailPage() {
+    console.log("showEventDetailPage")
+    $.mobile.changePage("#page_eventDetails");
 }
 
 function insertEmailToFooter() {

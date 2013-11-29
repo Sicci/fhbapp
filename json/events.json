@@ -1,1 +1,1 @@
-{"events":[{"eid":"1","ename":"Mob. Informationssysteme","edate":1385716728000},{"eid":"2","ename":"Event 2","edate":1385716748000},{"eid":"3","ename":"Pause","edate":1385716798000}]}
+{"events":[{"eid":1,"ename":"Mob. Informationssysteme","ecreationdate":1385495640000,"edate":1385494340000,"eqrcontent":"test"},{"eid":2,"ename":"Summer School","ecreationdate":1385495440000,"edate":1385493340000,"eqrcontent":"test"}]}
