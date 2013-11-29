@@ -42,13 +42,14 @@ function getEvents() {
 
 
             $.each(result.events, function(i, event) {
-                var d = new Date(event.eventdate);
+                //var d = new Date(event.ecreationdate);
+                var d = new Date(1385716798000);
                 var hours = d.getHours();
                 var minutes = d.getMinutes();
                 var day = d.getDate();
                 var month = d.getMonth()+1;
                 var year = d.getFullYear();
-                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.eventname+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+" um "+hours+":"+minutes+""+"</p></li>");
+                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+" um "+hours+":"+minutes+""+"</p></li>");
             });
             $('#eventList').listview('refresh');
         }
