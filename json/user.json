@@ -1,13 +1,1 @@
-{
-  "uid":1,
-  "nachname": "Mögelin",
-  "vorname": "Josef",
-  "status": "Auf dem Weg zur FH",
-  "email": "amelina@fh-brandenburg.de",
-  "wohnort": "Berlin",
-  "gruppen": [
-    "Mobile Informationssysteme",
-    "Informatiktheorie",
-    "Gruppe 3"
-  ]
-}
+{"user":{"uid":1,"lastname":"Mögelin","firstname":"Josef","status":"Auf dem Weg zur FH","email":"amelina@fh-brandenburg.de","city":"Berlin","groups":["Mobile Informationssysteme","Informatiktheorie","Gruppe 3"]}}
