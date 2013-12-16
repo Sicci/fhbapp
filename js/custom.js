@@ -295,7 +295,7 @@ function getContactGroupDetails(kgid) {
     var ajax = {
         parseJSONP: function (kgid, contactGroup) {
             $('#btnManageContactgroupContacts').on('click', function() {
-                manageContactgroupContacts(kgid);
+                manageContactgroupContacts(kgid, contactGroup);
             });
 
             $(".deleteForReset").remove();
@@ -323,8 +323,25 @@ function getContactGroupDetails(kgid) {
     }
 }
 
-function manageContactgroupContacts(kgid) {
+function deleteContactFromCG(kgid, uid) {
+    console.log("delete user with uid "+uid+" von kgid "+kgid);
+}
+
+function loadContactsFromCG(kgid, contactGroup) {
+    $(".deleteForReset").remove();
+    $.each(contactGroup.users, function (i, user) {
+        console.log(kgid + user.vorname);
+        //<a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
+        $("#manageContactgroupDetailsList").append("<li class='deleteForReset'>"+user.vorname+" "+user.nachname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+kgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+        $("#manageContactgroupDetailsList").listview('refresh');
+
+    });
+}
+
+function manageContactgroupContacts(kgid, contactGroup) {
     console.log("addContactsToGroup: "+kgid);
+    showManageContactsPage();
+    loadContactsFromCG(kgid, contactGroup);
 }
 
 function showHomePage() {
@@ -365,6 +382,10 @@ function showUserDetailPage() {
 function showEventDetailPage() {
     console.log("showEventDetailPage")
     $.mobile.changePage("#page_eventDetails");
+}
+function showManageContactsPage() {
+    console.log("showManageContactsPage")
+    $.mobile.changePage("#page_manageContacts");
 }
 
 function insertEmailToFooter() {

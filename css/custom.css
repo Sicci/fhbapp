@@ -207,3 +207,8 @@ label.error {
 .collapsibleContacts{
     margin-top: -4px;
 }
+
+.delete {
+    width:20px;
+    margin-top:-5px;
+}
