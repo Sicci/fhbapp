@@ -25,8 +25,9 @@ function test() {
 /* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
 
 function getEvents() {
-    $.ajax({url: url+"events/",
+    $.ajax({url: url+"get/events",
         dataType: "jsonp",
+        data: {uid: currentUser.uid},
         async: true,
         success: function (result) {
             ajax.parseJSONP(result);
@@ -149,9 +150,10 @@ function getUserDetails(userID) {
         }
     }
 }
-function checkLogin(loginName) {
-    $.ajax({url: url + "login/?loginname="+loginName,
+function checkLogin(loginName,password) {
+    $.ajax({url: url + "do/login",
         dataType: "jsonp",
+        data: {uname:loginName, upassword:password},
         async: true,
         success: function (result) {
             console.log("success")
