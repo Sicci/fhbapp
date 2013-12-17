@@ -58,8 +58,9 @@ function getEvents() {
 }
 
 function getEventDetails(eid) {
-    $.ajax({url: url + "event/?eid="+eid,
+    $.ajax({url: url + "get/event",
         dataType: "jsonp",
+        data: {eid:eid},
         async: true,
         success: function (result) {
             showEventDetailPage();
@@ -70,7 +71,7 @@ function getEventDetails(eid) {
         }
     });
 
-    /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
+    //abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert
     function insertEventListDetails(event) {
         //alert(event.ecreationdate);
         var d = new Date(event.ecreationdate);
@@ -84,7 +85,7 @@ function getEventDetails(eid) {
     }
 
     var ajax = {
-        parseJSONP: function (kgid, event) {
+        parseJSONP: function (kgid, event) { /*TODO:wofür wird kgid benötigt?*/
            /* $('#btnManageContactgroupContacts').on('click', function() {
                 manageContactgroupContacts(kgid);
             });*/
@@ -96,13 +97,12 @@ function getEventDetails(eid) {
     }
 }
 
-
 function getContacts() {
-    $.ajax({url: url+"users/",
+    $.ajax({url: url+"get/contacts",
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajax.parseJSONP(result.contacts);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -110,24 +110,26 @@ function getContacts() {
     });
 
     var ajax = {
-        parseJSONP:function(result){
+        parseJSONP:function(contacts){
             $("#userList").empty();
-            $.each( result.users, function(i, user) {
-                 $("#userList").append("<li><a onclick=\"getUserDetails("+user.uid+")\" href=\"#\">"+user.vorname +" "+user.nachname+"</a></li>"); /* TODO: sort userList by vorname through database */
+            $.each( contacts, function(i, user) {
+                 $("#userList").append("<li><a onclick=\"getContactDetails("+user.uid+")\" href=\"#\">"+user.firstname +" "+user.lastname+"</a></li>");
                     console.log(user);
             });
             $('#userList').listview('refresh');
         }
     }
 }
-function getUserDetails(userID) {
-    console.log(url+"user/?uid="+userID);
-    $.ajax({url: url + "user/?uid="+userID,
+
+function getContactDetails(userID) {
+    console.log(url+"get/contact?uid="+userID);
+    $.ajax({url: url + "get/contact",
         dataType: "jsonp",
+        data: {uid: userID},
         async: true,
         success: function (result) {
             showUserDetailPage();
-            ajax.parseJSONP(result.user);
+            ajax.parseJSONP(result.contact);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -135,21 +137,23 @@ function getUserDetails(userID) {
     });
 
     var ajax = {
-        parseJSONP:function(result){
+        parseJSONP:function(contact){
 
-            $(".profile_name").html(result.vorname + " " + result.nachname);
-            $(".profile_email").html(result.email);
-            $(".profile_status").html(result.status);
-            $(".profile_wohnort").html(result.wohnort);
+            $(".profile_name").html(contact.firstname + " " + contact.lastname);
+            $(".profile_email").html(contact.email);
+            $(".profile_status").html(contact.sdescription); /*TODO:when status is null */
+            $(".profile_wohnort").html(contact.city);
 
             $(".profile_gruppen").empty();
-            $.each( result.gruppen, function(i, gruppe) {
-
-                $(".profile_gruppen").append(gruppe+"<br>");
+            $.each( contact.groups, function(i, group) {
+                /*TODO:auch cg sollten geladen werden */
+                /*TODO:wenn gruppen leer sind füge "in keiner gruppe" <-- geht eigentlich nicht, da jeder in globalen gruppen sein sollte*/
+                $(".profile_gruppen").append(group+"<br>");
             });
         }
     }
 }
+
 function checkLogin(loginName,password) {
     $.ajax({url: url + "do/login",
         dataType: "jsonp",
@@ -166,20 +170,21 @@ function checkLogin(loginName,password) {
     });
 
     var ajax = {
-        parseJSONP:function(result){
-            $.each( result, function(property, value) {
+        parseJSONP:function(login){
+            $.each( login, function(property, value) {
                 currentUser[property] = value;
                 console.log(property + ": "+currentUser[property]);
             });
         }
     }
 }
+
 function getGroups() {
-    $.ajax({url: url+"groups/",
+    $.ajax({url: url+"get/groups",
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajax.parseJSONP(result.groups);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -187,19 +192,21 @@ function getGroups() {
     });
 
     var ajax = {
-        parseJSONP:function(result){
+        parseJSONP:function(groups){
 
-            $.each( result.groups, function(i, group) {
-                $(".groupDivider").after("<li class='deleteForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gruppenname+"</h3></a></li>");
+            $.each( groups, function(i, group) {
+                $(".groupDivider").after("<li class='deleteForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
                 console.log(group);
             });
             $('#groupList').listview('refresh');
         }
     }
 }
-function getGroupDetails() {
-    $.ajax({url: url + "group/",
+
+function getGroupDetails(gid) {
+    $.ajax({url: url + "get/group",
         dataType: "jsonp",
+        data: {gid:gid},
         async: true,
         success: function (result) {
             showGroupDetailPage();
@@ -213,9 +220,9 @@ function getGroupDetails() {
     var ajax = {
         parseJSONP: function (group) {
             $(".deleteForReset").remove();
-            $(".groupDetailName").html(group.gruppenname);
+            $(".groupDetailName").html(group.gname);
             $.each(group.users, function (i, user) {
-                $("#groupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " "+ user.nachname + "</a></li>");
+                $("#groupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " "+ user.lastname + "</a></li>");
             });
 
             if (group.users.length < 6) {
@@ -230,44 +237,46 @@ function getGroupDetails() {
         }
     }
 }
+
 function getContactGroups() {
-    $.ajax({url: url+"contactgroups/",
+    $.ajax({url: url+"get/contactgroups/",
         dataType: "jsonp",
+        data: {uid:currentUser.uid},
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajax.parseJSONP(result.contactgroups);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
         }
     });
 
-    function insertGroupListDetails(contactGroup) {
-        var foo = "";
-        if (contactGroup.fachbereich != null) { /* TODO: check if null is correct */
-            foo = contactGroup.fachbereich;
-        }
-
-        if (contactGroup.fachbereich != null && contactGroup.semester != null) {
-            foo = foo + ", Semester "+contactGroup.semester;
-        } else if (contactGroup.semester != null) {
-            foo = "Semester " + contactGroup.semester;
-        }
-
-        $(".groupListDetails").html(foo);
-    }
-
     var ajax = {
-        parseJSONP:function(result){
-            $.each( result.contactgroups, function(i, contactGroup) {
-                $(".privateGroupDivider").after("<li class='deleteForReset'><a onclick=\"getContactGroupDetails("+contactGroup.kgid+")\" href=\"#\"><h3>"+contactGroup.gruppenname+"</h3><p class='groupListDetails'></p></a></li>");
-                insertGroupListDetails(contactGroup);
+        parseJSONP:function(contactgroups){
+            $.each( contactgroups, function(i, contactGroup) {
+                $(".privateGroupDivider").after("<li class='deleteForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
+                insertGroupListDetails(contactGroup,i);
                 console.log(contactGroup);
             });
             $('#groupList').listview('refresh');
         }
     }
+
+    function insertGroupListDetails(contactGroup,position) {
+        var foo = "";
+        if (contactGroup.faculty != null) {
+            foo = contactGroup.faculty;
+        }
+
+        if (contactGroup.faculty != null && contactGroup.semester != null) {
+            foo = foo + ", Semester "+contactGroup.semester;
+        } else if (contactGroup.semester != null) {
+            foo = "Semester " + contactGroup.semester;
+        }
+        $("#groupListDetails"+position).html(foo);
+    }
 }
+
 function getContactGroupDetails(kgid) {
     $.ajax({url: url + "contactgroup/?kgid="+kgid,
         dataType: "jsonp",
@@ -305,7 +314,7 @@ function getContactGroupDetails(kgid) {
             insertContactGroupListDetails(contactGroup);
             /* TODO: insert creation date somewhere*/
             $.each(contactGroup.users, function (i, user) {
-                $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a></li>");
+                $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a></li>");
             });
 
             if (contactGroup.users.length < 2) { /* TODO: change number */
@@ -333,7 +342,7 @@ function loadContactsFromCG(kgid, contactGroup) {
     $(".deleteForReset").remove();
     $.each(contactGroup.users, function (i, user) {
         console.log(kgid + user.vorname);
-        //<a onclick='getUserDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
+        //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
         $("#manageContactgroupDetailsList").append("<li class='deleteForReset'>"+user.vorname+" "+user.nachname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+kgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
         $("#manageContactgroupDetailsList").listview('refresh');
 
