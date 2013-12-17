@@ -277,13 +277,14 @@ function getContactGroups() {
     }
 }
 
-function getContactGroupDetails(kgid) {
-    $.ajax({url: url + "contactgroup/?kgid="+kgid,
+function getContactGroupDetails(cgid) {
+    $.ajax({url: url + "get/contactgroup",
         dataType: "jsonp",
+        data: {uid:currentUser.uid, cgid:cgid},
         async: true,
         success: function (result) {
             showContactGroupDetailPage();
-            ajax.parseJSONP(kgid, result.contactgroup);
+            ajax.parseJSONP(cgid, result.contactgroup);
 
         },
         error: function (request, error) {
@@ -293,13 +294,13 @@ function getContactGroupDetails(kgid) {
 
     /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
     function insertContactGroupListDetails(contactGroup) {
-        if (contactGroup.fachbereich != null && contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.fachbereich+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
+        if (contactGroup.faculty != null && contactGroup.semester != null) {
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.faculty+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
         }
-        else if (contactGroup.fachbereich != null) { /* TODO: check if null is correct */
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.fachbereich+"</h3><p class=''>Fachbereich</p></li>");
+        else if (contactGroup.faculty != null) { /* TODO: check if null is correct */
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.faculty+"</h3><p class=''>Fachbereich</p></li>");
         } else if (contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.semester+".tes Semester</h3><p class=''>Studienhalbjahr</p></li>");
+            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.semester+". Semester</h3><p class=''>Studienhalbjahr</p></li>");
         }
     }
 
@@ -310,22 +311,24 @@ function getContactGroupDetails(kgid) {
             });
 
             $(".deleteForReset").remove();
-            $(".contactgroupDetailName").html(contactGroup.kontaktgruppenname);
+            $(".contactgroupDetailName").html(contactGroup.cgname);
             insertContactGroupListDetails(contactGroup);
             /* TODO: insert creation date somewhere*/
-            $.each(contactGroup.users, function (i, user) {
-                $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a></li>");
-            });
+            if (contactGroup.users != null) {
+                $.each(contactGroup.users, function (i, user) {
+                    $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " " + user.lastname + "</a></li>");
+                    });
 
-            if (contactGroup.users.length < 2) { /* TODO: change number */
-                if (contactGroup.users.length == 0) {
-                    $("#contactgroupDetailsListContacts").append("<li style='text-align: center' class='deleteForReset'>keine Kontakte vorhanden</li>");
+                if (contactGroup.users.length < 3) { /* TODO: change number */
+                    $( ".collapsibleContacts" ).trigger( "expand" );
                 }
-                $( ".collapsibleContacts" ).trigger( "expand" );
-
+                else {
+                    $( ".collapsibleContacts" ).trigger( "collapse" );
+                }
             }
             else {
-                $( ".collapsibleContacts" ).trigger( "collapse" );
+                $("#contactgroupDetailsListContacts").append("<li style='text-align: center' class='deleteForReset'>keine Kontakte vorhanden</li>");
+                $( ".collapsibleContacts" ).trigger( "expand" );
             }
 
             $("#contactgroupDetailsList").listview('refresh');
@@ -334,25 +337,27 @@ function getContactGroupDetails(kgid) {
     }
 }
 
-function deleteContactFromCG(kgid, uid) {
-    console.log("delete user with uid "+uid+" von kgid "+kgid);
+function deleteContactFromCG(cgid, uid) {
+    console.log("delete user with uid "+uid+" von kgid "+cgid);
+    /*
+        send request to delete from db and refresh page or simply remove line :D HACKAAAATON
+     */
 }
 
-function loadContactsFromCG(kgid, contactGroup) {
+function loadContactsFromCG(cgid, contactGroup) {
     $(".deleteForReset").remove();
     $.each(contactGroup.users, function (i, user) {
-        console.log(kgid + user.vorname);
+        console.log(cgid + user.firstname);
         //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
-        $("#manageContactgroupDetailsList").append("<li class='deleteForReset'>"+user.vorname+" "+user.nachname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+kgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+        $("#manageContactgroupDetailsList").append("<li class='deleteForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
         $("#manageContactgroupDetailsList").listview('refresh');
 
     });
 }
 
-function manageContactgroupContacts(kgid, contactGroup) {
-    console.log("addContactsToGroup: "+kgid);
+function manageContactgroupContacts(cgid, contactGroup) {
     showManageContactsPage();
-    loadContactsFromCG(kgid, contactGroup);
+    loadContactsFromCG(cgid, contactGroup);
 }
 
 function showHomePage() {
@@ -452,7 +457,7 @@ $(document).on('pageinit', function(){ // <-- you must use this to ensure the DO
             }
         }
 
-        /* //check if necessary
+        /* TODO//check if necessary
          submitHandler: function(form) {
          //resetForm is a method on the validation object, not the form
          v.resetForm();
@@ -463,7 +468,7 @@ $(document).on('pageinit', function(){ // <-- you must use this to ensure the DO
 
 });
 
-/* whenever a msg was send to chat do:
+/* TODO: whenever a msg was send to chat do:
  document.getElementById('shoutContainer').scrollTop = 10000;
  */
 
@@ -503,6 +508,7 @@ function scanCode() {
     );
 }
 
+/* übernimmt der server
 function encodeData(){
     var data = document.getElementById("data").value;
     if (data != ''){
@@ -520,7 +526,7 @@ function encodeData(){
         alert("Please enter some data.");
         return false;
     }
-}
+} */
 
 function sendMessage(){
     /*
