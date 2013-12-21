@@ -1,28 +1,26 @@
 var url = "http://fhbapp.rumbledore.de/";
 var currentUser = [];
 
-function test() {
-    $.ajax({url: "http://fhbapp.no-ip.biz/",
-        dataType: "json",
-        async: true,
-        success: function (result) {
-            ajax.parseJSONP(result);
-        },
-        error: function (request,error) {
-            alert('Network error has occurred please try again!');
-        }
-    });
+$.mobile.loader.prototype.options.textVisible = true;
+$.mobile.loader.prototype.options.theme = "a";
+$.mobile.loader.prototype.options.theme = "a";
 
-    var ajax = {
-        parseJSONP:function(result){
-            console.log(result.message);
-    }
-}
-}
+/*TODO: was machen wir mit der sessionid?*/
+/*TODO: Möglichkeit zum abmelden*/
+/*TODO: LoginFailurePage mit automatischem redirect oder so*/
+/*TODO: für ajax Handler noch loader einfügen*/
+
+/*TODO:wenn man von managecontacts zurück geht und die gruppe leer war und dann bei einer anderen cg zurück geht oder so wird man immer wieder zurück geleitet.. kp was da los is
+* hackaton: einfach keine leere cg :D
+* */
 
 /* ajax calls to get data from db in jsonp format */
 
 /* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
+
+function test() {
+    $.mobile.showPageLoadingMsg();
+}
 
 function getEvents() {
     $.ajax({url: url+"get/events",
@@ -39,7 +37,7 @@ function getEvents() {
 
     var ajax = {
         parseJSONP:function(result){
-            $(".deleteForReset").remove();
+            $(".deleteEventsForReset").remove();
 
             $.each(result.events, function(i, event) {
                 //var d = new Date(event.ecreationdate);
@@ -50,7 +48,7 @@ function getEvents() {
                 var day = d.getDate();
                 var month = d.getMonth()+1;
                 var year = d.getFullYear();
-                $("#eventList").append("<li class='deleteForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+"</p></li>");
+                $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+"</p></li>");
             });
             $('#eventList').listview('refresh');
         }
@@ -80,8 +78,8 @@ function getEventDetails(eid) {
         var day = d.getDate();
         var month = d.getMonth()+1;
         var year = d.getFullYear();
-        $("#eventInsertAfter").after("<li class='deleteForReset'><h3>Erstellt am</h3><p>"+day+"."+month+"</p></li>");
-        $("#eventInsertAfter").after("<li class='deleteForReset'><h3>Zeitpunkt</h3><p>"+hours+":"+minutes+"</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am</h3><p>"+day+"."+month+"</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Zeitpunkt</h3><p>"+hours+":"+minutes+"</p></li>");
     }
 
     var ajax = {
@@ -89,7 +87,7 @@ function getEventDetails(eid) {
            /* $('#btnManageContactgroupContacts').on('click', function() {
                 manageContactgroupContacts(kgid);
             });*/
-            $(".deleteForReset").remove();
+            $(".deleteEventDetailsForReset").remove();
             $(".eventDetailName").html(event.ename);
             insertEventListDetails(event);
             $("#eventDetailsList").listview('refresh');
@@ -102,7 +100,9 @@ function getContacts() {
         dataType: "jsonp",
         async: true,
         success: function (result) {
+            $.mobile.showPageLoadingMsg();
             ajax.parseJSONP(result.contacts);
+            $.mobile.hidePageLoadingMsg(); /*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -139,6 +139,10 @@ function getContactDetails(userID) {
     var ajax = {
         parseJSONP:function(contact){
 
+            $("#btnLocateContact").on('click', function(){
+                openPositionPage(contact.firstname); /*TODO:change to uid*/
+            });
+
             $(".profile_name").html(contact.firstname + " " + contact.lastname);
             $(".profile_email").html(contact.email);
             $(".profile_status").html(contact.sdescription); /*TODO:when status is null */
@@ -154,10 +158,10 @@ function getContactDetails(userID) {
     }
 }
 
-function checkLogin(loginName,password) {
+function checkLogin() {
     $.ajax({url: url + "do/login",
         dataType: "jsonp",
-        data: {uname:loginName, upassword:password},
+        data: $("#formLogin").serialize(),
         async: true,
         success: function (result) {
             console.log("success")
@@ -195,7 +199,7 @@ function getGroups() {
         parseJSONP:function(groups){
 
             $.each( groups, function(i, group) {
-                $(".groupDivider").after("<li class='deleteForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
+                $(".groupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
                 console.log(group);
             });
             $('#groupList').listview('refresh');
@@ -219,10 +223,10 @@ function getGroupDetails(gid) {
 
     var ajax = {
         parseJSONP: function (group) {
-            $(".deleteForReset").remove();
+            $(".deleteGroupDetailsForReset").remove();
             $(".groupDetailName").html(group.gname);
             $.each(group.users, function (i, user) {
-                $("#groupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " "+ user.lastname + "</a></li>");
+                $("#groupDetailsListContacts").append("<li class='deleteGroupDetailsForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " "+ user.lastname + "</a></li>");
             });
 
             if (group.users.length < 6) {
@@ -254,7 +258,7 @@ function getContactGroups() {
     var ajax = {
         parseJSONP:function(contactgroups){
             $.each( contactgroups, function(i, contactGroup) {
-                $(".privateGroupDivider").after("<li class='deleteForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
+                $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
                 insertGroupListDetails(contactGroup,i);
                 console.log(contactGroup);
             });
@@ -295,12 +299,12 @@ function getContactGroupDetails(cgid) {
     /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
     function insertContactGroupListDetails(contactGroup) {
         if (contactGroup.faculty != null && contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.faculty+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
+            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
         }
         else if (contactGroup.faculty != null) { /* TODO: check if null is correct */
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.faculty+"</h3><p class=''>Fachbereich</p></li>");
+            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"</h3><p class=''>Fachbereich</p></li>");
         } else if (contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteForReset'><h3>"+contactGroup.semester+". Semester</h3><p class=''>Studienhalbjahr</p></li>");
+            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.semester+". Semester</h3><p class=''>Studienhalbjahr</p></li>");
         }
     }
 
@@ -310,13 +314,13 @@ function getContactGroupDetails(cgid) {
                 manageContactgroupContacts(kgid, contactGroup);
             });
 
-            $(".deleteForReset").remove();
+            $(".deleteCGDetailsForReset").remove();
             $(".contactgroupDetailName").html(contactGroup.cgname);
             insertContactGroupListDetails(contactGroup);
             /* TODO: insert creation date somewhere*/
             if (contactGroup.users != null) {
                 $.each(contactGroup.users, function (i, user) {
-                    $("#contactgroupDetailsListContacts").append("<li class='deleteForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " " + user.lastname + "</a></li>");
+                    $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " " + user.lastname + "</a></li>");
                     });
 
                 if (contactGroup.users.length < 3) { /* TODO: change number */
@@ -327,7 +331,7 @@ function getContactGroupDetails(cgid) {
                 }
             }
             else {
-                $("#contactgroupDetailsListContacts").append("<li style='text-align: center' class='deleteForReset'>keine Kontakte vorhanden</li>");
+                $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset'>keine Kontakte vorhanden</li>");
                 $( ".collapsibleContacts" ).trigger( "expand" );
             }
 
@@ -345,14 +349,19 @@ function deleteContactFromCG(cgid, uid) {
 }
 
 function loadContactsFromCG(cgid, contactGroup) {
-    $(".deleteForReset").remove();
+    $(".deleteManageContactsForReset").remove();
+    if (contactGroup.users != null) {
     $.each(contactGroup.users, function (i, user) {
         console.log(cgid + user.firstname);
         //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
-        $("#manageContactgroupDetailsList").append("<li class='deleteForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
-        $("#manageContactgroupDetailsList").listview('refresh');
+        $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+
 
     });
+    } else {
+        $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>keine Kontakte vorhanden</li>");
+    }
+    $("#manageContactgroupDetailsList").listview('refresh');
 }
 
 function manageContactgroupContacts(cgid, contactGroup) {
@@ -367,7 +376,7 @@ function showHomePage() {
         console.log("show error page for login"); //maybe redirect to login page
     }
     else {
-        if (currentUser["isdozent"] == 0) {
+        if (currentUser["istutor"] == 0) {
             showStudentHomePage();
         }
         else {
@@ -411,7 +420,7 @@ function insertEmailToFooter() {
 
 /*load groups and contactGroups via jsonp*/
 $(document).on('pagebeforeshow', '#page_groups', function(e, data){
-    $(".deleteForReset").remove();
+    $(".deleteGroupsForReset").remove();
     getGroups();
     getContactGroups();
 });

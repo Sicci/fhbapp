@@ -35,20 +35,21 @@
     <div id="page_login" data-role="page">
         <div data-role="content">
             <div align="center"><img src="./images/fhb_logo.png" /> <h1>FHB-App</h1><br><br></div>
-            <form action="form.php" method="post">
-                <label class="ui-hidden-accessible" for="login_name">Nutzername</label>
-                <input type="text" id="login_name" placeholder="Username"/>
-                <label class="ui-hidden-accessible" for="login_password">Passwort</label>
-                <input type="password" id="login_password" placeholder="Password"/>
+            <form action="" id="formLogin">
+                <label class="ui-hidden-accessible" for="uname">Nutzername</label>
+                <input type="text" name="uname" id="uname" placeholder="Username" value="student"/>
+                <label class="ui-hidden-accessible" for="upassword">Passwort</label>
+                <input type="password" name="upassword" id="upassword" placeholder="Password" value="student"/>
                 <div class="ui-grid-a">
                     <div class="ui-block-a"><a data-role="button" id="btn_register" href="#page_register">Registrieren</a> </div>
-                    <div class="ui-block-b"><input type="submit" id="login_submit" value="Anmelden" /></div>  <!-- TODO: get username from form -->
+                    <div class="ui-block-b"><a onclick="checkLogin()" data-role="button" href="#" id="btn_login" >Anmelden</a></div>
                 </div><!-- /grid-a -->
             </form>
-            <div class="ui-grid-a">
+            <a onclick="test()" href="#" data-role="button">Test something</a>
+            <!--<div class="ui-grid-a">
                 <div class="ui-block-a"><a onclick="checkLogin('student', 'student')" href="#" data-role="button">Student</a></div>
                 <div class="ui-block-b"><a onclick="checkLogin('dozent','dozent')" href="#" data-role="button">Dozent</a></div>
-            </div>
+            </div>-->
 
         </div><!-- /content -->
     </div><!-- /page -->
@@ -533,7 +534,7 @@
         <div data-role="content">
             <ul data-role="listview">
                 <li><h3>Name</h3><p><span class="profile_name bold"></span></p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
-                <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a onclick="openPositionPage($('#showParmHere').html())" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p></li>
+                <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p></li>
                 <li><h3>E-Mail</h3><p><strong><span class="profile_email"></span></strong></p></li>
                 <li><h3>Wohnort</h3><p><strong><span class="profile_wohnort"></span></strong></p></li>
                 <li><h3>Gruppen</h3><p><strong><span class="profile_gruppen"></span></strong></p></li>
