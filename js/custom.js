@@ -10,18 +10,11 @@ $.mobile.loader.prototype.options.theme = "a";
 /*TODO: LoginFailurePage mit automatischem redirect oder so*/
 /*TODO: für ajax Handler noch loader einfügen*/
 
-/*TODO:wenn man von managecontacts zurück geht und die gruppe leer war und dann bei einer anderen cg zurück geht oder so wird man immer wieder zurück geleitet.. kp was da los is
-* hackaton: einfach keine leere cg :D
-* */
-
-/* ajax calls to get data from db in jsonp format */
-
-/* TODO: sobald die DB angeschlossen wird müssen die requests parameter kleingeschrieben werden*/
-
 function test() {
     $.mobile.showPageLoadingMsg();
 }
 
+/* ajax calls to get data from db in jsonp format */
 function getEvents() {
     $.ajax({url: url+"get/events",
         dataType: "jsonp",
@@ -62,7 +55,7 @@ function getEventDetails(eid) {
         async: true,
         success: function (result) {
             showEventDetailPage();
-            ajax.parseJSONP(eid, result.event);
+            ajax.parseJSONP(result.event);
         },
         error: function (request, error) {
             alert('Network error has occurred please try again!');
@@ -83,7 +76,7 @@ function getEventDetails(eid) {
     }
 
     var ajax = {
-        parseJSONP: function (kgid, event) { /*TODO:wofür wird kgid benötigt?*/
+        parseJSONP: function (event) {
            /* $('#btnManageContactgroupContacts').on('click', function() {
                 manageContactgroupContacts(kgid);
             });*/
@@ -91,6 +84,7 @@ function getEventDetails(eid) {
             $(".eventDetailName").html(event.ename);
             insertEventListDetails(event);
             $("#eventDetailsList").listview('refresh');
+            /*TODO:show QR-Code and load pageAttendees*/
         }
     }
 }
@@ -150,8 +144,7 @@ function getContactDetails(userID) {
 
             $(".profile_gruppen").empty();
             $.each( contact.groups, function(i, group) {
-                /*TODO:auch cg sollten geladen werden */
-                /*TODO:wenn gruppen leer sind füge "in keiner gruppe" <-- geht eigentlich nicht, da jeder in globalen gruppen sein sollte*/
+                /*TODO:wenn gruppen leer sind füge "in keiner gruppe" <-- geht eigentlich nicht, da jeder in globalen gruppen sein sollte --> jeder in mindestens einer gloabalen Gruppe*/
                 $(".profile_gruppen").append(group+"<br>");
             });
         }
@@ -164,7 +157,6 @@ function checkLogin() {
         data: $("#formLogin").serialize(),
         async: true,
         success: function (result) {
-            console.log("success")
             ajax.parseJSONP(result.login);
             showHomePage();
         },
@@ -200,7 +192,6 @@ function getGroups() {
 
             $.each( groups, function(i, group) {
                 $(".groupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
-                console.log(group);
             });
             $('#groupList').listview('refresh');
         }
@@ -260,7 +251,6 @@ function getContactGroups() {
             $.each( contactgroups, function(i, contactGroup) {
                 $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
                 insertGroupListDetails(contactGroup,i);
-                console.log(contactGroup);
             });
             $('#groupList').listview('refresh');
         }
@@ -288,7 +278,7 @@ function getContactGroupDetails(cgid) {
         async: true,
         success: function (result) {
             showContactGroupDetailPage();
-            ajax.parseJSONP(cgid, result.contactgroup);
+            ajax.parseJSONP(result.contactgroup);
 
         },
         error: function (request, error) {
@@ -301,7 +291,7 @@ function getContactGroupDetails(cgid) {
         if (contactGroup.faculty != null && contactGroup.semester != null) {
             $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
         }
-        else if (contactGroup.faculty != null) { /* TODO: check if null is correct */
+        else if (contactGroup.faculty != null) {
             $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"</h3><p class=''>Fachbereich</p></li>");
         } else if (contactGroup.semester != null) {
             $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.semester+". Semester</h3><p class=''>Studienhalbjahr</p></li>");
@@ -309,9 +299,10 @@ function getContactGroupDetails(cgid) {
     }
 
     var ajax = {
-        parseJSONP: function (kgid, contactGroup) {
+        parseJSONP: function (contactGroup) {
+            $('#btnManageContactgroupContacts').off(); //prevent multiple events of the same type
             $('#btnManageContactgroupContacts').on('click', function() {
-                manageContactgroupContacts(kgid, contactGroup);
+                manageContactgroupContacts(contactGroup);
             });
 
             $(".deleteCGDetailsForReset").remove();
@@ -323,7 +314,7 @@ function getContactGroupDetails(cgid) {
                     $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " " + user.lastname + "</a></li>");
                     });
 
-                if (contactGroup.users.length < 3) { /* TODO: change number */
+                if (contactGroup.users.length < 7) {
                     $( ".collapsibleContacts" ).trigger( "expand" );
                 }
                 else {
@@ -348,25 +339,24 @@ function deleteContactFromCG(cgid, uid) {
      */
 }
 
-function loadContactsFromCG(cgid, contactGroup) {
+function loadContactsFromCG(contactGroup) {
     $(".deleteManageContactsForReset").remove();
     if (contactGroup.users != null) {
-    $.each(contactGroup.users, function (i, user) {
-        console.log(cgid + user.firstname);
-        //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
-        $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+        $.each(contactGroup.users, function (i, user) {
+            //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
+            $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
 
 
-    });
+        });
     } else {
         $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>keine Kontakte vorhanden</li>");
     }
     $("#manageContactgroupDetailsList").listview('refresh');
 }
 
-function manageContactgroupContacts(cgid, contactGroup) {
+function manageContactgroupContacts(contactGroup) {
     showManageContactsPage();
-    loadContactsFromCG(cgid, contactGroup);
+    loadContactsFromCG(contactGroup);
 }
 
 function showHomePage() {
@@ -384,6 +374,7 @@ function showHomePage() {
         }
     }
 }
+
 function showStudentHomePage() {
     console.log("showStudentPage");
     $.mobile.changePage("#page_home");
@@ -425,7 +416,11 @@ $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     getContactGroups();
 });
 
-
+$(document).on('pagebeforeshow', '#page_contactgroupDetails', function(e, data){
+    /*TODO:bei changes der cg muss sie neu geladen werden*/
+    //if manage contact group contacts has changed some contacts (e.g. delete user a or add user b)
+        //load cg again (how to determine which cg has to be loaded?)
+});
 
 /*load contacts via jsonp*/
 $(document).on('pagebeforeshow', '#page_contacts', function(e, data){
