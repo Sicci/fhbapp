@@ -212,3 +212,7 @@ label.error {
     width:20px;
     margin-top:-5px;
 }
+
+.centerText {
+    text-align: center !important;
+}

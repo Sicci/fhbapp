@@ -9,6 +9,7 @@ $.mobile.loader.prototype.options.theme = "a";
 /*TODO: Möglichkeit zum abmelden*/
 /*TODO: LoginFailurePage mit automatischem redirect oder so*/
 /*TODO: für ajax Handler noch loader einfügen*/
+/*TODO: groups and cgs andersrum sortieren bitte*/
 
 function test() {
     $.mobile.showPageLoadingMsg();
@@ -248,10 +249,15 @@ function getContactGroups() {
 
     var ajax = {
         parseJSONP:function(contactgroups){
-            $.each( contactgroups, function(i, contactGroup) {
-                $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
-                insertGroupListDetails(contactGroup,i);
-            });
+            if (contactgroups.length > 0) {
+                $.each( contactgroups, function(i, contactGroup) {
+                    $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactGroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
+                    insertGroupListDetails(contactGroup,i);
+                });
+            }
+            else {
+                $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><h3 class='centerText'>keine privaten Gruppen</h3></li>");
+            }
             $('#groupList').listview('refresh');
         }
     }
@@ -322,7 +328,7 @@ function getContactGroupDetails(cgid) {
                 }
             }
             else {
-                $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset'>keine Kontakte vorhanden</li>");
+                $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset centerText'>keine Kontakte vorhanden</li>");
                 $( ".collapsibleContacts" ).trigger( "expand" );
             }
 
@@ -349,7 +355,7 @@ function loadContactsFromCG(contactGroup) {
 
         });
     } else {
-        $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>keine Kontakte vorhanden</li>");
+        $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset centerText'>keine Kontakte vorhanden</li>");
     }
     $("#manageContactgroupDetailsList").listview('refresh');
 }
