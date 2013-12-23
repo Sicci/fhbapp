@@ -22,7 +22,7 @@ function getEvents() {
         data: {uid: currentUser.uid},
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajax.parseJSONP(result.getevents);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -30,10 +30,10 @@ function getEvents() {
     });
 
     var ajax = {
-        parseJSONP:function(result){
+        parseJSONP:function(events){
             $(".deleteEventsForReset").remove();
 
-            $.each(result.events, function(i, event) {
+            $.each(events, function(i, event) {
                 //var d = new Date(event.ecreationdate);
                // alert(event.edate);
                 var d = new Date(event.edate);
@@ -56,7 +56,7 @@ function getEventDetails(eid) {
         async: true,
         success: function (result) {
             showEventDetailPage();
-            ajax.parseJSONP(result.event);
+            ajax.parseJSONP(result.getevent);
         },
         error: function (request, error) {
             alert('Network error has occurred please try again!');
@@ -96,7 +96,7 @@ function getContacts() {
         async: true,
         success: function (result) {
             $.mobile.showPageLoadingMsg();
-            ajax.parseJSONP(result.contacts);
+            ajax.parseJSONP(result.getcontacts);
             $.mobile.hidePageLoadingMsg(); /*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
         },
         error: function (request,error) {
@@ -124,7 +124,7 @@ function getContactDetails(userID) {
         async: true,
         success: function (result) {
             showUserDetailPage();
-            ajax.parseJSONP(result.contact);
+            ajax.parseJSONP(result.getcontact);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -158,7 +158,7 @@ function checkLogin() {
         data: $("#formLogin").serialize(),
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result.login);
+            ajax.parseJSONP(result.dologin);
             showHomePage();
         },
         error: function (request,error) {
@@ -181,7 +181,7 @@ function getGroups() {
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result.groups);
+            ajax.parseJSONP(result.getgroups);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -206,7 +206,7 @@ function getGroupDetails(gid) {
         async: true,
         success: function (result) {
             showGroupDetailPage();
-            ajax.parseJSONP(result.group);
+            ajax.parseJSONP(result.getgroup);
         },
         error: function (request, error) {
             alert('Network error has occurred please try again!');
@@ -240,7 +240,7 @@ function getContactGroups() {
         data: {uid:currentUser.uid},
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result.contactgroups);
+            ajax.parseJSONP(result.getcontactgroups);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -284,7 +284,7 @@ function getContactGroupDetails(cgid) {
         async: true,
         success: function (result) {
             showContactGroupDetailPage();
-            ajax.parseJSONP(result.contactgroup);
+            ajax.parseJSONP(result.getcontactgroup);
 
         },
         error: function (request, error) {
