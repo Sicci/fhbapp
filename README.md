@@ -4,7 +4,6 @@ TODO:
 
 Entscheidung treffen:
 - Vordefinierte Gruppenchats (Hackathon?)
-- Login via MAC-Adresse, UUID oder Nutzername/Passwort
 - QR-Code bei Eventdetails bereits sofort darstellen oder als Popup lassen?
 - Chat (Push vs. Pull vs. PubNub) - Chaträume wie Subscribe?
 
@@ -25,21 +24,15 @@ Design:
 
 
 Javascript:
-- [ ] Startseite abhängig der Rolle (Dozent/Student) anzeigen
-- [ ] Erstellung eines QR-Codes für Anwesenheitskontrolle
+- [x] Startseite abhängig der Rolle (Dozent/Student) anzeigen
+- [x] Erstellung eines QR-Codes für Anwesenheitskontrolle
 - [ ] Auslagerung JS in externe Datei
 - [ ] Ajax-Rest-Anfragen an Server
 - [ ] QR-Code Erfassung für Position (Raum) und Anwesenheit
 - [ ] Darstellung der Event-Teilnehmer und Gruppenkontakte (Page+JS)
-- [ ] Pages mit Ajax-Calls an REST sollten über JS geladen werden und nicht über href?!
 - [ ] Back to Login preventen durch überprüfung beforepageload ob eingeloggt
 - [ ] Login mit LoginName und Password --> Redirect to error / login again
 - [ ] insert ajax loader for ajax requests
-
-
-Server:
-- [ ] REST-Schnittstellen um Informationen der Datenbank zu erhalten (Java?)
-
 
 Geringere Priorität
 ===
@@ -48,4 +41,3 @@ Geringere Priorität
 - [ ] Eigenes Theme erstellen
 - [ ] Re-Formatierung des CSS und JS Codes
 - [ ] Nur eindeutige ID's verwenden
-- [ ] Gruppenliste und Kontaktgruppenliste als Collapsible
