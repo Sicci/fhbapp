@@ -1,5 +1,7 @@
 var url = "http://fhbapp.rumbledore.de/";
 var currentUser = [];
+var currentContactList = [];
+var currentCGID = null;
 
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
@@ -297,7 +299,6 @@ function getContactGroupDetails(cgid) {
         success: function (result) {
             showContactGroupDetailPage();
             ajax.parseJSONP(result.getcontactgroup);
-
         },
         error: function (request, error) {
             alert('Network error has occurred please try again!');
@@ -318,6 +319,7 @@ function getContactGroupDetails(cgid) {
 
     var ajax = {
         parseJSONP: function (contactGroup) {
+            currentCGID = contactGroup.cgid;
             $('#btnManageContactgroupContacts').off(); //prevent multiple events of the same type
             $('#btnManageContactgroupContacts').on('click', function() {
                 manageContactgroupContacts(contactGroup);
@@ -351,20 +353,35 @@ function getContactGroupDetails(cgid) {
 }
 
 function deleteContactFromCG(cgid, uid) {
-    console.log("delete user with uid "+uid+" von kgid "+cgid);
-    /*
-        send request to delete from db and refresh page or simply remove line :D HACKAAAATON
-     */
+    console.log("delete user "+uid+" from cg "+cgid);
+    currentContactList = jQuery.grep(currentContactList, function(value) { //remove specific entry from array
+        return value != uid;
+    });
+
+    var listElement = event.target;
+
+    $.ajax({url: url + "update/contactgroup",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid, cgid:cgid, contactlist:currentContactList},
+        async: true,
+        success: function (result) {
+            $(listElement).closest("li").remove();
+            $("#manageContactgroupDetailsList").listview('refresh');
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
 }
 
 function loadContactsFromCG(contactGroup) {
     $(".deleteManageContactsForReset").remove();
+    currentContactList = [];
     if (contactGroup.users != null) {
         $.each(contactGroup.users, function (i, user) {
-            //<a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.vorname + " " + user.nachname + "</a>
             $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+user.firstname+" "+user.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
-
-
+            currentContactList.push(user.uid);
         });
     } else {
         $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset centerText'>keine Kontakte vorhanden</li>");
@@ -410,6 +427,12 @@ function showGroupDetailPage() {
     console.log("showGroupDetailPage")
     $.mobile.changePage("#page_groupDetails");
 }
+
+function showLastGroupDetailPage() {
+    console.log("showLastGroupDetailPage");
+    getContactGroupDetails(currentCGID);
+}
+
 function showContactGroupDetailPage() {
     console.log("showContactGroupDetailPage")
     $.mobile.changePage("#page_contactgroupDetails");
@@ -461,6 +484,7 @@ function createContactGroup() {
     });
 }
 
+/*load contacts for page_createContactgroup*/
 function loadContacts() {
     $.ajax({url: url+"get/contacts",
         dataType: "jsonp",

@@ -616,7 +616,8 @@
         </div><!-- /header -->
         <div data-role="content">
             <ul id="contactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
-                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnManageContactgroupContacts" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte verwalten</a></div></li>
+                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnCGDetailsBack" href="#page_groups" data-role="button" data-mini="true" data-inline="true">Zurück</a>
+                    <a id="btnManageContactgroupContacts" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte verwalten</a></div></li>
             </ul><br>
             <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
                 <h4>Kontakte</h4>
@@ -652,14 +653,10 @@
         </div><!-- /header -->
         <div data-role="content">
             <ul id="manageContactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
-                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnAddContactsToGroup" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a></div></li>
+                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnFertig" href="#" onclick="showLastGroupDetailPage()" data-role="button" data-mini="true" data-inline="true">Fertig</a>
+                    <a id="btnAddContactsToGroup" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a></div></li>
                 <li data-role="list-divider"><h3>Kontakte</h3></li>
             </ul><br>
-            <!--<div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
-                <h4>Kontakte</h4>
-                <ul id="contactgroupDetailsListContacts2" data-role="listview">
-                </ul>
-            </div>-->
 
             <!--
             TODO: Kontakte zur Gruppe hinzufügen ändern
