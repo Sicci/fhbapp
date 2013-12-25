@@ -12,7 +12,19 @@ $.mobile.loader.prototype.options.theme = "a";
 /*TODO: groups and cgs andersrum sortieren bitte*/
 
 function test() {
-    $.mobile.showPageLoadingMsg();
+    var myarray = ["a","b","c"];
+    $.ajax({url: ".",
+        dataType: "jsonp",
+        data: {test: myarray},
+        async: true,
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
 }
 
 /* ajax calls to get data from db in jsonp format */
@@ -381,6 +393,11 @@ function showHomePage() {
     }
 }
 
+function showGroupPage() {
+    console.log("showGroupPage");
+    $.mobile.changePage("#page_groups");
+}
+
 function showStudentHomePage() {
     console.log("showStudentPage");
     $.mobile.changePage("#page_home");
@@ -414,7 +431,77 @@ function insertEmailToFooter() {
     $(".footer_email").html(currentUser["email"]);
 }
 
+function createContactGroup() {
+    /*TODO: security issue - falsche eingaben abfangen?!*/
+    var cgname = $("#newGroupName").val();
+    var faculty = $("#newGroupFachbereich").val();
+    var semester = "";
+    var contactList = [];
 
+    if (!$("#sliderSemester").is(":disabled"))
+        semester = $("#sliderSemester").val();
+
+    $("input[type='checkbox']:checked").each(function()
+    {
+        contactList.push(this.id.substring(8)); //delete 'contact-' in front of checkbox-id to get user id
+    });
+
+    console.log(cgname+" "+faculty+" "+semester+" "+contactList);
+
+    $.ajax({url: url + "create/contactgroup",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid, cgname:cgname, faculty:faculty, semester:semester, contactlist:contactList},
+        async: true,
+        success: function (result) {
+            showGroupPage();
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+}
+
+function loadContacts() {
+    $.ajax({url: url+"get/contacts",
+        dataType: "jsonp",
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.getcontacts);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(contacts){
+            //$(".deleteCreateContactsForReset").remove();
+            $.each( contacts, function(i, user) {
+                $("#createCG_userlist").append("<input type='checkbox' name='contact-"+user.uid+"' id='contact-"+user.uid+"' class='deleteCreateContactsForReset'/><label for='contact-"+user.uid+"'>"+user.firstname + " " + user.lastname +"</label>");
+            });
+            $("#createCG_userlist_container").trigger('create');
+            $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
+        }
+    }
+}
+
+/*only load contacts a single time via jsonp*/
+$(document).on('pageinit', '#page_createGroup', function(e, data){
+    loadContacts();
+});
+
+/**/
+$(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
+    console.log("clear form");
+    $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
+    $("input[type='checkbox']").removeAttr('checked');
+    $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
+    if ($("#sliderSemester").val() == 'off') { //if switch is off
+        $("#sliderSemester").slider('disable');
+        $("#sliderSemester").slider('refresh');
+        $("#sliderSemester").textinput('disable');
+    }
+});
 /*load groups and contactGroups via jsonp*/
 $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     $(".deleteGroupsForReset").remove();
