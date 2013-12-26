@@ -213,6 +213,36 @@ label.error {
     margin-top:-5px;
 }
 
+.add {
+    width:25px;
+    margin-top:-10px;
+}
+
 .centerText {
     text-align: center !important;
+}
+
+/*.customListItem {
+    padding: .7em 15px;
+    border: 1px solid #ccc;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 1px;
+}*/
+
+#liSearchContactsToAdd div {
+    margin: 0 !important;
+}
+
+#liSearchContactsToAdd a {
+    margin-top: -16px !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.asideText {
+    margin-top: 0px !important;
 }

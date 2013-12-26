@@ -9,19 +9,20 @@
     <link rel="stylesheet" type="text/css" href="css/jqm-datebox.css">
     <script src="phonegap.js"></script>
     <script src="barcodescanner.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> <!-- TODO:load jquery from file -->
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script><!-- TODO:load jquery from file -->
     <!-- jQuery Datebox -->
-    <script type="text/javascript" src="js/jqm-datebox.core.js"></script>
-    <script type="text/javascript" src="js/jqm-datebox.mode.calbox.js"></script>
-    <script type="text/javascript" src="js/jqm-datebox.mode.datebox.js"></script>
-    <script type="text/javascript" src="js/jqm-datebox.mode.flipbox.js"></script>
-    <script type="text/javascript" src="js/jquery.mobile.datebox.i18n.de.utf8.js"></script>
+    <script type="text/javascript" src="js/datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="js/datebox/jqm-datebox.mode.calbox.js"></script>
+    <script type="text/javascript" src="js/datebox/jqm-datebox.mode.datebox.js"></script>
+    <script type="text/javascript" src="js/datebox/jqm-datebox.mode.flipbox.js"></script>
+    <script type="text/javascript" src="js/datebox/jquery.mobile.datebox.i18n.de.utf8.js"></script>
     <!-- jQuery Validate -->
-    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="js/additional-methods.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/jquery/additional-methods.min.js"></script>
 
-    <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/events.js"></script>
 
 
 	<!--<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
@@ -45,14 +46,27 @@
                     <div class="ui-block-b"><a onclick="checkLogin()" data-role="button" href="#" id="btn_login" >Anmelden</a></div>
                 </div><!-- /grid-a -->
             </form>
-            <a onclick="test()" href="#" data-role="button">Test something</a>
-            <!--<div class="ui-grid-a">
-                <div class="ui-block-a"><a onclick="checkLogin('student', 'student')" href="#" data-role="button">Student</a></div>
-                <div class="ui-block-b"><a onclick="checkLogin('dozent','dozent')" href="#" data-role="button">Dozent</a></div>
-            </div>-->
-
+            <a href="#page_test" data-role="button">Test something</a>
         </div><!-- /content -->
     </div><!-- /page -->
+
+    <!-- test page -->
+    <div id="page_test" data-role="page">
+        <div data-role="content">
+        <ul data-role="listview">
+            <li>blabla</li>
+             <li>
+                 <label for="search-basic">Search Input:</label>
+                 <input type="search" name="search" id="search-basic" value="" />
+                 <div>
+                     <p>A</p>
+                     <p>B</p>
+                 </div>
+             </li>
+            <li>blabla2</li>
+        </ul>
+</div>
+        </div><!-- /page -->
 
     <!-- register page -->
     <div id="page_register" data-role="page">
@@ -654,8 +668,20 @@
         <div data-role="content">
             <ul id="manageContactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
                 <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnFertig" href="#" onclick="showLastGroupDetailPage()" data-role="button" data-mini="true" data-inline="true">Fertig</a>
-                    <a id="btnAddContactsToGroup" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a></div></li>
-                <li data-role="list-divider"><h3>Kontakte</h3></li>
+                    <!--<a id="btnAddContactsToGroup" onclick="test()" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a>--></div></li>
+                <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
+                <li id="liSearchContactsToAdd"><input type="search" name="search" id="searchContactsToAdd" value="" /></li>
+               <!-- <li>A</li>
+                <li>B </li>-->
+                <!--<li data-inset="false" class="hide">
+                    <label class="ui-hidden-accessible" for="searchContactsToAdd">Search Input:</label>
+                    <input type="search" name="search" id="searchContactsToAdd" value="" />
+                    <div>
+                        <div class="customListItem">A<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='add' src='./images/add.png'></a></div></div>
+                        <div class="customListItem">B<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='add' src='./images/add.png'></a></div></div>
+                    </div>-->
+
+                <li data-role="list-divider"><h3>Kontakte entfernen</h3></li>
             </ul><br>
 
             <!--
@@ -835,7 +861,7 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <div id="page_test" data-role="page">
+    <div id="page_test2" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
             <div class="header-text">FH-Brandenburg App - Privater Chat mit [Name]</div> <!-- TODO: Übergabeparameter -->
             <div data-iconpos="top" data-role="navbar" class="nav-example">

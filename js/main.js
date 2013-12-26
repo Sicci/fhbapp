@@ -13,20 +13,79 @@ $.mobile.loader.prototype.options.theme = "a";
 /*TODO: für ajax Handler noch loader einfügen*/
 /*TODO: groups and cgs andersrum sortieren bitte*/
 
-function test() {
-    var myarray = ["a","b","c"];
-    $.ajax({url: ".",
+
+function addContactToCG(contact) {
+    if (jQuery.inArray(contact.uid, currentContactList) >= 0) {
+        console.log("already in array")
+    }
+    else {
+        currentContactList.push(contact.uid);
+        $.ajax({url: url+"update/contactgroup",
+            dataType: "jsonp",
+            data: {
+                uid:currentUser.uid,
+                cgid:currentCGID,
+                contactlist:currentContactList},
+            async: true,
+            success: function (result) {
+                if ($(".deleteManageContactsForReset").text() == "keine Kontakte vorhanden")
+                    $(".deleteManageContactsForReset").remove();
+                $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+currentCGID+", "+contact.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+                $("#manageContactgroupDetailsList").listview('refresh');
+            },
+            error: function (request,error) {
+                alert('Network error has occurred please try again!');
+            }
+        });
+    }
+    $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
+}
+
+function searchContact(str) {
+    $.ajax({url: url+"search/contact",
         dataType: "jsonp",
-        data: {test: myarray},
+        data: {request: str},
         async: true,
         success: function (result) {
-            console.log(result);
+            ajax.parseJSONP(result.searchcontact);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
         }
     });
 
+    var ajax = {
+        parseJSONP:function(contacts){
+            console.log("currentList: "+currentContactList);
+            $(".deleteSearchContactsToAdd").remove();
+            if (contacts.length > 0) {
+                $.each( contacts, function(i, contact) {
+                    if (jQuery.inArray(contact.uid, currentContactList) >= 0) {
+                        console.log("already in list "+contact.firstname + " "+ contact.uid);
+                        $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+                    }
+                    else
+                    {
+                        console.log("not in list "+ contact.firstname + " "+ contact.uid);
+                        $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside'><a id='addContact-"+i+"' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+                        $("#addContact-"+i).on('click', function() {
+                             addContactToCG(contact);
+                            });
+                    }
+                });
+            }
+            else {
+                $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd centerText'>keine Kontakte gefunden</li>");
+            }
+            $("#manageContactgroupDetailsList").listview('refresh');
+        }
+    }
+}
+
+function test() {
+    $("li.hide").removeClass("hide");
+    $("#btnAddContactsToGroup").addClass("hide");
+    $("#manageContactgroupDetailsList").listview('refresh');
 }
 
 /* ajax calls to get data from db in jsonp format */
@@ -364,15 +423,20 @@ function deleteContactFromCG(cgid, uid) {
         dataType: "jsonp",
         data: {uid:currentUser.uid, cgid:cgid, contactlist:currentContactList},
         async: true,
+        complete: function() {
+            console.log("delete contact: "+this.url);
+        },
         success: function (result) {
             $(listElement).closest("li").remove();
+            if ($(".deleteManageContactsForReset").length == 0) {
+                $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset centerText'>keine Kontakte vorhanden</li>");
+            }
             $("#manageContactgroupDetailsList").listview('refresh');
         },
         error: function (request, error) {
             alert('Network error has occurred please try again!');
         }
     });
-
 }
 
 function loadContactsFromCG(contactGroup) {
@@ -509,102 +573,6 @@ function loadContacts() {
     }
 }
 
-/*only load contacts a single time via jsonp*/
-$(document).on('pageinit', '#page_createGroup', function(e, data){
-    loadContacts();
-});
-
-/**/
-$(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
-    console.log("clear form");
-    $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
-    $("input[type='checkbox']").removeAttr('checked');
-    $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
-    if ($("#sliderSemester").val() == 'off') { //if switch is off
-        $("#sliderSemester").slider('disable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('disable');
-    }
-});
-/*load groups and contactGroups via jsonp*/
-$(document).on('pagebeforeshow', '#page_groups', function(e, data){
-    $(".deleteGroupsForReset").remove();
-    getGroups();
-    getContactGroups();
-});
-
-$(document).on('pagebeforeshow', '#page_contactgroupDetails', function(e, data){
-    /*TODO:bei changes der cg muss sie neu geladen werden*/
-    //if manage contact group contacts has changed some contacts (e.g. delete user a or add user b)
-        //load cg again (how to determine which cg has to be loaded?)
-});
-
-/*load contacts via jsonp*/
-$(document).on('pagebeforeshow', '#page_contacts', function(e, data){
-    getContacts();
-});
-/*load events via jsonp*/
-$(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
-    getEvents();
-});
-
-
-$(document).on('change', '#activateSemester', function () {
-    if ($(this).val() == 'off') { //if switch is off
-        $("#sliderSemester").slider('disable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('disable');
-    }
-    else {
-        $("#sliderSemester").slider('enable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('enable');
-    }
-});
-
-$(document).on('pageinit', function(){ // <-- you must use this to ensure the DOM is ready
-    var formNewEvent=$("#form_newEvent").validate({
-        rules: {
-            newEventName: {required:true, minlength:3},
-            newEventDate: "required",
-            newEventTime: "required",
-            newEventGroup: "required"
-        },
-        errorPlacement: function(error, element) {
-            if (element.attr("name") === "newEventGroup") {
-                error.insertAfter($(element).parent());
-            } else {
-                error.insertAfter(element);
-            }
-        }
-
-        /* TODO//check if necessary
-         submitHandler: function(form) {
-         //resetForm is a method on the validation object, not the form
-         v.resetForm();
-         form.reset();
-
-         }*/
-    });
-
-});
-
-/* TODO: whenever a msg was send to chat do:
- document.getElementById('shoutContainer').scrollTop = 10000;
- */
-
-$(document).delegate('.ui-page', 'pageshow', function () {
-    var objDiv = document.getElementById("incomingMessages");
-    objDiv.scrollTop = objDiv.scrollHeight;
-});
-
-$(document).delegate('#page_createEvent', 'pageshow', function () {
-    $('#form_newEvent').data('validator').resetForm();
-    $('#form_newEvent').each(function(){
-        this.reset();
-    });
-    $('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
-});
 
 function sortListByDate() {
     $("p").sort(function(a,b){
@@ -660,5 +628,4 @@ function openPositionPage(name) {
 }
 function openEventProfilePage(name) {
     $("#showEventName").html(name);
-
 }
