@@ -6,6 +6,7 @@ var currentCGID = null;
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
 $.mobile.loader.prototype.options.theme = "a";
+moment.lang("de");
 
 /*TODO: was machen wir mit der sessionid?*/
 /*TODO: Möglichkeit zum abmelden*/
@@ -82,12 +83,6 @@ function searchContact(str) {
     }
 }
 
-function test() {
-    $("li.hide").removeClass("hide");
-    $("#btnAddContactsToGroup").addClass("hide");
-    $("#manageContactgroupDetailsList").listview('refresh');
-}
-
 /* ajax calls to get data from db in jsonp format */
 function getEvents() {
     $.ajax({url: url+"get/events",
@@ -107,15 +102,8 @@ function getEvents() {
             $(".deleteEventsForReset").remove();
 
             $.each(events, function(i, event) {
-                //var d = new Date(event.ecreationdate);
-               // alert(event.edate);
-                var d = new Date(event.edate);
-                var hours = d.getHours();
-                var minutes = d.getMinutes();
-                var day = d.getDate();
-                var month = d.getMonth()+1;
-                var year = d.getFullYear();
-                $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>Erstellt am <span>"+day+"."+month+"."+year+"</p></li>");
+                var d = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
+                $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
             });
             $('#eventList').listview('refresh');
         }
@@ -138,22 +126,15 @@ function getEventDetails(eid) {
 
     //abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert
     function insertEventListDetails(event) {
-        //alert(event.ecreationdate);
-        var d = new Date(event.ecreationdate);
-        var hours = d.getHours();
-        var minutes = d.getMinutes();
-        var day = d.getDate();
-        var month = d.getMonth()+1;
-        var year = d.getFullYear();
-        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am</h3><p>"+day+"."+month+"</p></li>");
-        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Zeitpunkt</h3><p>"+hours+":"+minutes+"</p></li>");
+        var creationDate = new Date(event.ecreationdate*1000); //js works with millisecond while mysql works with seconds
+        var eventDate = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
+
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am</h3><p>"+moment(creationDate).format("LL")+"</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Event startet am "+moment(eventDate).calendar()+"</h3><p>"+moment(eventDate).calendar()+"</p></li>");
     }
 
     var ajax = {
         parseJSONP: function (event) {
-           /* $('#btnManageContactgroupContacts').on('click', function() {
-                manageContactgroupContacts(kgid);
-            });*/
             $(".deleteEventDetailsForReset").remove();
             $(".eventDetailName").html(event.ename);
             insertEventListDetails(event);
@@ -218,7 +199,6 @@ function getContactDetails(userID) {
 
             $(".profile_gruppen").empty();
             $.each( contact.groups, function(i, group) {
-                /*TODO:wenn gruppen leer sind füge "in keiner gruppe" <-- geht eigentlich nicht, da jeder in globalen gruppen sein sollte --> jeder in mindestens einer gloabalen Gruppe*/
                 $(".profile_gruppen").append(group+"<br>");
             });
         }
