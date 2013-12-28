@@ -15,6 +15,10 @@ moment.lang("de");
 /*TODO: groups and cgs andersrum sortieren bitte*/
 
 
+function test() {
+    console.log(moment("31.12.201316:44", "DD.MM.YYYYHH:mm").isValid());
+}
+
 function addContactToCG(contact) {
     if (jQuery.inArray(contact.uid, currentContactList) >= 0) {
         console.log("already in array")
@@ -83,6 +87,39 @@ function searchContact(str) {
     }
 }
 
+function searchContactForNavigation(str) {
+    $.ajax({url: url+"search/contact",
+        dataType: "jsonp",
+        data: {request: str},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.searchcontact);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(contacts){
+            $(".deleteNavigationContacts").remove();
+
+            if (contacts.length > 0) {
+                $.each( contacts, function(i, contact) {
+                        $("#listNavigation").append("<li class='deleteNavigationContacts'><a id='nav-contact-"+i+"'>"+contact.firstname+ " " +contact.lastname+"</a></li>");
+                        $("#nav-contact-"+i).on('click', function(){
+                            showPositionPage(contact.uid);
+                        });
+                    });
+            }
+            else {
+                $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte gefunden</li>");
+            }
+            $("#listNavigation").listview('refresh');
+        }
+    }
+}
+
 /* ajax calls to get data from db in jsonp format */
 function getEvents() {
     $.ajax({url: url+"get/events",
@@ -128,7 +165,6 @@ function getEventDetails(eid) {
     function insertEventListDetails(event) {
         var creationDate = new Date(event.ecreationdate*1000); //js works with millisecond while mysql works with seconds
         var eventDate = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
-
         $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am</h3><p>"+moment(creationDate).format("LL")+"</p></li>");
         $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Event startet am "+moment(eventDate).calendar()+"</h3><p>"+moment(eventDate).calendar()+"</p></li>");
     }
@@ -137,11 +173,95 @@ function getEventDetails(eid) {
         parseJSONP: function (event) {
             $(".deleteEventDetailsForReset").remove();
             $(".eventDetailName").html(event.ename);
+            $(".eventName").html(event.ename);
             insertEventListDetails(event);
             $("#eventDetailsList").listview('refresh');
-            /*TODO:show QR-Code and load pageAttendees*/
+
+            /*TODO:show QR-Code*/
+            $('#btnAttendees').off(); //ent multiple events of the same type
+            $('#btnAttendees').on('click', function() {
+                showEventAttendees();
+                getEventAttendees(event.eid);
+            });
         }
     }
+}
+
+function getEventAttendees(eid) {
+    $.ajax({url: url + "get/attendees",
+        dataType: "jsonp",
+        data: {eid:eid},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(eid, result.getattendees);
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP: function (eid, attendees) {
+            var cVerified = 0;
+            var cNotVerified = 0;
+            $(".deleteEventAttendeesForReset").remove();
+            $("#btnRefreshAttendees").off(); //prevent multiple events
+            $("#btnRefreshAttendees").on('click', function() {
+                getEventAttendees(eid);
+            });
+
+            $.each( attendees, function(i, attendee) {
+                if (attendee.hasverified) {
+                    $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='verified verifiziert "+attendee.firstname+" "+attendee.lastname+"Anna Mustermann'><img src='images/check.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
+                    cVerified++;
+                }
+                else {
+                    $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='not nicht "+attendee.firstname+" "+attendee.lastname+"Anna Mustermann'><img src='images/nocheck.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
+                    cNotVerified++;
+                }
+
+                if (cVerified == 0) {
+                    $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset centerText'>bisher niemand verifiziert</li>");
+                }
+
+                if (cNotVerified == 0) {
+                    $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset centerText'>alle Teilnehmer wurden bereits verifiziert</li>");
+                }
+
+            });
+
+            $("#listEventAttendees").listview('refresh')
+        }
+    }
+}
+
+function createEvent() {
+    var ename = $("#newEventName").val(); //value from input
+    var edate = "";  //timestamp (2 value from 2 input)
+    var date = $("#newEventDate").val();
+    var time = $("#newEventTime").val();
+    var mdate = moment(date+time, "DD.MM.YYYYHH:mm")
+
+    if (mdate.isValid()) {
+        edate = mdate.milliseconds;
+    }
+    else console.log("date is not valid");
+
+
+    var gid = $("#newEventGroup").val(); //value from option
+
+    $.ajax({url: url + "create/event",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid, ename:ename, edate:edate, gid:gid},
+        async: true,
+        success: function (result) {
+            console.log("new event created");
+            showEvents(); /*TODO: better --> show created event*/
+        },
+        error: function (request, error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
 }
 
 function getContacts() {
@@ -187,9 +307,9 @@ function getContactDetails(userID) {
 
     var ajax = {
         parseJSONP:function(contact){
-
+            $("#btnLocateContact").off(); //prevent multiple events
             $("#btnLocateContact").on('click', function(){
-                openPositionPage(contact.firstname); /*TODO:change to uid*/
+                showPositionPage(contact.uid); /*TODO:change to uid*/
             });
 
             $(".profile_name").html(contact.firstname + " " + contact.lastname);
@@ -359,7 +479,7 @@ function getContactGroupDetails(cgid) {
     var ajax = {
         parseJSONP: function (contactGroup) {
             currentCGID = contactGroup.cgid;
-            $('#btnManageContactgroupContacts').off(); //prevent multiple events of the same type
+            $('#btnManageContactgroupContacts').off(); //prevent ge events of the same type
             $('#btnManageContactgroupContacts').on('click', function() {
                 manageContactgroupContacts(contactGroup);
             });
@@ -454,6 +574,11 @@ function showHomePage() {
     }
 }
 
+function showEventAttendees() {
+    console.log("showEventAttendees");
+    $.mobile.changePage("#page_attendees");
+}
+
 function showGroupPage() {
     console.log("showGroupPage");
     $.mobile.changePage("#page_groups");
@@ -475,6 +600,11 @@ function showGroupDetailPage() {
 function showLastGroupDetailPage() {
     console.log("showLastGroupDetailPage");
     getContactGroupDetails(currentCGID);
+}
+
+function showEvents() {
+    console.log("showEvents");
+    $.mobile.changePage("#page_controlAttendance");
 }
 
 function showContactGroupDetailPage() {
@@ -603,8 +733,10 @@ function sendMessage(){
      */
 }
 
-function openPositionPage(name) {
-    $("#showParmHere3").html(name);
+function showPositionPage(uid) {
+    console.log("show position page of uid "+uid);
+    $.mobile.changePage("#page_position")
+    $("#showParmHere3").html(uid);
 }
 function openEventProfilePage(name) {
     $("#showEventName").html(name);

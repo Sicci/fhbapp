@@ -13,6 +13,19 @@ $(document).on( 'pageinit',function(event){
             searchContact(str);
         else $(".deleteSearchContactsToAdd").remove();
     });
+
+    $("#searchContactsForNavigation").keyup(function() {
+        var str = $("#searchContactsForNavigation").val()
+        console.log("keydown: "+ str);
+        if (str.length >= 2)
+        //$("#searchContactsToAdd").css("background-color", "yellow");
+            searchContactForNavigation(str);
+        else {
+            $(".deleteNavigationContacts").remove();
+            $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>mindestens zwei Buchstaben zum Suchen eingeben</li>");
+            $("#listNavigation").listview('refresh');
+        }
+    });
 });
 
 /**/
@@ -32,6 +45,14 @@ $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     $(".deleteGroupsForReset").remove();
     getGroups();
     getContactGroups();
+});
+
+$(document).on('pagebeforeshow', '#page_navigation', function(e, data){
+    $(".deleteNavigationContacts").remove(); //clear search results
+    $("#searchContactsForNavigation").val(""); //clear search input
+    $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte geladen</li>");
+    $(".ui-input-clear").addClass("ui-input-clear-hidden");
+    $("#listNavigation").listview('refresh');
 });
 
 $(document).on('pagebeforeshow', '#page_manageContacts', function(e, data){
@@ -111,5 +132,6 @@ $(document).delegate('#page_createEvent', 'pageshow', function () {
     $('#form_newEvent').each(function(){
         this.reset();
     });
+    /*TODO: load contactgroups for selectmenu*/
     $('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
 });

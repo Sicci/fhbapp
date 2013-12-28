@@ -49,7 +49,7 @@
                     <div class="ui-block-b"><a onclick="checkLogin()" data-role="button" href="#" id="btn_login" >Anmelden</a></div>
                 </div><!-- /grid-a -->
             </form>
-            <a href="#page_test" data-role="button">Test something</a>
+            <a href="#" onclick="test()" data-role="button">Test something</a>
         </div><!-- /content -->
     </div><!-- /page -->
 
@@ -289,26 +289,26 @@
         <div data-role="content">
             <!-- TODO: clear event form on page load -->
             <h3>Neues Event erstellen</h3>
-            <form id="form_newEvent" action="form.php" method="post">
+            <form id="form_newEvent">
                 <fieldset data-role="fieldcontain">
                     <label for="newEventName">Eventname</label>
-                    <input type="text" id="newEventName" name="newEventName" placeholder="Eventname" />
+                    <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
                 </fieldset>
                 <fieldset data-role="fieldcontain">
                     <label for="newEventDate">Datum</label>
-                    <input placeholder="Eventdatum" id="newEventDate" name="newEventDate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
+                    <input placeholder="Eventdatum" id="newEventDate" name="edate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
                 </fieldset>
                 <fieldset data-role="fieldcontain">
                     <label for="newEventTime">Zeitpunkt</label>
-                    <input placeholder="Eventzeitpunkt" id="newEventTime" name="newEventTime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
+                    <input placeholder="Eventzeitpunkt" id="newEventTime" name="etime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
                 </fieldset>
                 <fieldset data-role="fieldcontain">
                     <label for="newEventGroup" class="select ui-hidden-accessible">Gruppe auswählen:</label>
-                    <select name="newEventGroup" id="newEventGroup">
+                    <select name="gid" id="newEventGroup">
                         <option data-placeholder="true" value="">Gruppe auswählen</option>
-                        <option value="a">Mobile Informationssystem Gruppe</option>
-                        <option value="b">[Gruppe 2]</option>
-                        <option value="c">[Gruppe 3]</option>
+                        <option class="deleteEventGroupForReset" value="1">Mobile Informationssystem Gruppe</option>
+                        <option value="2">[Gruppe 2]</option>
+                        <option value="3">[Gruppe 3]</option>
                     </select>
                 </fieldset>
                 <a href="#page_createGroup" data-role="button" class="ui-disabled">Gruppe erstellen</a>
@@ -330,7 +330,7 @@
     <!-- event detail page -->
     <div id="page_eventDetails" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Event [Name]</div>
+            <div class="header-text">FH-Brandenburg App - Event <span class="eventName"></span></div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
@@ -344,7 +344,7 @@
             <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode"><p style="text-align: center">QR-Code zur Teilnehmerverifikation</p><img class="qrcode" src="images/qrcode.png" /></div>
             <ul id="eventDetailsList" data-role="listview">
                 <li id="eventInsertAfter"><h3 class="eventDetailName">Eventname</h3><p class="bold" id="showEventName"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-theme="b" data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a></p></li>
-                <li><a href="#page_attendees">Teilnehmerliste</a></li>
+                <li><a id="btnAttendees" href="#page_attendees">Teilnehmerliste</a></li>
             </ul>
 
 
@@ -358,7 +358,7 @@
 
     <div id="page_attendees" data-role="page">
         <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - [Eventname] Teilnehmer</div>
+            <div class="header-text">FH-Brandenburg App - <span class="eventName"></span> Teilnehmer</div>
             <div data-iconpos="top" data-role="navbar" class="nav-example">
                 <ul>
                     <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
@@ -371,16 +371,16 @@
         <div data-role="content">
             <div class="ui-grid-a">
                 <div class="ui-block-a"><a href="#page_eventDetails" onclick="openEventProfilePage('Mobile Informationssysteme')" data-role="button" data-icon="back">Zurück</a></div>
-                <div class="ui-block-b"><a data-role="button" data-icon="refresh">Aktualisieren</a></div>
+                <div class="ui-block-b"><a id="btnRefreshAttendees" data-role="button" data-icon="refresh">Aktualisieren</a></div>
             </div><!-- /grid-a -->
             <br>
-            <ul data-role="listview" data-filter="true" data-filter-placeholder="Teilnehmer durchsuchen..." data-theme="d" data-divider-theme="c">
-                <li data-role="list-divider">Teilnahme verifiziert</li>
+            <ul id="listEventAttendees" data-role="listview" data-filter="true" data-filter-placeholder="Teilnehmer durchsuchen..." data-theme="d" data-divider-theme="c">
+                <li id="liAttendeesVerified" data-role="list-divider">Teilnahme verifiziert</li>
                 <li data-filtertext="verified verifiziert Anna Mustermann"><img src="images/check.png" class="ui-li-icon"> Anna Mustermann</li>
                 <li><img src="images/check.png" class="ui-li-icon"> Berta</li>
                 <li><img src="images/check.png" class="ui-li-icon"> Cesar</li>
                 <li><img src="images/check.png" class="ui-li-icon"> Dennis</li>
-                <li data-role="list-divider">Teilnahme nicht verifiziert</li>
+                <li id="liAttendeesNotVerified" data-role="list-divider">Teilnahme nicht verifiziert</li>
                 <li data-filtertext="not nicht Anna Mustermann"><img src="images/nocheck.png" class="ui-li-icon"> Anna Mustermann</li>
                 <li><img src="images/nocheck1.png" class="ui-li-icon"> Anna Mustermann</li>
             </ul>
@@ -551,7 +551,7 @@
         <div data-role="content">
             <ul data-role="listview">
                 <li><h3>Name</h3><p><span class="profile_name bold"></span></p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
-                <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#page_position">Lokalisieren</a></p></li>
+                <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
                 <li><h3>E-Mail</h3><p><strong><span class="profile_email"></span></strong></p></li>
                 <li><h3>Wohnort</h3><p><strong><span class="profile_wohnort"></span></strong></p></li>
                 <li><h3>Gruppen</h3><p><strong><span class="profile_gruppen"></span></strong></p></li>
@@ -783,13 +783,14 @@
         </div><!-- /header -->
         <div data-role="content">
             <h3>Navigation</h3>
-            <ul data-role="listview" data-inset="true" data-theme="c" data-divider-theme="a" data-autodividers="false" data-filter="true" data-filter-placeholder="Kontakte durchsuchen...">
-                <li><a onclick="openPositionPage('amelina')" href="#page_position">Amelina</a></li>
+            <input id="searchContactsForNavigation" placeholder="Kontakte durchsuchen..." type="search">
+            <ul id="listNavigation" data-role="listview" data-inset="true" data-theme="c" data-autodividers="false">
+                <!--<li><a onclick="openPositionPage('amelina')" href="#page_position">Amelina</a></li>
                 <li><a onclick="openPositionPage('anke')" href="#page_position">Anke</a></li>
                 <li><a onclick="openPositionPage('boris')" href="#page_position">Boris</a></li>
                 <li><a onclick="openPositionPage('dennis')" href="#page_position">Dennis</a></li>
                 <li><a onclick="openPositionPage('martin')" href="#page_position">Martin</a></li>
-                <li><a onclick="openPositionPage('pablo')" href="#page_position">Pablo</a></li>
+                <li><a onclick="openPositionPage('pablo')" href="#page_position">Pablo</a></li>-->
             </ul><br><br>
             <!--<h3>Liste der zuletzt gesuchten Personen</h3>
             [Curtis]<br>[Josef]-->
