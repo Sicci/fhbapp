@@ -246,3 +246,7 @@ label.error {
 .asideText {
     margin-top: 0px !important;
 }
+
+.errorMsg {
+    color:red !important;
+}

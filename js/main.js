@@ -2,6 +2,7 @@ var url = "http://fhbapp.rumbledore.de/";
 var currentUser = [];
 var currentContactList = [];
 var currentCGID = null;
+var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
 
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
@@ -10,13 +11,12 @@ moment.lang("de");
 
 /*TODO: was machen wir mit der sessionid?*/
 /*TODO: Möglichkeit zum abmelden*/
-/*TODO: LoginFailurePage mit automatischem redirect oder so*/
 /*TODO: für ajax Handler noch loader einfügen*/
 /*TODO: groups and cgs andersrum sortieren bitte*/
 
 
 function test() {
-    console.log(moment("31.12.201316:44", "DD.MM.YYYYHH:mm").isValid());
+    $.mobile.changePage("#page_error");
 }
 
 function addContactToCG(contact) {
@@ -39,7 +39,7 @@ function addContactToCG(contact) {
                 $("#manageContactgroupDetailsList").listview('refresh');
             },
             error: function (request,error) {
-                alert('Network error has occurred please try again!');
+                alert('Nutzer konnte nicht erfolgreich zur Gruppe hinzugefügt werden.');
             }
         });
     }
@@ -55,7 +55,9 @@ function searchContact(str) {
             ajax.parseJSONP(result.searchcontact);
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            $(".deleteSearchContactsToAdd").remove();
+            $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd centerText errorMsg'>Suchanfrage konnte nicht übermittelt werden.</li>");
+            $("#manageContactgroupDetailsList").listview('refresh');
         }
     });
 
@@ -96,7 +98,9 @@ function searchContactForNavigation(str) {
             ajax.parseJSONP(result.searchcontact);
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            $(".deleteNavigationContacts").remove();
+            $("#listNavigation").append("<li class='deleteNavigationContacts centerText errorMsg'>Fehler: Suchanfrage konnte nicht übermittelt werden.</li>");
+            $("#listNavigation").listview('refresh');
         }
     });
 
@@ -130,7 +134,7 @@ function getEvents() {
             ajax.parseJSONP(result.getevents);
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Events konnten nicht geladen werden. Überprüfen Sie, ob Sie eine bestehende Internetverbindung besitzen.", "#page_controlAttendance");
         }
     });
 
@@ -157,7 +161,8 @@ function getEventDetails(eid) {
             ajax.parseJSONP(result.getevent);
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Die Detailinformationen zu einem Event konnte nicht geladen werden. " +
+                "Überprüfen Sie, ob Sie eine bestehende Internetverbindung besitzen.", "#page_controlAttendance");
         }
     });
 
@@ -177,7 +182,9 @@ function getEventDetails(eid) {
             insertEventListDetails(event);
             $("#eventDetailsList").listview('refresh');
 
-            /*TODO:show QR-Code*/
+            $("#eventQRCode").attr("src", qrcodeURL+event.eqrcontent);
+            $("#eventQRCode").height(400);$("#eventQRCode").width(400);
+
             $('#btnAttendees').off(); //ent multiple events of the same type
             $('#btnAttendees').on('click', function() {
                 showEventAttendees();
@@ -196,7 +203,7 @@ function getEventAttendees(eid) {
             ajax.parseJSONP(eid, result.getattendees);
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            alert('Network error has occurred please try again!'); /*TODO:failure page einfügen, evtl retry btn here überschreiben*/
         }
     });
 
@@ -256,10 +263,11 @@ function createEvent() {
         async: true,
         success: function (result) {
             console.log("new event created");
-            showEvents(); /*TODO: better --> show created event*/
+            showEvents(); /*TODO: better --> show eventDetails des eben erstellten events*/
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createEvent");
+            /*TODO:retry überschreiben --> lade bereits eingegebene daten erneut in das formular (pagebofreshow müsste umgangen werden)*/
         }
     });
 }
@@ -274,7 +282,10 @@ function getContacts() {
             $.mobile.hidePageLoadingMsg(); /*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            $("#userList").empty();
+            $("#userList").append("<li class='centerText errorMsg'>Kontakte konnten nicht geladen werden.</li>");
+            $('#userList').listview('refresh');
+            $(".ui-li-divider").html("Fehler");
         }
     });
 
@@ -301,7 +312,7 @@ function getContactDetails(userID) {
             ajax.parseJSONP(result.getcontact);
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            alert('Kontaktinformationen konnten nicht geladen werden.');
         }
     });
 
@@ -309,12 +320,12 @@ function getContactDetails(userID) {
         parseJSONP:function(contact){
             $("#btnLocateContact").off(); //prevent multiple events
             $("#btnLocateContact").on('click', function(){
-                showPositionPage(contact.uid); /*TODO:change to uid*/
+                showPositionPage(contact.uid);
             });
 
             $(".profile_name").html(contact.firstname + " " + contact.lastname);
             $(".profile_email").html(contact.email);
-            $(".profile_status").html(contact.sdescription); /*TODO:when status is null */
+            $(".profile_status").html(contact.sdescription); /*TODO:when status is null e.g. andy klay (uid 6) */
             $(".profile_wohnort").html(contact.city);
 
             $(".profile_gruppen").empty();
@@ -335,7 +346,7 @@ function checkLogin() {
             showHomePage();
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Sie konnten nicht erfolgreich angemeldet werden. Bitte versuchen Sie es später erneut.", "#page_login");
         }
     });
 
@@ -357,7 +368,7 @@ function getGroups() {
             ajax.parseJSONP(result.getgroups);
         },
         error: function (request,error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Ihre Gruppen konnten nicht erfolgreich geladen werden. Überprüfen Sie ihre Internetverbindung und versuchen es später noch einmal.", "#page_groups")
         }
     });
 
@@ -382,7 +393,7 @@ function getGroupDetails(gid) {
             ajax.parseJSONP(result.getgroup);
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            alert('Fehler bei der Übertragung. Details über ihre ausgewählte Gruppe konnten nicht geladen werden.');
         }
     });
 
@@ -460,7 +471,7 @@ function getContactGroupDetails(cgid) {
             ajax.parseJSONP(result.getcontactgroup);
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Ihre Gruppen konnten nicht erfolgreich geladen werden. Überprüfen Sie ihre Internetverbindung und versuchen es später noch einmal.", "#page_groups")
         }
     });
 
@@ -487,7 +498,6 @@ function getContactGroupDetails(cgid) {
             $(".deleteCGDetailsForReset").remove();
             $(".contactgroupDetailName").html(contactGroup.cgname);
             insertContactGroupListDetails(contactGroup);
-            /* TODO: insert creation date somewhere*/
             if (contactGroup.users != null) {
                 $.each(contactGroup.users, function (i, user) {
                     $("#contactgroupDetailsListContacts").append("<li class='deleteCGDetailsForReset'><a onclick='getContactDetails(" + user.uid + ")' href='#'><img src='./images/userProfile.gif'/>" + user.firstname + " " + user.lastname + "</a></li>");
@@ -509,6 +519,29 @@ function getContactGroupDetails(cgid) {
             $("#contactgroupDetailsListContacts").listview('refresh');
         }
     }
+}
+
+function showFailurePage(errorMessage, retryAction) {
+    $.mobile.changePage("#page_error");
+    $("#failureMessage").html(errorMessage);
+    $("#btnFailureRetry").off();
+    $("#btnFailureRetry").on('click', function() {
+        $.mobile.changePage(retryAction);
+    });
+}
+
+function updateAttendance(qrcontent) {
+    $.ajax({url: url + "update/attendance",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid, eqrcontent:qrcontent},
+        async: true,
+        success: function (result) {
+            showAttendanceVerifiedPage();
+        },
+        error: function (request, error) {
+            showFailurePage("Es gab einen Fehler beim Übertragen des QR-Codes. Ihre Eventteilnahme konnte nicht verifiziert werden.", "#page_scanPosition");
+        }
+    });
 }
 
 function deleteContactFromCG(cgid, uid) {
@@ -534,7 +567,7 @@ function deleteContactFromCG(cgid, uid) {
             $("#manageContactgroupDetailsList").listview('refresh');
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            alert('Kontakt konnte nicht erfolgreich gelöscht werden. Bitte versuchen Sie es später noch einmal.');
         }
     });
 }
@@ -561,8 +594,9 @@ function manageContactgroupContacts(contactGroup) {
 function showHomePage() {
     insertEmailToFooter();
     if (currentUser["uid"] == null) {
-        //showErrorPage_for_login()
+        //showErrorPage_for_login() TODO:error page for login?*/
         console.log("show error page for login"); //maybe redirect to login page
+        $.mobile.changePage("#page_login");
     }
     else {
         if (currentUser["istutor"] == 0) {
@@ -653,7 +687,7 @@ function createContactGroup() {
             showGroupPage();
         },
         error: function (request, error) {
-            alert('Network error has occurred please try again!');
+            showFailurePage("Ihre Gruppe konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createGroup");
         }
     });
 }
@@ -693,16 +727,17 @@ function sortListByDate() {
 }
 
 function scanCode() {
-    alert("scan qr code");
     cordova.plugins.barcodeScanner.scan(
         function (result) {
             alert("We got a barcode\n" +
                 "Result: " + result.text + "\n" +
                 "Format: " + result.format + "\n" +
                 "Cancelled: " + result.cancelled);
+            return result.text;
         },
         function (error) {
             alert("Scanning failed: " + error);
+            return null;
         }
     );
 }

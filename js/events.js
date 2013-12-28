@@ -3,7 +3,6 @@ $(document).on('pageinit', '#page_createGroup', function(e, data){
     loadContacts();
 });
 
-
 $(document).on( 'pageinit',function(event){
     $("#searchContactsToAdd").keyup(function() {
         var str = $("#searchContactsToAdd").val()
@@ -40,6 +39,15 @@ $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
         $("#sliderSemester").textinput('disable');
     }
 });
+
+$(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
+    console.log("start qr scanner");
+    var scanResult = scanCode();
+    if (scanResult != null)
+        updateAttendance(scanResult);
+    else console.log("Fehler beim Einscannen");
+});
+
 /*load groups and contactGroups via jsonp*/
 $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     $(".deleteGroupsForReset").remove();

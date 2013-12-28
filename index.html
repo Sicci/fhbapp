@@ -120,12 +120,12 @@
                         <fieldset id="custom-grid" class="ui-grid-a">
                             <div class="ui-block-a">
                                 <label for="selectStatus" class="select ui-hidden-accessible">Status</label>
-                                <select name="selectStatus" id="selectStatus" data-mini="true">
+                                <select disabled name="selectStatus" id="selectStatus" data-mini="true">
                                     <option value="toFH">Auf dem Weg zur FH</option>
                                     <option value="fromFH">Verlasse die FH</option>
                                     <option value="mensa">In der Mensa</option>
                                 </select></div>
-                            <div class="ui-block-b"><a href="#" data-role="button" data-mini="false" data-inline="false"
+                            <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
                                                        data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
                         </fieldset>
                     </li>
@@ -171,12 +171,12 @@
                     <fieldset id="custom-grid" class="ui-grid-a">
                         <div class="ui-block-a">
                             <label for="selectStatus" class="select ui-hidden-accessible">Status</label>
-                            <select name="selectStatus" id="selectStatus" data-mini="true">
+                            <select disabled name="selectStatus" id="selectStatus" data-mini="true">
                                 <option value="toFH">Auf dem Weg zur FH</option>
                                 <option value="fromFH">Verlasse die FH</option>
                                 <option value="mensa">In der Mensa</option>
                             </select></div>
-                        <div class="ui-block-b"><a href="#" data-role="button" data-mini="false" data-inline="false"
+                        <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
                                                    data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
                     </fieldset>
                     </li>
@@ -206,14 +206,8 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <!-- TODO: instant aufruf vom qr scanner + bestätigungspage / fehlerpage? -->
-            <h3>Barcode/QR Code Scanner And Encoder</h3>
-
+            <h3>QR Code Scanner</h3>
             <input type="button" value="Scan Code" onclick="scanCode();"/><br/><br/>
-
-            Data : <br/>
-            <input type="text" name="data" id="data" /><br/><br/>
-            <input type="button" value="Encode Data" onclick="encodeData();"/>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -287,7 +281,6 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <!-- TODO: clear event form on page load -->
             <h3>Neues Event erstellen</h3>
             <form id="form_newEvent">
                 <fieldset data-role="fieldcontain">
@@ -341,7 +334,7 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode"><p style="text-align: center">QR-Code zur Teilnehmerverifikation</p><img class="qrcode" src="images/qrcode.png" /></div>
+            <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode"><p>QR-Code zur Teilnehmerverifikation</p><img id="eventQRCode" src="images/qrcode.png" /></div>
             <ul id="eventDetailsList" data-role="listview">
                 <li id="eventInsertAfter"><h3 class="eventDetailName">Eventname</h3><p class="bold" id="showEventName"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-theme="b" data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a></p></li>
                 <li><a id="btnAttendees" href="#page_attendees">Teilnehmerliste</a></li>
@@ -598,18 +591,6 @@
                 <ul id="groupDetailsListContacts" data-role="listview">
                 </ul>
             </div>
-            <!--
-            TODO: Kontakte zur Gruppe hinzufügen ändern
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
-                Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
-            -->
-            <!--<label for="select-choice-min2" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
-            <select data-native-menu="true" name="select-choice-min2" id="select-choice-min2" data-mini="true">
-                <option data-placeholder="true">Kontakt hinzufügen</option>
-                <option value="grp1">[Kontakt 1]</option>
-                <option value="grp2">[Kontakt 2]</option>
-                <option value="grp3">[Kontakt 3]</option>
-            </select>-->
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -641,12 +622,6 @@
                 <ul id="contactgroupDetailsListContacts" data-role="listview">
                 </ul>
             </div>
-
-            <!--
-            TODO: Kontakte zur Gruppe hinzufügen ändern
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
-                Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
-            -->
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -674,24 +649,8 @@
                     <!--<a id="btnAddContactsToGroup" onclick="test()" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a>--></div></li>
                 <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
                 <li id="liSearchContactsToAdd"><input type="search" name="search" id="searchContactsToAdd" value="" /></li>
-               <!-- <li>A</li>
-                <li>B </li>-->
-                <!--<li data-inset="false" class="hide">
-                    <label class="ui-hidden-accessible" for="searchContactsToAdd">Search Input:</label>
-                    <input type="search" name="search" id="searchContactsToAdd" value="" />
-                    <div>
-                        <div class="customListItem">A<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='add' src='./images/add.png'></a></div></div>
-                        <div class="customListItem">B<div class='ui-li-aside'><a onclick='deleteContactFromCG("+contactGroup.cgid+", "+user.uid+")' href='#'><img class='add' src='./images/add.png'></a></div></div>
-                    </div>-->
-
                 <li data-role="list-divider"><h3>Kontakte entfernen</h3></li>
             </ul><br>
-
-            <!--
-            TODO: Kontakte zur Gruppe hinzufügen ändern
-                Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
-                Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
-            -->
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -742,13 +701,7 @@
                 <div id="createCG_userlist_container">
                     <fieldset id="createCG_userlist" data-role="controlgroup">
                         <legend>Kontakte auswählen:</legend>
-                    <!-- TODO: generate automatically -->
-                   <!-- <input type="checkbox" name="contact-0" id="contact-0" class=""/>
-                    <label for="contact-0">Kontakt 0</label>
-                    <input type="checkbox" name="contact-1" id="contact-1" class=""/>
-                    <label for="contact-1">Kontakt 1</label>
-                    <input type="checkbox" name="contact-2" id="contact-2" class="custom"/>
-                    <label for="contact-2">Kontakt 2</label>-->
+                    <!-- automatically generated content-->
                     </fieldset>
                 </div>
                 <br>
@@ -865,35 +818,16 @@
         </div><!-- /footer -->
     </div><!-- /page -->
 
-    <div id="page_test2" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Privater Chat mit [Name]</div> <!-- TODO: Übergabeparameter -->
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+    <div id="page_error" data-role="page">
         <div data-role="content">
-
-                    <div data-role="collapsible" class="">
-                        <h4>Kontakte</h4>
-                        <ul data-role="listview">
-                            <li data-role="list-divider"><a href="#">List item 1</a></li>
-                            <li><a href="#">List item 2</a></li>
-                            <li><a href="#">List item 3</a></li>
-                        </ul>
-                    </div>
-
-        </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
+            <div class="centerText">
+                <h1 class="errorMsg">Fehler</h1>
+                <a onclick="showHomePage()" href="#" data-inline="true" data-role="button">Zur Startseite</a>
+                <a id="btnFailureRetry" href="#" data-inline="true" data-role="button">Erneut versuchen</a><br>
+                <img src="images/error.png" /><br>
+                <p id="failureMessage">Hier steht eine Fehlernachricht die für das Problem angepasst wird</p>
             </div>
-        </div><!-- /footer -->
+        </div><!-- /content -->
     </div><!-- /page -->
 </body>
 </html>
