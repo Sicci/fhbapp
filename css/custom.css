@@ -53,17 +53,17 @@
 }
 
 /* change navigation icon position */
-#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon, #group .ui-icon {
+#home .ui-icon, #chat .ui-icon, #contacts .ui-icon, #settings .ui-icon, #groups .ui-icon {
     margin-top: -12px !important;
 }
 
 /* change height of navigation buttons */
-.nav-example ul #home, #chat, #settings, #contact, #group {
+.nav-example ul #home, #chat, #settings, #contacts, #groups {
     height: 50px !important;
 }
 
 /* custom icons for the navigation */
-#home .ui-icon, #chat .ui-icon, #contact .ui-icon, #settings .ui-icon, #group .ui-icon  {
+#home .ui-icon, #chat .ui-icon, #contacts .ui-icon, #settings .ui-icon, #groups .ui-icon  {
     background: url(../images/icons-white.png) no-repeat;
 }
 
@@ -75,11 +75,11 @@
     background-position: -384px 0;
 }
 
-#contact .ui-icon {
+#contacts .ui-icon {
     background-position: 0px -528px;
 }
 
-#group .ui-icon {
+#groups .ui-icon {
     background-position: -48px -528px;
 }
 

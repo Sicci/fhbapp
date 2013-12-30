@@ -26,6 +26,8 @@
 
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/events.js"></script>
+    <script type="text/javascript" src="js/header.js"></script>
+    <script type="text/javascript" src="js/footer.js"></script>
 
 
 	<!--<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
@@ -66,20 +68,7 @@
 
     <!-- home page student -->
     <div id="page_home" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Student</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#" onclick="showHomePage()"
-                           data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a>
-                    </li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <div>
                 <br>
@@ -120,28 +109,13 @@
             </div>
         </div>
         <!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div>
-        <!-- /footer -->
     </div>
     <!-- /page -->
 
     <!-- home page dozent-->
     <div id="page_homeDozent" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Dozent</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a class="ui-btn-active ui-state-persist" id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
+
         <div data-role="content">
             <div>
                 <br><ul data-role="listview"  class="startPage">
@@ -168,50 +142,23 @@
                 <!--<div class="bottom"><a href="#" onclick="showHomePage()" data-role="button" data-inline="true" data-mini="true">Studentenansicht</a> </div>-->
             </div>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- scan position page -->
     <div id="page_scanPosition" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Position scannen</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <h3>QR Code Scanner</h3>
             <input type="button" value="Scan Code" onclick="scanCode();"/><br/><br/>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- scan position page -->
     <div id="page_eventList" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Eventliste</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <ul id="listEventlist" data-role="listview" data-theme="c" data-divider-theme="d">
             <!--    <li>
@@ -225,50 +172,22 @@
                 <li>Saturday</li>-->
             </ul>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- verify attendance page -->
     <div id="page_verifyAttendance" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Anwesenheitsverifikation</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+      <div data-role="content">
             <h3>Anwesenheitsverifikation</h3>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- control attendance page -->
     <div id="page_controlAttendance" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Anwesenheitskontrolle</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <!--<h3>Anwesenheitskontrolle</h3>-->
             <!--<a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>-->
             <ul id="eventList" data-role="listview" data-divider-theme="c" data-content-theme="d" data-filter="true" data-filter-placeholder="Events durchsuchen...">
@@ -276,27 +195,13 @@
 
             </ul>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- create new event page -->
     <div id="page_createEvent" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Event erstellen</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <h3>Neues Event erstellen</h3>
             <form id="form_newEvent">
                 <fieldset data-role="fieldcontain">
@@ -344,27 +249,13 @@
 
             </form>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- event detail page -->
     <div id="page_eventDetails" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Event <span class="eventName"></span></div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+    <div data-role="content">
             <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode">
                 <p>QR-Code zur Teilnehmerverifikation</p>
                 <img id="eventQRCode" src="images/qrcode.png" />
@@ -387,25 +278,11 @@
 
 
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <div id="page_attendees" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - <span class="eventName"></span> Teilnehmer</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <div class="ui-grid-a">
                 <div class="ui-block-a"><a href="#page_eventDetails" data-role="button" data-icon="back">Zurück</a></div> <!-- TODO: back btn via js -->
@@ -417,26 +294,12 @@
                 <li id="liAttendeesNotVerified" data-role="list-divider">Teilnahme nicht verifiziert</li>
             </ul>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- chat page -->
     <div id="page_chat" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Chats</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <a href="#page_chatgroup" data-icon="star" data-role="button" data-theme="e">Globaler Chat</a>
             <h4>Gruppen-Chats</h4>
@@ -446,27 +309,13 @@
                 <a href="#page_chatgroup" data-icon="star" data-role="button">Gruppen-Chat "Freunde"</a>
             </div>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- group chat page -->
     <div id="page_chatgroup" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - [Chatname/Group]</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv"> <!-- TODO: höhe muss kleiner, sonst sind nachrichten über den buttons -->
                 <div class="message"><span class="username">[name]</span>: Hallo </div>
                 <div class="message"><span class="username">[name]</span>: Hi</div>
@@ -504,27 +353,13 @@
             </div>
 
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- contacts page -->
     <div id="page_contacts" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Kontakte</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <ul id="userList" data-role="listview" data-theme="d" data-divider-theme="c" data-autodividers="true" data-filter="true" data-filter-placeholder="Kontakte durchsuchen...">
                 <!--<li><a onclick="openProfilePage('amelina')" href="#page_profile">Ahmetti, Amelina</a></li>
                 <li><a onclick="openProfilePage('anke')" href="#page_profile">Becker, Anke</a></li>
@@ -534,53 +369,25 @@
                 <li><a onclick="openProfilePage('pablo')" href="#page_profile">Pablo</a></li>-->
             </ul>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- groups page -->
     <div id="page_groups" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Gruppen</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a class="ui-btn-active ui-state-persist" id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <ul id="groupList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Gruppen durchsuchen...">
                 <li class="groupDivider" data-role="list-divider"><h3>Gruppen</h3></li>
                 <li class="privateGroupDivider" data-role="list-divider"><h3>Private Gruppen</h3><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createGroup">Neue Gruppe erstellen</a></div></li>
             </ul>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- profile page -->
     <div id="page_profile" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Profil von <span class="profile_name"></span></div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <ul data-role="listview">
                 <li><h3>Name</h3><p><span class="profile_name bold"></span></p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
                 <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
@@ -600,26 +407,12 @@
                 <option value="grp3">[Gruppe3]</option>
             </select>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- group profile details page -->
     <div id="page_groupDetails" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Gruppe <span class="groupDetailName"></span></div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
+        <!-- %header% -->
         <div data-role="content">
             <ul id="groupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
                 <li><h3 class="groupDetailName"></h3><p>Gruppenname</p><p class="ui-li-aside button" > <a id="btnToGroupChat" data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p></li>
@@ -631,27 +424,13 @@
                 </ul>
             </div>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- contactgroup profile details page -->
     <div id="page_contactgroupDetails" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Private Gruppe <span class="contactgroupDetailName"></span></div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <ul id="contactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
                 <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnCGDetailsBack" href="#page_groups" data-role="button" data-mini="true" data-inline="true">Zurück</a>
                     <a id="btnManageContactgroupContacts" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte verwalten</a></div></li>
@@ -662,27 +441,13 @@
                 </ul>
             </div>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- manage contactgroup contacts page -->
     <div id="page_manageContacts" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Private Gruppe <span class="contactgroupDetailName"></span></div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <ul id="manageContactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
                 <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnFertig" href="#" onclick="showLastGroupDetailPage()" data-role="button" data-mini="true" data-inline="true">Fertig</a>
                     <!--<a id="btnAddContactsToGroup" onclick="test()" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a>--></div></li>
@@ -691,27 +456,13 @@
                 <li data-role="list-divider"><h3>Kontakte entfernen</h3></li>
             </ul><br>
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- create group page -->
     <div id="page_createGroup" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Gruppe erstellen</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <form id="createGroup">
                 <fieldset data-role="fieldcontain">
                     <label for="newGroupName">Gruppenname:</label>
@@ -753,27 +504,13 @@
 
             </form>
         </div> <!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- navigation page -->
     <div id="page_navigation" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Navigation</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <h3>Navigation</h3>
             <input id="searchContactsForNavigation" placeholder="Kontakte durchsuchen..." type="search">
             <ul id="listNavigation" data-role="listview" data-inset="true" data-theme="c" data-autodividers="false">
@@ -787,51 +524,23 @@
             <!--<h3>Liste der zuletzt gesuchten Personen</h3>
             [Curtis]<br>[Josef]-->
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- position page -->
     <div id="page_position" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Position von [Name]</div>
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <h3>Positionsbestimmung</h3>
             <p class="bold" id="showParmHere3"></p> befindet sich im Raum [raum]
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <!-- single chat page -->
     <div id="page_chatSingle" data-role="page">
-        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
-            <div class="header-text">FH-Brandenburg App - Privater Chat mit [Name]</div> <!-- TODO: Übergabeparameter -->
-            <div data-iconpos="top" data-role="navbar" class="nav-example">
-                <ul>
-                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
-                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
-                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
-                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
-                </ul>
-            </div>
-        </div><!-- /header -->
-        <div data-role="content">
+        <!-- %header% -->
+       <div data-role="content">
             <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv">
                 <div class="message"><span class="username">[name]</span>: Hallo </div>
                 <div class="message"><span class="username">[name]</span>: Hi</div>
@@ -850,11 +559,7 @@
             <div class="bottom"><a onclick="sendMessage()" href="#" data-role="button">Absenden</a></div>-->
 
         </div><!-- /content -->
-        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
-            <div>
-                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
-            </div>
-        </div><!-- /footer -->
+        <!-- %footer% -->
     </div><!-- /page -->
 
     <div id="page_error" data-role="page">
@@ -869,4 +574,38 @@
         </div><!-- /content -->
     </div><!-- /page -->
 </body>
+<script>
+    var pageArray = [
+        {"pageID":"page_home", "activePage":"home", "pageTitle":"FH-Brandenburg App - Student"},
+        {"pageID":"page_homeDozent", "activePage":"home", "pageTitle":"Dozent"},
+        {"pageID":"page_attendees", "activePage":"", "pageTitle":"<span class\"eventName\"></span> Teilnehmer"},
+        {"pageID":"page_chat", "activePage":"chat", "pageTitle":"Chats"},
+        {"pageID":"page_chatgroup", "activePage":"", "pageTitle":"[Chatname]"},
+        {"pageID":"page_chatSingle", "activePage":"", "pageTitle":"Privater Chat mit [Name]"},
+        {"pageID":"page_contactgroupDetails", "activePage":"", "pageTitle":"Private Gruppe <span class=\"contactgroupDetailName\"></span>"},
+        {"pageID":"page_contacts", "activePage":"contacts", "pageTitle":"Kontakte"},
+        {"pageID":"page_controlAttendance", "activePage":"", "pageTitle":"Anwesenheitskontrolle"},
+        {"pageID":"page_createEvent", "activePage":"", "pageTitle":"Event erstellen"},
+        {"pageID":"page_createGroup", "activePage":"", "pageTitle":"Gruppe erstellen"},
+        {"pageID":"page_eventDetails", "activePage":"", "pageTitle":"Event <span class=\"eventName\"></span>"},
+        {"pageID":"page_eventList", "activePage":"", "pageTitle":"Eventliste"},
+        {"pageID":"page_groupDetails", "activePage":"", "pageTitle":"Gruppe <span class=\"groupDetailName\"></span>"},
+        {"pageID":"page_groups", "activePage":"groups", "pageTitle":"Gruppen"},
+        {"pageID":"page_manageContacts", "activePage":"", "pageTitle":"Private Gruppe <span class=\"contactgroupDetailName\"></span>"},
+        {"pageID":"page_navigation", "activePage":"", "pageTitle":"Navigation"},
+        {"pageID":"page_position", "activePage":"", "pageTitle":"Position von [Name]"},
+        {"pageID":"page_profile", "activePage":"", "pageTitle":"Profil von <span class=\"profile_name\"></span>"},
+        {"pageID":"page_scanPosition", "activePage":"", "pageTitle":"QR-Code einscannen"},
+        {"pageID":"page_verifyAttendance", "activePage":"", "pageTitle":"Anwesenheitsverifikation"}
+    ];
+
+    for (var pageObj in pageArray) {
+        console.log("for each page");
+        showHeader(pageArray[pageObj].pageID,pageArray[pageObj].activePage,pageArray[pageObj].pageTitle);
+        console.log("header added");
+    }
+
+    $("div[data-role='content']").append(footer_html);
+</script>
 </html>
+
