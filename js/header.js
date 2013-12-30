@@ -21,7 +21,7 @@ function showHeader(pageID, activePage, pageTitle) {
         "chat":"Chat",
         "contacts":"Kontakte",
         "groups":"Gruppen",
-        "logout":""
+        "logout":"Abmelden"
     };
 
     var header_html = '<div id="header" class="header" data-role="header" data-position="fixed" data-id="header">';
@@ -41,9 +41,4 @@ function showHeader(pageID, activePage, pageTitle) {
     header_html+='</ul></div></div><!-- /header -->';
 
     $("div[id='"+pageID+"']").append(header_html);
-    //console.log(header_html);
-    //$("#"+pageID).prepend(header_html);
-
-  //  if (activePage != "")
-   //     $("#"+activePage).addClass("ui-btn-active ui-state-persist");
 }
