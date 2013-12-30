@@ -3,6 +3,25 @@ $(document).on('pageinit', '#page_createGroup', function(e, data){
     loadContacts();
 });
 
+
+$(document).on('pageinit', function(){
+    var formNewEvent=$("#form_newEvent").validate({
+        rules: {
+            newEventName: {required:true, minlength:3},
+            newEventDate: "required",
+            newEventTime: "required",
+            newEventGroup: "required"
+        },
+        errorPlacement: function(error, element) {
+            if (element.attr("name") === "newEventGroup") {
+                error.insertAfter($(element).parent());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+});
+
 $(document).on( 'pageinit',function(event){
     $("#searchContactsToAdd").keyup(function() {
         var str = $("#searchContactsToAdd").val()
@@ -41,13 +60,17 @@ $(document).on( 'pageinit',function(event){
             }
         }
     });
+});
 
-
+/*load groups and contactGroups via jsonp*/
+$(document).on('pagebeforeshow', '#page_profile', function(e, data){
+    console.log("pagebeforeshow: page_profile");
+    $("#btnLocateContact").removeClass("ui-disabled");
 });
 
 /**/
 $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
-    console.log("clear form");
+    console.log("pagebeforeshow: page_createGroup");
     $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
     $("input[type='checkbox']").removeAttr('checked');
     $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
@@ -59,8 +82,9 @@ $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
 });
 
 $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
-    console.log("start qr scanner");
+    console.log("pagebeforeshow: page_scanPosition");
     try {
+        console.log("start qr scanner");
         var scanResult = scanCode();
         if (scanResult != null)
             updateAttendance(scanResult);
@@ -70,19 +94,21 @@ $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
         }
     }
     catch (error) {
-        showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#");
+            showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#page_scanPosition");
     }
 
 });
 
 /*load groups and contactGroups via jsonp*/
 $(document).on('pagebeforeshow', '#page_groups', function(e, data){
+    console.log("pagebeforeshow: page_groups");
     $(".deleteGroupsForReset").remove();
     getGroups();
     getContactGroups();
 });
 
 $(document).on('pagebeforeshow', '#page_navigation', function(e, data){
+    console.log("pagebeforeshow: page_navigation");
     $(".deleteNavigationContacts").remove(); //clear search results
     $("#searchContactsForNavigation").val(""); //clear search input
     $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte geladen</li>");
@@ -91,6 +117,7 @@ $(document).on('pagebeforeshow', '#page_navigation', function(e, data){
 });
 
 $(document).on('pagebeforeshow', '#page_manageContacts', function(e, data){
+    console.log("pagebeforeshow: page_manageContacts");
     $(".deleteSearchContactsToAdd").remove(); //clear search results
     $("#searchContactsToAdd").val(""); //clear search input
     $(".ui-input-clear").addClass("ui-input-clear-hidden");
@@ -98,26 +125,26 @@ $(document).on('pagebeforeshow', '#page_manageContacts', function(e, data){
 
 
 $(document).on('pagebeforeshow', '#page_contactgroupDetails', function(e, data){
+    console.log("pagebeforeshow: page_contactgroupDetails");
     /*TODO:bei changes der cg muss sie neu geladen werden*/
     //if manage contact group contacts has changed some contacts (e.g. delete user a or add user b)
     //load cg again (how to determine which cg has to be loaded?)
 });
 
-$(document).on('pagebeforeshow', '#page_contacts', function(e, data){
-    getEventlist();
-});
-
 /*load contacts via jsonp*/
 $(document).on('pagebeforeshow', '#page_contacts', function(e, data){
+    console.log("pagebeforeshow: page_contacts");
     getContacts();
 });
 /*load events via jsonp*/
 $(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
+    console.log("pagebeforeshow: page_controlAttendance");
     getEvents();
 });
 
 /*load events via jsonp*/
 $(document).on('pagebeforeshow', '#page_eventList', function(e, data){
+    console.log("pagebeforeshow: page_eventList");
     getEventlist();
 });
 
@@ -135,32 +162,6 @@ $(document).on('change', '#activateSemester', function () {
     }
 });
 
-$(document).on('pageinit', function(){ // <-- you must use this to ensure the DOM is ready
-    var formNewEvent=$("#form_newEvent").validate({
-        rules: {
-            newEventName: {required:true, minlength:3},
-            newEventDate: "required",
-            newEventTime: "required",
-            newEventGroup: "required"
-        },
-        errorPlacement: function(error, element) {
-            if (element.attr("name") === "newEventGroup") {
-                error.insertAfter($(element).parent());
-            } else {
-                error.insertAfter(element);
-            }
-        }
-
-        /* TODO//check if necessary
-         submitHandler: function(form) {
-         //resetForm is a method on the validation object, not the form
-         v.resetForm();
-         form.reset();
-
-         }*/
-    });
-
-});
 
 /* TODO: whenever a msg was send to chat do:
  document.getElementById('shoutContainer').scrollTop = 10000;
@@ -184,7 +185,3 @@ $(document).delegate('#page_createEvent', 'pageshow', function () {
     /*TODO: load contactgroups for selectmenu*/
     //$('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
 });
-
-document.addEventListener("menubutton", function () {
-    alert('Menu button');
-}, false);
