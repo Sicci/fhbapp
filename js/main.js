@@ -1,4 +1,5 @@
 var url = "http://fhbapp.rumbledore.de/";
+var currentSession = "";
 var currentUser = [];
 var currentContactList = [];
 var currentEventContactList = [];
@@ -11,9 +12,8 @@ $.mobile.loader.prototype.options.theme = "a";
 moment.lang("de");
 
 /*TODO: was machen wir mit der sessionid?*/
-/*TODO: Möglichkeit zum abmelden*/
 /*TODO: für ajax Handler noch loader einfügen*/
-/*TODO: groups and cgs andersrum sortieren bitte*/
+/*TODO: groups, cgs and events andersrum sortieren bitte*/
 
 function myCreateEvent() {
     console.log("create event");
@@ -43,27 +43,24 @@ function myCreateEvent() {
          return;
      }
 
-     //var gid = $("#newEventGroup").val(); //value from option /*TODO: ersetze gid durch currentEventContactList*/
-
     if (ename.length <= 0) {
         alert("Bitte geben Sie einen Namen ein.")
         return;
     }
-
-
 
      $.ajax({url: url + "create/event",
      dataType: "jsonp",
      data: {uid:currentUser.uid, ename:ename, edate:edate, edescription:edescription, attendeelist: currentEventContactList},
      async: true,
      success: function (result) {
-     console.log("new event created");
-     showEvents(); /*TODO: better --> show eventDetails des eben erstellten events*/
-       },
+         /*TODO:proof if success */
+        console.log("new event created");
+        showEvents(); /*TODO: better --> show eventDetails des eben erstellten events*/
+     },
      error: function (request, error) {
-     console.log(error);
-     //showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createEvent");
-     /*TODO:retry überschreiben --> lade bereits eingegebene daten erneut in das formular (pagebofreshow müsste umgangen werden)*/
+        console.log(error);
+        showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createEvent");
+        /*TODO:retry überschreiben --> lade bereits eingegebene daten erneut in das formular (pagebofreshow müsste umgangen werden)*/
      }
      });
 }
@@ -86,6 +83,7 @@ function addContactToCG(contact) {
                 contactlist:currentContactList},
             async: true,
             success: function (result) {
+                /*TODO:proof if success */
                 if ($(".deleteManageContactsForReset").text() == "keine Kontakte vorhanden")
                     $(".deleteManageContactsForReset").remove();
                 $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a onclick='deleteContactFromCG("+currentCGID+", "+contact.uid+")' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
@@ -215,7 +213,7 @@ function searchContactForCreateEvents(str) {
                             else {
                                 if ($(".deleteEventContacts").text() == "noch keine Kontakte hinzugefügt")
                                     $(".deleteEventContacts").remove();
-                                    $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a id='deleteEventContact-"+i+"' href='#'><img class='delete' src='./images/delete.png'></a></div></li>"); /*TODO:add delete function*/
+                                    $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a id='deleteEventContact-"+i+"' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
 
                                 $("#deleteEventContact-"+i).on('click', function() {
                                     console.log("delete contact");
@@ -269,13 +267,27 @@ function getEvents() {
 
     var ajax = {
         parseJSONP:function(events){
-            /*TODO if length of events == 0 add entry for "keine Events vorhanden"*/
             $(".deleteEventsForReset").remove();
-
+            var finishedEvents = 0;
+            var remainingEvents = 0;
             $.each(events, function(i, event) {
                 var d = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
-                $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
+
+                if (d < new Date()) { //wenn das event abgelaufen ist
+                    $("#liFinishedEvents").after("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
+                    finishedEvents++;
+                }
+                else {
+                    $("#liFinishedEvents").before("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
+                    remainingEvents++;
+                }
             });
+            if (finishedEvents == 0) {//falls keine Events abgelaufen sind
+                $("#liFinishedEvents").after("<li class='deleteEventsForReset bold centerText'>keine Events abgelaufen</li>");
+            }
+            if (remainingEvents == 0) { //falls keine Events noch ausstehen
+                $("#liFinishedEvents").before("<li class='deleteEventsForReset bold centerText'>keine Events mehr ausstehend</li>");
+            }
             $('#eventList').listview('refresh');
         }
     }
@@ -297,24 +309,28 @@ function getEventlist() {
 
     var ajax = {
         parseJSONP:function(events){
-            /*TODO if length of events == 0 add entry for "keine Events vorhanden"*/
-            //$(".deleteEventsForReset").remove();
+            $(".deleteListEventsForReset").remove();
 
             var lastDivider = "";
+            if (events.length > 0) {
+                $.each(events, function(i, event) {
+                    var newDivider = moment(event.edate*1000).format("dddd, DD.MMMM YYYY");
+                    if (lastDivider != newDivider) {
+                        $("#listEventlist").append("<li class='deleteListEventsForReset' data-role='list-divider'>"+newDivider+"</li>");
+                        lastDivider = newDivider;
+                    }
+                    else {
+                        //do nothing
+                    }
 
-            $.each(events, function(i, event) {
-                var newDivider = moment(event.edate*1000).format("dddd, DD.MMMM YYYY");
-                if (lastDivider != newDivider) {
-                    $("#listEventlist").append("<li class='deleteListEventsForReset' data-role='list-divider'>"+newDivider+"</li>");
-                    lastDivider = newDivider;
-                }
-                else {
-                    //do nothing
-                }
+                    $("#listEventlist").append("<li class='deleteListEventsForReset'><h3>"+event.ename+"</h3><p class='bold'>"+event.edescription+"</p><p>Erstellt von "+ event.ecreator+"</p><p class='ui-li-aside'><span class='bold'>"+moment(event.edate*1000).format("HH:mm")+"</span> Uhr</p></li>");
 
-                $("#listEventlist").append("<li class='deleteListEventsForReset'><h3>"+event.ename+"</h3><p class='bold'>"+event.edescription+"</p><p>Erstellt von "+ event.ecreator+"</p><p class='ui-li-aside'><span class='bold'>"+moment(event.edate*1000).format("HH:mm")+"</span> Uhr</p></li>");
-
-            });
+                });
+            }
+            else {
+                $("#listEventlist").append("<li data-role='list-divider' class='deleteListEventsForReset'><h3>Eventliste</h3></li>");
+                $("#listEventlist").append("<li class='deleteListEventsForReset centerText bold'>keine anstehenden Events vorhanden</li>");
+            }
             $('#listEventlist').listview('refresh');
         }
     }
@@ -417,9 +433,9 @@ function getContacts() {
         dataType: "jsonp",
         async: true,
         success: function (result) {
-            $.mobile.showPageLoadingMsg();
+            //$.mobile.showPageLoadingMsg();
             ajax.parseJSONP(result.getcontacts);
-            $.mobile.hidePageLoadingMsg(); /*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
+            //$.mobile.hidePageLoadingMsg(); /*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
         },
         error: function (request,error) {
             $("#userList").empty();
@@ -442,7 +458,6 @@ function getContacts() {
 }
 
 function getContactDetails(userID) {
-    console.log(url+"get/contact?uid="+userID);
     $.ajax({url: url + "get/contact",
         dataType: "jsonp",
         data: {uid: userID},
@@ -465,7 +480,14 @@ function getContactDetails(userID) {
 
             $(".profile_name").html(contact.firstname + " " + contact.lastname);
             $(".profile_email").html(contact.email);
-            $(".profile_status").html(contact.sdescription); /*TODO:when status is null e.g. andy klay (uid 6) */
+            if (contact.sdescription != null) {
+                $(".profile_status").html(contact.sdescription);
+            }
+            else {
+                console.log("add disable");
+                $("#btnLocateContact").addClass("ui-disabled");
+                $(".profile_status").html("aktueller Status unbekannt");
+            }
             $(".profile_wohnort").html(contact.city);
 
             $(".profile_gruppen").empty();
@@ -474,6 +496,14 @@ function getContactDetails(userID) {
             });
         }
     }
+}
+
+function logout() {
+    //ajax request with uid do/logout
+    currentUser = [];
+    currentSession = "";
+    showLoginPage();
+
 }
 
 function checkLogin() {
@@ -676,6 +706,7 @@ function updateAttendance(qrcontent) {
         data: {uid:currentUser.uid, eqrcontent:qrcontent},
         async: true,
         success: function (result) {
+            /*TODO:proof if success */
             showAttendanceVerifiedPage();
         },
         error: function (request, error) {
@@ -785,6 +816,11 @@ function showContactGroupDetailPage() {
     console.log("showContactGroupDetailPage");
     $.mobile.changePage("#page_contactgroupDetails");
 }
+
+function showLoginPage() {
+    console.log("logout");
+    $.mobile.changePage("#page_login");
+}
 function showUserDetailPage() {
     console.log("showUserDetailPage");
     $.mobile.changePage("#page_profile");
@@ -797,14 +833,24 @@ function showManageContactsPage() {
     console.log("showManageContactsPage");
     $.mobile.changePage("#page_manageContacts");
 }
+function showContacts() {
+    console.log("showContacts");
+    $.mobile.changePage("#page_contacts");
+    getContacts();
+}
 
 function insertEmailToFooter() {
     $(".footer_email").html(currentUser["email"]);
 }
 
 function createContactGroup() {
-    /*TODO: security issue - falsche eingaben abfangen?!*/
     var cgname = $("#newGroupName").val();
+    if (cgname.length < 3){
+        alert("Bitte einen Namen mit mindestens 3 Zeichen verwenden.");
+        /*TODO: remove active state from Erstellen btn, bei create Event wird der btn gar nicht active (evtl. input vs a tag?)*/
+        return;
+    }
+
     var faculty = $("#newGroupFachbereich").val();
     var semester = "";
     var contactList = [];
@@ -824,6 +870,7 @@ function createContactGroup() {
         data: {uid:currentUser.uid, cgname:cgname, faculty:faculty, semester:semester, contactlist:contactList},
         async: true,
         success: function (result) {
+            /*TODO:proof if success */
             showGroupPage();
         },
         error: function (request, error) {
