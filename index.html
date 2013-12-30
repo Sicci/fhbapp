@@ -53,24 +53,6 @@
         </div><!-- /content -->
     </div><!-- /page -->
 
-    <!-- test page -->
-    <div id="page_test" data-role="page">
-        <div data-role="content">
-        <ul data-role="listview">
-            <li>blabla</li>
-             <li>
-                 <label for="search-basic">Search Input:</label>
-                 <input type="search" name="search" id="search-basic" value="" />
-                 <div>
-                     <p>A</p>
-                     <p>B</p>
-                 </div>
-             </li>
-            <li>blabla2</li>
-        </ul>
-</div>
-        </div><!-- /page -->
-
     <!-- register page -->
     <div id="page_register" data-role="page">
         <div data-role="content">
@@ -102,20 +84,19 @@
             <div>
                 <br>
                 <ul data-role="listview" class="startPage">
-                    <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png">
-
-                        <h3>Position scannen</h3>
-
-                        <p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
-                    <li><a href="#page_verifyAttendance"><img class="ui-li-icon" src="images/check.png">
-
-                        <h3>Anwesenheitsverifikation</h3>
-
-                        <p>Verifizieren Sie Ihre Anwesenheit</p></a></li>
-                    <li><img class="ui-li-icon" src="images/status3.png"/>
-
-                        <h3>Status einstellen</h3>
-
+                    <li>
+                        <a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3>
+                        <p>Verifizieren Sie Ihren aktuellen Standort</p></a>
+                    </li>
+                    <li><a href="#page_eventList">
+                        <img class="ui-li-icon" src="images/check.png"><h3>Eventliste</h3>
+                        <p>Liste aller teilzunehmenden Events</p></a></li>
+                    <li><a href="#page_verifyAttendance">
+                        <img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3>
+                        <p>Verifizieren Sie Ihre Anwesenheit</p></a>
+                    </li>
+                    <!--<li>
+                        <img class="ui-li-icon" src="images/status3.png"/><h3>Status einstellen</h3>
                         <p>Ändern Sie Ihren aktuellen Status</p>
                         <fieldset id="custom-grid" class="ui-grid-a">
                             <div class="ui-block-a">
@@ -128,12 +109,11 @@
                             <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
                                                        data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
                         </fieldset>
-                    </li>
+                    </li>-->
                     <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png">
-
                         <h3>Navigation</h3>
-
-                        <p>Suchen und finden Sie Personen</p></a></li>
+                        <p>Suchen und Finden Sie Personen</p></a>
+                    </li>
                 </ul>
                 <br>
                 <!--<div class="bottom"><a href="#page_homeDozent" data-role="button" data-inline="true" data-mini="true">Dozentenansicht</a> </div>-->
@@ -165,9 +145,12 @@
         <div data-role="content">
             <div>
                 <br><ul data-role="listview"  class="startPage">
-                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/location.png"><h3>Position scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="#page_eventList">
+                    <img class="ui-li-icon" src="images/list2.png"><h3>Eventliste</h3>
+                    <p>Liste aller teilzunehmenden Events</p></a></li>
                 <li><a href="#page_controlAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
-                <li><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
+              <!--  <li><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
                     <fieldset id="custom-grid" class="ui-grid-a">
                         <div class="ui-block-a">
                             <label for="selectStatus" class="select ui-hidden-accessible">Status</label>
@@ -179,8 +162,8 @@
                         <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
                                                    data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
                     </fieldset>
-                    </li>
-                <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und finden Sie Personen</p></a></li>
+                    </li>-->
+                <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und Finden Sie Personen</p></a></li>
                 </ul><br>
                 <!--<div class="bottom"><a href="#" onclick="showHomePage()" data-role="button" data-inline="true" data-mini="true">Studentenansicht</a> </div>-->
             </div>
@@ -208,6 +191,39 @@
         <div data-role="content">
             <h3>QR Code Scanner</h3>
             <input type="button" value="Scan Code" onclick="scanCode();"/><br/><br/>
+        </div><!-- /content -->
+        <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
+            <div>
+                <p>Ihr Gerät ist mit dem Account <span class="footer_email"></span> verbunden.</p>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <!-- scan position page -->
+    <div id="page_eventList" data-role="page">
+        <div id="header" class="header" data-role="header" data-position="fixed" data-id="header">
+            <div class="header-text">FH-Brandenburg App - Eventliste</div>
+            <div data-iconpos="top" data-role="navbar" class="nav-example">
+                <ul>
+                    <li><a id="home" data-icon="custom" href="#" onclick="showHomePage()" data-transition="none">Home</a></li>
+                    <li><a id="chat" data-icon="custom" href="#page_chat" data-transition="none">Chat</a></li>
+                    <li><a id="contact" data-icon="custom" href="#page_contacts" data-transition="none">Kontakte</a></li>
+                    <li><a id="group" data-icon="custom" href="#page_groups" data-transition="none">Gruppen</a></li>
+                </ul>
+            </div>
+        </div><!-- /header -->
+        <div data-role="content">
+            <ul id="listEventlist" data-role="listview" data-theme="c" data-divider-theme="d">
+            <!--    <li>
+                    Friday
+                    <h3> Eventname</h3>
+                    <p class="bold">Eventbeschreibung</p>
+                    <p>Eventersteller</p>
+                    <p class="ui-li-aside">Uhrzeit</p>
+                </li>
+                <li>Friday</li>
+                <li>Saturday</li>-->
+            </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">
             <div>
@@ -288,27 +304,42 @@
                     <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
                 </fieldset>
                 <fieldset data-role="fieldcontain">
+                    <label for="newEventDescription">Eventbeschreibung</label>
+                    <input type="text" id="newEventDescription" name="edescription" placeholder="Eventbeschreibung" />
+                </fieldset>
+                <fieldset data-role="fieldcontain">
                     <label for="newEventDate">Datum</label>
                     <input placeholder="Eventdatum" id="newEventDate" name="edate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
                 </fieldset>
                 <fieldset data-role="fieldcontain">
-                    <label for="newEventTime">Zeitpunkt</label>
+                    <label for="newEventTime">Uhrzeit</label>
                     <input placeholder="Eventzeitpunkt" id="newEventTime" name="etime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
                 </fieldset>
+                <!-- TODO: add group to create event
                 <fieldset data-role="fieldcontain">
                     <label for="newEventGroup" class="select ui-hidden-accessible">Gruppe auswählen:</label>
-                    <select name="gid" id="newEventGroup">
+                    <select disabled name="gid" id="newEventGroup">
                         <option data-placeholder="true" value="">Gruppe auswählen</option>
                         <option class="deleteEventGroupForReset" value="1">Mobile Informationssystem Gruppe</option>
                         <option value="2">[Gruppe 2]</option>
                         <option value="3">[Gruppe 3]</option>
                     </select>
-                </fieldset>
-                <a href="#page_createGroup" data-role="button" class="ui-disabled">Gruppe erstellen</a>
+                </fieldset> -->
                 <br>
+                <ul id="listEventContacts" data-role="listview" data-theme="d" data-divider-theme="c">
+                    <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
+                    <li id="liSearchContactsToCreateEvent"><input type="search" name="search" id="searchContactsToCreateEvent" placeholder="Kontakte durchsuchen" /></li>
+                    <li id="liAddedContactstoCreateEvent" data-role="list-divider"><h3>Hinzugefügte Kontakte</h3></li>
+
+                </ul>
+                <br><br>
                 <div class="ui-grid-a">
-                    <div class="ui-block-a"><a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a> </div>
-                    <div class="ui-block-b"><input type="submit" value="Erstellen" /></div>
+                    <div class="ui-block-a">
+                        <a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#" id="btnCreateEvent" onclick="myCreateEvent();" data-role="button">Erstellen </a>
+                    </div>
                 </div><!-- /grid-a -->
 
             </form>
@@ -334,10 +365,24 @@
             </div>
         </div><!-- /header -->
         <div data-role="content">
-            <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode"><p>QR-Code zur Teilnehmerverifikation</p><img id="eventQRCode" src="images/qrcode.png" /></div>
+            <div data-role="popup" data-theme="a" data-position-to="window" data-overlay-theme="e" id="popup_eventQrcode">
+                <p>QR-Code zur Teilnehmerverifikation</p>
+                <img id="eventQRCode" src="images/qrcode.png" />
+            </div>
             <ul id="eventDetailsList" data-role="listview">
-                <li id="eventInsertAfter"><h3 class="eventDetailName">Eventname</h3><p class="bold" id="showEventName"></p><p class="ui-li-aside button" > <a data-inline="true" data-mini="true" data-theme="b" data-role="button" href="#popup_eventQrcode" data-rel="popup">QR-Code</a></p></li>
-                <li><a id="btnAttendees" href="#page_attendees">Teilnehmerliste</a></li>
+                <li >
+                    <h3 class="eventDetailName">Eventname</h3>
+                    <p>Eventname</p>
+                    <p class="ui-li-aside button">
+                        <a data-inline="true" data-mini="true" data-role="button" href="#page_controlAttendance" >Zurück</a><!-- TODO: besser als <li> link, stattdessen hier: backBTN-->
+                    </p>
+                </li>
+                <li id="eventInsertAfter">
+                    <h3 class="eventDetailDescription" ></h3>
+                    <p >Eventbeschreibung</p>
+                </li>
+                <li><a href="#popup_eventQrcode" data-rel="popup" id="btnQRCode"><img class="ui-li-icon listIcon" src="images/qrcode_small.png" />QR-Code anzeigen</a></li>
+                <li><a id="btnAttendees" href="#page_attendees"><img class="ui-li-icon listIcon" src="images/list.png" />Teilnehmerliste</a></li>
             </ul>
 
 
@@ -363,19 +408,13 @@
         </div><!-- /header -->
         <div data-role="content">
             <div class="ui-grid-a">
-                <div class="ui-block-a"><a href="#page_eventDetails" onclick="openEventProfilePage('Mobile Informationssysteme')" data-role="button" data-icon="back">Zurück</a></div>
+                <div class="ui-block-a"><a href="#page_eventDetails" data-role="button" data-icon="back">Zurück</a></div> <!-- TODO: back btn via js -->
                 <div class="ui-block-b"><a id="btnRefreshAttendees" data-role="button" data-icon="refresh">Aktualisieren</a></div>
             </div><!-- /grid-a -->
             <br>
             <ul id="listEventAttendees" data-role="listview" data-filter="true" data-filter-placeholder="Teilnehmer durchsuchen..." data-theme="d" data-divider-theme="c">
                 <li id="liAttendeesVerified" data-role="list-divider">Teilnahme verifiziert</li>
-                <li data-filtertext="verified verifiziert Anna Mustermann"><img src="images/check.png" class="ui-li-icon"> Anna Mustermann</li>
-                <li><img src="images/check.png" class="ui-li-icon"> Berta</li>
-                <li><img src="images/check.png" class="ui-li-icon"> Cesar</li>
-                <li><img src="images/check.png" class="ui-li-icon"> Dennis</li>
                 <li id="liAttendeesNotVerified" data-role="list-divider">Teilnahme nicht verifiziert</li>
-                <li data-filtertext="not nicht Anna Mustermann"><img src="images/nocheck.png" class="ui-li-icon"> Anna Mustermann</li>
-                <li><img src="images/nocheck1.png" class="ui-li-icon"> Anna Mustermann</li>
             </ul>
         </div><!-- /content -->
         <div class="footer" data-role="footer" data-id="footer" data-position="fixed">

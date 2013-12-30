@@ -1,6 +1,7 @@
 var url = "http://fhbapp.rumbledore.de/";
 var currentUser = [];
 var currentContactList = [];
+var currentEventContactList = [];
 var currentCGID = null;
 var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
 
@@ -14,14 +15,66 @@ moment.lang("de");
 /*TODO: für ajax Handler noch loader einfügen*/
 /*TODO: groups and cgs andersrum sortieren bitte*/
 
+function myCreateEvent() {
+    console.log("create event");
+    var ename = $("#newEventName").val(); //value from input
+    var edescription = $("#newEventDescription").val();
+    var date = $("#newEventDate").val();
+
+    if (date.length <= 0) {
+        alert("Bitte geben Sie ein Datum ein.");
+        return;
+    }
+
+    var time = $("#newEventTime").val();
+
+    if (time.length <= 0) {
+        alert("Bitte geben Sie ein Datum ein.");
+        return;
+    }
+
+    var mdate = moment(date+time, "DD.MM.YYYY HH:mm");
+    var edate = "";  //timestamp (2 value from 2 input)
+     if (mdate.isValid()) {
+        edate = mdate.unix();
+     }
+    else {
+         alert("Bitte geben Sie korrekte Daten für Termin und Uhrzeit ein.");
+         return;
+     }
+
+     //var gid = $("#newEventGroup").val(); //value from option /*TODO: ersetze gid durch currentEventContactList*/
+
+    if (ename.length <= 0) {
+        alert("Bitte geben Sie einen Namen ein.")
+        return;
+    }
+
+
+
+     $.ajax({url: url + "create/event",
+     dataType: "jsonp",
+     data: {uid:currentUser.uid, ename:ename, edate:edate, edescription:edescription, attendeelist: currentEventContactList},
+     async: true,
+     success: function (result) {
+     console.log("new event created");
+     showEvents(); /*TODO: better --> show eventDetails des eben erstellten events*/
+       },
+     error: function (request, error) {
+     console.log(error);
+     //showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createEvent");
+     /*TODO:retry überschreiben --> lade bereits eingegebene daten erneut in das formular (pagebofreshow müsste umgangen werden)*/
+     }
+     });
+}
 
 function test() {
-    $.mobile.changePage("#page_error");
+    console.log(moment());
 }
 
 function addContactToCG(contact) {
     if (jQuery.inArray(contact.uid, currentContactList) >= 0) {
-        console.log("already in array")
+        console.log("already in array");
     }
     else {
         currentContactList.push(contact.uid);
@@ -124,6 +177,82 @@ function searchContactForNavigation(str) {
     }
 }
 
+function searchContactForCreateEvents(str) {
+    $.ajax({url: url+"search/contact",
+        dataType: "jsonp",
+        data: {request: str},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.searchcontact);
+        },
+        error: function (request,error) {
+            /*TODO failure*/
+            //$(".deleteSearchEventContacts").remove();
+            //$("#listNavigation").append("<li class='deleteNavigationContacts centerText errorMsg'>Fehler: Suchanfrage konnte nicht übermittelt werden.</li>");
+            //$("#listNavigation").listview('refresh');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(contacts){
+            $(".deleteSearchEventContacts").remove();
+
+            if (contacts.length > 0) {
+                $.each( contacts, function(i, contact) {
+                    if (jQuery.inArray(contact.uid, currentEventContactList) >= 0) {
+                        console.log("already in list "+contact.firstname + " "+ contact.uid);
+                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+                    }
+                    else
+                    {
+                        console.log("not in list "+ contact.firstname + " "+ contact.uid);
+                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside'><a id='addEventContact-"+i+"' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+
+                        $("#addEventContact-"+i).on('click', function() {
+                            if (jQuery.inArray(contact.uid, currentEventContactList) >= 0) {
+                                console.log("already in contactlist");
+                            }
+                            else {
+                                if ($(".deleteEventContacts").text() == "noch keine Kontakte hinzugefügt")
+                                    $(".deleteEventContacts").remove();
+                                    $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a id='deleteEventContact-"+i+"' href='#'><img class='delete' src='./images/delete.png'></a></div></li>"); /*TODO:add delete function*/
+
+                                $("#deleteEventContact-"+i).on('click', function() {
+                                    console.log("delete contact");
+                                    currentEventContactList = jQuery.grep(currentEventContactList, function(value) { //remove specific entry from array
+                                        return value != contact.uid;
+                                    });
+
+                                    $(event.target).closest("li").remove();
+                                    if ($(".deleteEventContacts").length == 0) {
+                                        $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts centerText'>noch keine Kontakte hinzugefügt</li>");
+                                    }
+                                    $("#listEventContacts").listview('refresh');
+                                    if ($("#searchContactsToCreateEvent").val().length > 1)
+                                        searchContactForCreateEvents($("#searchContactsToCreateEvent").val());//starte suche erneut bzw. aktualisiere suche
+                                });
+
+                                $("#listEventContacts").listview('refresh');
+
+                                currentEventContactList.push(contact.uid);
+                            }
+                            $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
+                        });
+
+
+                    }
+                });
+            }
+            else {
+                $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts centerText'>keine Kontakte gefunden</li>");
+            }
+            $("#listEventContacts").listview('refresh');
+
+        }
+    }
+}
+
+
 /* ajax calls to get data from db in jsonp format */
 function getEvents() {
     $.ajax({url: url+"get/events",
@@ -140,6 +269,7 @@ function getEvents() {
 
     var ajax = {
         parseJSONP:function(events){
+            /*TODO if length of events == 0 add entry for "keine Events vorhanden"*/
             $(".deleteEventsForReset").remove();
 
             $.each(events, function(i, event) {
@@ -147,6 +277,45 @@ function getEvents() {
                 $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
             });
             $('#eventList').listview('refresh');
+        }
+    }
+}
+
+/* ajax calls to get data from db in jsonp format */
+function getEventlist() {
+    $.ajax({url: url+"get/eventlist",
+        dataType: "jsonp",
+        data: {uid: currentUser.uid},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.geteventlist);
+        },
+        error: function (request,error) {
+            showFailurePage("Events konnten nicht geladen werden. Überprüfen Sie, ob Sie eine bestehende Internetverbindung besitzen.", "#page_eventList");
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(events){
+            /*TODO if length of events == 0 add entry for "keine Events vorhanden"*/
+            //$(".deleteEventsForReset").remove();
+
+            var lastDivider = "";
+
+            $.each(events, function(i, event) {
+                var newDivider = moment(event.edate*1000).format("dddd, DD.MMMM YYYY");
+                if (lastDivider != newDivider) {
+                    $("#listEventlist").append("<li class='deleteListEventsForReset' data-role='list-divider'>"+newDivider+"</li>");
+                    lastDivider = newDivider;
+                }
+                else {
+                    //do nothing
+                }
+
+                $("#listEventlist").append("<li class='deleteListEventsForReset'><h3>"+event.ename+"</h3><p class='bold'>"+event.edescription+"</p><p>Erstellt von "+ event.ecreator+"</p><p class='ui-li-aside'><span class='bold'>"+moment(event.edate*1000).format("HH:mm")+"</span> Uhr</p></li>");
+
+            });
+            $('#listEventlist').listview('refresh');
         }
     }
 }
@@ -170,8 +339,8 @@ function getEventDetails(eid) {
     function insertEventListDetails(event) {
         var creationDate = new Date(event.ecreationdate*1000); //js works with millisecond while mysql works with seconds
         var eventDate = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
-        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am</h3><p>"+moment(creationDate).format("LL")+"</p></li>");
-        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Event startet am "+moment(eventDate).calendar()+"</h3><p>"+moment(eventDate).calendar()+"</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>Erstellt am "+moment(creationDate).format("LL")+"</h3><p>Erstelldatum</p></li>");
+        $("#eventInsertAfter").after("<li class='deleteEventDetailsForReset'><h3>"+moment(eventDate).calendar()+"</h3><p>Eventstart</p></li>");
     }
 
     var ajax = {
@@ -179,6 +348,7 @@ function getEventDetails(eid) {
             $(".deleteEventDetailsForReset").remove();
             $(".eventDetailName").html(event.ename);
             $(".eventName").html(event.ename);
+            $(".eventDetailDescription").html(event.edescription);
             insertEventListDetails(event);
             $("#eventDetailsList").listview('refresh');
 
@@ -219,58 +389,28 @@ function getEventAttendees(eid) {
 
             $.each( attendees, function(i, attendee) {
                 if (attendee.hasverified) {
-                    $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='verified verifiziert "+attendee.firstname+" "+attendee.lastname+"Anna Mustermann'><img src='images/check.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
+                    $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='verified verifiziert "+attendee.firstname+" "+attendee.lastname+"'><img src='images/check.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
                     cVerified++;
                 }
                 else {
-                    $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='not nicht "+attendee.firstname+" "+attendee.lastname+"Anna Mustermann'><img src='images/nocheck.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
+                    $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset' data-filtertext='not nicht "+attendee.firstname+" "+attendee.lastname+"'><img src='images/nocheck.png' class='ui-li-icon'>"+attendee.firstname+" "+attendee.lastname+"</li>");
                     cNotVerified++;
                 }
-
-                if (cVerified == 0) {
-                    $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset centerText'>bisher niemand verifiziert</li>");
-                }
-
-                if (cNotVerified == 0) {
-                    $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset centerText'>alle Teilnehmer wurden bereits verifiziert</li>");
-                }
-
             });
 
-            $("#listEventAttendees").listview('refresh')
+            if (cVerified == 0) {
+                $("#liAttendeesVerified").after("<li class='deleteEventAttendeesForReset centerText' data-filtertext='verified verifiziert'>es wurde bisher niemand verifiziert</li>");
+            }
+
+            if (cNotVerified == 0) {
+                $("#liAttendeesNotVerified").after("<li class='deleteEventAttendeesForReset centerText' data-filtertext='not nicht'>alle Teilnehmer wurden bereits verifiziert</li>");
+            }
+
+            $("#listEventAttendees").listview('refresh');
         }
     }
 }
 
-function createEvent() {
-    var ename = $("#newEventName").val(); //value from input
-    var edate = "";  //timestamp (2 value from 2 input)
-    var date = $("#newEventDate").val();
-    var time = $("#newEventTime").val();
-    var mdate = moment(date+time, "DD.MM.YYYYHH:mm")
-
-    if (mdate.isValid()) {
-        edate = mdate.milliseconds;
-    }
-    else console.log("date is not valid");
-
-
-    var gid = $("#newEventGroup").val(); //value from option
-
-    $.ajax({url: url + "create/event",
-        dataType: "jsonp",
-        data: {uid:currentUser.uid, ename:ename, edate:edate, gid:gid},
-        async: true,
-        success: function (result) {
-            console.log("new event created");
-            showEvents(); /*TODO: better --> show eventDetails des eben erstellten events*/
-        },
-        error: function (request, error) {
-            showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createEvent");
-            /*TODO:retry überschreiben --> lade bereits eingegebene daten erneut in das formular (pagebofreshow müsste umgangen werden)*/
-        }
-    });
-}
 
 function getContacts() {
     $.ajax({url: url+"get/contacts",
@@ -444,7 +584,7 @@ function getContactGroups() {
             }
             $('#groupList').listview('refresh');
         }
-    }
+    };
 
     function insertGroupListDetails(contactGroup,position) {
         var foo = "";
@@ -627,7 +767,7 @@ function showDozentHomePage() {
     $.mobile.changePage("#page_homeDozent");
 }
 function showGroupDetailPage() {
-    console.log("showGroupDetailPage")
+    console.log("showGroupDetailPage");
     $.mobile.changePage("#page_groupDetails");
 }
 
@@ -642,19 +782,19 @@ function showEvents() {
 }
 
 function showContactGroupDetailPage() {
-    console.log("showContactGroupDetailPage")
+    console.log("showContactGroupDetailPage");
     $.mobile.changePage("#page_contactgroupDetails");
 }
 function showUserDetailPage() {
-    console.log("showUserDetailPage")
+    console.log("showUserDetailPage");
     $.mobile.changePage("#page_profile");
 }
 function showEventDetailPage() {
-    console.log("showEventDetailPage")
+    console.log("showEventDetailPage");
     $.mobile.changePage("#page_eventDetails");
 }
 function showManageContactsPage() {
-    console.log("showManageContactsPage")
+    console.log("showManageContactsPage");
     $.mobile.changePage("#page_manageContacts");
 }
 
@@ -770,9 +910,9 @@ function sendMessage(){
 
 function showPositionPage(uid) {
     console.log("show position page of uid "+uid);
-    $.mobile.changePage("#page_position")
+    $.mobile.changePage("#page_position");
     $("#showParmHere3").html(uid);
 }
-function openEventProfilePage(name) {
+/*function openEventProfilePage(name) {
     $("#showEventName").html(name);
-}
+}*/

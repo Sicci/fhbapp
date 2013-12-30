@@ -250,3 +250,11 @@ label.error {
 .errorMsg {
     color:red !important;
 }
+
+.listIcon {
+    max-height: 25px !important;
+    max-width: 25px !important;
+    top: .5em !important;
+    /*left: 10px !important;
+    top: .9em !important;*/
+}
