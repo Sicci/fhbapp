@@ -60,10 +60,19 @@ $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
 
 $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
     console.log("start qr scanner");
-    var scanResult = scanCode();
-    if (scanResult != null)
-        updateAttendance(scanResult);
-    else console.log("Fehler beim Einscannen");
+    try {
+        var scanResult = scanCode();
+        if (scanResult != null)
+            updateAttendance(scanResult);
+        else {
+            alert("Fehler beim Einscannen");
+            //showHomePage();
+        }
+    }
+    catch (error) {
+        showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#");
+    }
+
 });
 
 /*load groups and contactGroups via jsonp*/
@@ -175,3 +184,7 @@ $(document).delegate('#page_createEvent', 'pageshow', function () {
     /*TODO: load contactgroups for selectmenu*/
     //$('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
 });
+
+document.addEventListener("menubutton", function () {
+    alert('Menu button');
+}, false);

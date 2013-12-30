@@ -576,7 +576,7 @@
 </body>
 <script>
     var pageArray = [
-        {"pageID":"page_home", "activePage":"home", "pageTitle":"FH-Brandenburg App - Student"},
+        {"pageID":"page_home", "activePage":"home", "pageTitle":"Student"},
         {"pageID":"page_homeDozent", "activePage":"home", "pageTitle":"Dozent"},
         {"pageID":"page_attendees", "activePage":"", "pageTitle":"<span class\"eventName\"></span> Teilnehmer"},
         {"pageID":"page_chat", "activePage":"chat", "pageTitle":"Chats"},
@@ -601,11 +601,11 @@
 
     for (var pageObj in pageArray) {
         console.log("for each page");
+        showFooter(pageArray[pageObj].pageID);
         showHeader(pageArray[pageObj].pageID,pageArray[pageObj].activePage,pageArray[pageObj].pageTitle);
         console.log("header added");
     }
 
-    $("div[data-role='content']").append(footer_html);
 </script>
 </html>
 

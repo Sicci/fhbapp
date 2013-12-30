@@ -25,7 +25,7 @@ function showHeader(pageID, activePage, pageTitle) {
     };
 
     var header_html = '<div id="header" class="header" data-role="header" data-position="fixed" data-id="header">';
-    header_html+=' <div class="header-text">'+pageTitle+'</div>';
+    header_html+=' <div class="header-text">FH-Brandenburg App - '+pageTitle+'</div>';
     header_html+='<div data-iconpos="top" data-role="navbar" class="nav-example"><ul>';
     var _insert = "";
     for (var key in myarray) {
@@ -41,7 +41,7 @@ function showHeader(pageID, activePage, pageTitle) {
     header_html+='</ul></div></div><!-- /header -->';
 
     $("div[id='"+pageID+"']").append(header_html);
-    console.log(header_html);
+    //console.log(header_html);
     //$("#"+pageID).prepend(header_html);
 
   //  if (activePage != "")
