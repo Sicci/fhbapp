@@ -190,8 +190,9 @@
        <div data-role="content">
             <!--<h3>Anwesenheitskontrolle</h3>-->
             <!--<a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>-->
-            <ul id="eventList" data-role="listview" data-divider-theme="c" data-content-theme="d" data-filter="true" data-filter-placeholder="Events durchsuchen...">
+            <ul id="eventList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Events durchsuchen...">
                 <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
+                <li data-role="list-divider" id="liFinishedEvents"><h3>Abgelaufene Events</h3></li>
 
             </ul>
         </div><!-- /content -->
@@ -265,7 +266,7 @@
                     <h3 class="eventDetailName">Eventname</h3>
                     <p>Eventname</p>
                     <p class="ui-li-aside button">
-                        <a data-inline="true" data-mini="true" data-role="button" href="#page_controlAttendance" >Zurück</a><!-- TODO: besser als <li> link, stattdessen hier: backBTN-->
+                        <a data-inline="true" data-mini="true" data-role="button" href="#page_controlAttendance" >Zurück</a>
                     </p>
                 </li>
                 <li id="eventInsertAfter">
@@ -361,12 +362,6 @@
         <!-- %header% -->
        <div data-role="content">
             <ul id="userList" data-role="listview" data-theme="d" data-divider-theme="c" data-autodividers="true" data-filter="true" data-filter-placeholder="Kontakte durchsuchen...">
-                <!--<li><a onclick="openProfilePage('amelina')" href="#page_profile">Ahmetti, Amelina</a></li>
-                <li><a onclick="openProfilePage('anke')" href="#page_profile">Becker, Anke</a></li>
-                <li><a onclick="openProfilePage('boris')" href="#page_profile">Boris</a></li>
-                <li><a onclick="openProfilePage('dennis')" href="#page_profile">Dennis</a></li>
-                <li><a onclick="openProfilePage('martin')" href="#page_profile">Martin</a></li>
-                <li><a onclick="openProfilePage('pablo')" href="#page_profile">Pablo</a></li>-->
             </ul>
         </div><!-- /content -->
         <!-- %footer% -->
@@ -388,12 +383,13 @@
     <div id="page_profile" data-role="page">
         <!-- %header% -->
        <div data-role="content">
-            <ul data-role="listview">
-                <li><h3>Name</h3><p><span class="profile_name bold"></span></p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
-                <li><h3>Status</h3><p><strong><span class="profile_status"></span></strong></p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
-                <li><h3>E-Mail</h3><p><strong><span class="profile_email"></span></strong></p></li>
-                <li><h3>Wohnort</h3><p><strong><span class="profile_wohnort"></span></strong></p></li>
-                <li><h3>Gruppen</h3><p><strong><span class="profile_gruppen"></span></strong></p></li>
+            <ul data-role="listview" data-theme="c" data-divider-theme="d" >
+                <li data-role="list-divider">Profil von <span class="profile_name"></span></li>
+                <li><h3 class="profile_name"></h3><p>Name</p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
+                <li><h3 class="profile_status"></h3><p>Status</p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
+                <li><h3 class="profile_email"></h3><p>E-Mail</p></li>
+                <li><h3 class="profile_wohnort"></h3><p>Wohnort</p></li>
+                <li><h3>Gruppen</h3><p class="bold profile_gruppen"></p></li>
             </ul><br><br>
             <!--
             TODO: Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
@@ -416,7 +412,6 @@
         <div data-role="content">
             <ul id="groupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
                 <li><h3 class="groupDetailName"></h3><p>Gruppenname</p><p class="ui-li-aside button" > <a id="btnToGroupChat" data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p></li>
-                <!--<li class="groupDetailsContactDivider" data-role="list-divider"><h3>Kontakte</h3><p class="bold groupDetailContacts"></p></li>-->
             </ul><br>
             <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
                 <h4>Kontakte</h4>
@@ -449,8 +444,7 @@
         <!-- %header% -->
        <div data-role="content">
             <ul id="manageContactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
-                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnFertig" href="#" onclick="showLastGroupDetailPage()" data-role="button" data-mini="true" data-inline="true">Fertig</a>
-                    <!--<a id="btnAddContactsToGroup" onclick="test()" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte hinzufügen</a>--></div></li>
+                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnFertig" href="#" onclick="showLastGroupDetailPage()" data-role="button" data-mini="true" data-inline="true">Fertig</a></div></li>
                 <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
                 <li id="liSearchContactsToAdd"><input type="search" name="search" id="searchContactsToAdd" value="" /></li>
                 <li data-role="list-divider"><h3>Kontakte entfernen</h3></li>
@@ -474,9 +468,6 @@
                            placeholder="Fachbereich"/>
                 </fieldset>
                 <fieldset data-role="fieldcontain">
-                    <!--<label for="newGroupSemester">Semester:</label>
-                    <input type="text" name="newGroupSemester" id="newGroupSemester" value="" placeholder="Semester"  />-->
-
                     <div class="onFormRight"><label class="ui-hidden-accessible" for="activateSemester">Semester
                         aktivieren:</label>
                         <select name="activateSemester" id="activateSemester" data-role="slider">
@@ -490,8 +481,8 @@
                 </fieldset>
                 <div id="createCG_userlist_container">
                     <fieldset id="createCG_userlist" data-role="controlgroup">
-                        <legend>Kontakte auswählen:</legend>
-                    <!-- automatically generated content-->
+                        <legend>Kontakte auswählen:</legend> <!--TODO: kontakte lieber wie bei events hinzufügen?! -->
+                        <!-- automatically generated content-->
                     </fieldset>
                 </div>
                 <br>
@@ -500,8 +491,6 @@
                                                href="#page_groups" >Abbrechen</a></div>
                     <div class="ui-block-b"><input type="button" onclick="createContactGroup()" value="Erstellen"/></div>
                 </div><!-- /grid-a -->
-
-
             </form>
         </div> <!-- /content -->
         <!-- %footer% -->
@@ -514,15 +503,8 @@
             <h3>Navigation</h3>
             <input id="searchContactsForNavigation" placeholder="Kontakte durchsuchen..." type="search">
             <ul id="listNavigation" data-role="listview" data-inset="true" data-theme="c" data-autodividers="false">
-                <!--<li><a onclick="openPositionPage('amelina')" href="#page_position">Amelina</a></li>
-                <li><a onclick="openPositionPage('anke')" href="#page_position">Anke</a></li>
-                <li><a onclick="openPositionPage('boris')" href="#page_position">Boris</a></li>
-                <li><a onclick="openPositionPage('dennis')" href="#page_position">Dennis</a></li>
-                <li><a onclick="openPositionPage('martin')" href="#page_position">Martin</a></li>
-                <li><a onclick="openPositionPage('pablo')" href="#page_position">Pablo</a></li>-->
-            </ul><br><br>
-            <!--<h3>Liste der zuletzt gesuchten Personen</h3>
-            [Curtis]<br>[Josef]-->
+            </ul>
+           <br><br>
         </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
@@ -600,10 +582,8 @@
     ];
 
     for (var pageObj in pageArray) {
-        console.log("for each page");
         showFooter(pageArray[pageObj].pageID);
         showHeader(pageArray[pageObj].pageID,pageArray[pageObj].activePage,pageArray[pageObj].pageTitle);
-        console.log("header added");
     }
 
 </script>
