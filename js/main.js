@@ -5,6 +5,7 @@ var currentContactList = [];
 var currentEventContactList = [];
 var currentCGID = null;
 var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
+var minSearchInput = 2;
 
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
@@ -18,6 +19,12 @@ moment.lang("de");
 function myCreateEvent() {
     console.log("create event");
     var ename = $("#newEventName").val(); //value from input
+
+    if (ename.length < 3) {
+        alert("Bitte geben Sie einen Eventnamen mit mindestens 3 Buchstahben ein.");
+        return;
+    }
+
     var edescription = $("#newEventDescription").val();
     var date = $("#newEventDate").val();
 
@@ -175,6 +182,36 @@ function searchContactForNavigation(str) {
     }
 }
 
+function addContactToCreateEvent(i, contact) {
+    if (jQuery.inArray(contact.uid, currentEventContactList) >= 0) {
+        console.log("already in contactlist");
+    }
+    else {
+        if ($(".deleteEventContacts").text() == "noch keine Kontakte hinzugefügt")
+            $(".deleteEventContacts").remove();
+        $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='deleteEventContact-" + i + "' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+
+        $("#deleteEventContact-" + i).on('click', function () {
+            console.log("delete contact");
+            currentEventContactList = jQuery.grep(currentEventContactList, function (value) { //remove specific entry from array
+                return value != contact.uid;
+            });
+
+            $(event.target).closest("li").remove();
+            if ($(".deleteEventContacts").length == 0) {
+                $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts centerText'>noch keine Kontakte hinzugefügt</li>");
+            }
+            $("#listEventContacts").listview('refresh');
+            if ($("#searchContactsToCreateEvent").val().length >= minSearchInput)
+                searchContactForCreateEvents($("#searchContactsToCreateEvent").val());//starte suche erneut bzw. aktualisiere suche
+        });
+
+        $("#listEventContacts").listview('refresh');
+
+        currentEventContactList.push(contact.uid);
+    }
+}
+
 function searchContactForCreateEvents(str) {
     $.ajax({url: url+"search/contact",
         dataType: "jsonp",
@@ -198,46 +235,17 @@ function searchContactForCreateEvents(str) {
             if (contacts.length > 0) {
                 $.each( contacts, function(i, contact) {
                     if (jQuery.inArray(contact.uid, currentEventContactList) >= 0) {
-                        console.log("already in list "+contact.firstname + " "+ contact.uid);
-                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+                        console.log("already in list " + contact.firstname + " " + contact.uid);
+                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
                     }
-                    else
-                    {
-                        console.log("not in list "+ contact.firstname + " "+ contact.uid);
-                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside'><a id='addEventContact-"+i+"' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+                    else {
+                        console.log("not in list " + contact.firstname + " " + contact.uid);
+                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='addEventContact-" + i + "' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
 
-                        $("#addEventContact-"+i).on('click', function() {
-                            if (jQuery.inArray(contact.uid, currentEventContactList) >= 0) {
-                                console.log("already in contactlist");
-                            }
-                            else {
-                                if ($(".deleteEventContacts").text() == "noch keine Kontakte hinzugefügt")
-                                    $(".deleteEventContacts").remove();
-                                    $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts'>"+contact.firstname+" "+contact.lastname+"<div class='ui-li-aside'><a id='deleteEventContact-"+i+"' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
-
-                                $("#deleteEventContact-"+i).on('click', function() {
-                                    console.log("delete contact");
-                                    currentEventContactList = jQuery.grep(currentEventContactList, function(value) { //remove specific entry from array
-                                        return value != contact.uid;
-                                    });
-
-                                    $(event.target).closest("li").remove();
-                                    if ($(".deleteEventContacts").length == 0) {
-                                        $("#liAddedContactstoCreateEvent").after("<li class='deleteEventContacts centerText'>noch keine Kontakte hinzugefügt</li>");
-                                    }
-                                    $("#listEventContacts").listview('refresh');
-                                    if ($("#searchContactsToCreateEvent").val().length > 1)
-                                        searchContactForCreateEvents($("#searchContactsToCreateEvent").val());//starte suche erneut bzw. aktualisiere suche
-                                });
-
-                                $("#listEventContacts").listview('refresh');
-
-                                currentEventContactList.push(contact.uid);
-                            }
+                        $("#addEventContact-" + i).on('click', function () {
+                            addContactToCreateEvent(i, contact);
                             $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
                         });
-
-
                     }
                 });
             }
@@ -846,7 +854,7 @@ function insertEmailToFooter() {
 function createContactGroup() {
     var cgname = $("#newGroupName").val();
     if (cgname.length < 3){
-        alert("Bitte einen Namen mit mindestens 3 Zeichen verwenden.");
+        alert("Bitte geben Sie einen Namen mit mindestens 3 Zeichen ein.");
         /*TODO: remove active state from Erstellen btn, bei create Event wird der btn gar nicht active (evtl. input vs a tag?)*/
         return;
     }
@@ -877,6 +885,75 @@ function createContactGroup() {
             showFailurePage("Ihre Gruppe konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createGroup");
         }
     });
+}
+
+/*load contacts in form for page_createEvent*/
+function loadContactGroups() {
+    $.ajax({url: url+"get/contactgroups/",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.getcontactgroups);
+        },
+        error: function (request,error) {
+            /*TODO: failure*/
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(contactgroups){
+            $(".deleteEventGroupOption").remove(); //reset previous page calls side-effects
+            $("#newEventGroup").removeClass("ui-disabled"); //reset previous page calls side-effects
+            $("#btnAddGroupToCreateEvent").removeClass("ui-disabled"); //reset previous page calls side-effects
+
+            if (contactgroups.length > 0) {
+                $.each( contactgroups, function(i, contactGroup) {
+                    $("#newEventGroup").append('<option class="deleteEventGroupOption" value="'+contactGroup.cgid+'">'+contactGroup.cgname+'</option>');
+                });
+            }
+            else {
+                $("#newEventGroup").prepend("<option class='deleteEventGroupOption'>keine Kontaktgruppen vorhanden</option>");
+                $("#newEventGroup").addClass("ui-disabled");
+                $("#btnAddGroupToCreateEvent").addClass("ui-disabled");
+            }
+            $('#newEventGroup').selectmenu('refresh');
+        }
+    };
+}
+
+/*fügt alle mitglieder einer cg zu currentEventContactlist hinzu*/
+function addMemberOfGroupToCreateEvent(cgid) {
+    $.ajax({url: url+"get/contactgroup",
+        dataType: "jsonp",
+        data: {uid:currentUser.uid, cgid:cgid},
+        async: true,
+        success: function (result) {
+            ajax.parseJSONP(result.getcontactgroup);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(contactGroup){
+            console.log("add contacts from cg "+cgid)
+            if (contactGroup.users != null) {
+                $.each(contactGroup.users, function(i, contact) {
+                    addContactToCreateEvent(i, contact);
+                });
+                if ($("#searchContactsToCreateEvent").val().length >= minSearchInput)
+                    searchContactForCreateEvents($("#searchContactsToCreateEvent").val());//starte suche erneut bzw. aktualisiere suche
+            }
+            else {
+                $("#newEventGroup option[value='"+cgid+"']").text(contactGroup.cgname+" (ohne Kontakte)");
+                $("#newEventGroup").selectmenu('refresh');
+                alert("Ihre ausgewählte Gruppe enthält keine Kontakte. Es wurden keine Kontakte hinzugefügt.");
+            }
+        }
+    }
 }
 
 /*load contacts for page_createContactgroup*/
@@ -914,6 +991,8 @@ function sortListByDate() {
 }
 
 function scanCode() {
+    //TODO how to know what to do with the code
+    //is it just a room or a event verification?!
     cordova.plugins.barcodeScanner.scan(
         function (result) {
             alert("We got a barcode\n" +

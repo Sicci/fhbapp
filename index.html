@@ -191,7 +191,7 @@
             <!--<h3>Anwesenheitskontrolle</h3>-->
             <!--<a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>-->
             <ul id="eventList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Events durchsuchen...">
-                <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
+                <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
                 <li data-role="list-divider" id="liFinishedEvents"><h3>Abgelaufene Events</h3></li>
 
             </ul>
@@ -205,24 +205,23 @@
        <div data-role="content">
             <h3>Neues Event erstellen</h3>
             <form id="form_newEvent">
-                <fieldset data-role="fieldcontain">
+              <!--  <fieldset data-role="fieldcontain"> -->
                     <label for="newEventName">Eventname</label>
                     <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
-                </fieldset>
-                <fieldset data-role="fieldcontain">
+                <!--</fieldset>-->
+                <!--  <fieldset data-role="fieldcontain"> -->
                     <label for="newEventDescription">Eventbeschreibung</label>
                     <input type="text" id="newEventDescription" name="edescription" placeholder="Eventbeschreibung" />
-                </fieldset>
-                <fieldset data-role="fieldcontain">
-                    <label for="newEventDate">Datum</label>
+                <!--</fieldset>-->
+                <!--  <fieldset data-role="fieldcontain"> -->
+                    <label for="newEventDate">Datum</label> <!-- TODO: datum und uhrzeit nebeneinander-->
                     <input placeholder="Eventdatum" id="newEventDate" name="edate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
-                </fieldset>
-                <fieldset data-role="fieldcontain">
+                <!--</fieldset>-->
+                <!--  <fieldset data-role="fieldcontain"> -->
                     <label for="newEventTime">Uhrzeit</label>
                     <input placeholder="Eventzeitpunkt" id="newEventTime" name="etime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
-                </fieldset>
-                <!-- TODO: add group to create event
-                <fieldset data-role="fieldcontain">
+                <!--</fieldset>-->
+               <!-- <fieldset data-role="fieldcontain">
                     <label for="newEventGroup" class="select ui-hidden-accessible">Gruppe auswählen:</label>
                     <select disabled name="gid" id="newEventGroup">
                         <option data-placeholder="true" value="">Gruppe auswählen</option>
@@ -233,6 +232,15 @@
                 </fieldset> -->
                 <br>
                 <ul id="listEventContacts" data-role="listview" data-theme="d" data-divider-theme="c">
+                    <li data-role="list-divider"><h3>Gruppe hinzufügen</h3><p class="ui-li-aside button"><a id="btnAddGroupToCreateEvent" data-role="button" data-mini="true" href="#">Gruppe hinzufügen</a> </p></li>
+                    <li>
+                        <select name="gid" id="newEventGroup">
+                            <option data-placeholder="true" value="">Gruppe auswählen...</option>
+                            <!--<option class="deleteEventGroupForReset" value="1">Mobile Informationssystem Gruppe</option>
+                            <option value="2">[Gruppe 2]</option>
+                            <option value="3">[Gruppe 3]</option>-->
+                        </select>
+                    </li>
                     <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
                     <li id="liSearchContactsToCreateEvent"><input type="search" name="search" id="searchContactsToCreateEvent" placeholder="Kontakte durchsuchen" /></li>
                     <li id="liAddedContactstoCreateEvent" data-role="list-divider"><h3>Hinzugefügte Kontakte</h3></li>
@@ -557,6 +565,10 @@
     </div><!-- /page -->
 </body>
 <script>
+    $("#btnAddGroupToCreateEvent").on('click', function() {
+        addMemberOfGroupToCreateEvent($("#newEventGroup").val());
+    });
+
     var pageArray = [
         {"pageID":"page_home", "activePage":"home", "pageTitle":"Student"},
         {"pageID":"page_homeDozent", "activePage":"home", "pageTitle":"Dozent"},

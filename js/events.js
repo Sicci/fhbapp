@@ -26,7 +26,7 @@ $(document).on( 'pageinit',function(event){
     $("#searchContactsToAdd").keyup(function() {
         var str = $("#searchContactsToAdd").val()
         console.log("keydown: "+ str);
-        if (str.length >= 2)
+        if (str.length >= minSearchInput)
         //$("#searchContactsToAdd").css("background-color", "yellow");
             searchContact(str);
         else $(".deleteSearchContactsToAdd").remove();
@@ -35,7 +35,7 @@ $(document).on( 'pageinit',function(event){
     $("#searchContactsForNavigation").keyup(function() {
         var str = $("#searchContactsForNavigation").val()
         console.log("keydown: "+ str);
-        if (str.length >= 2)
+        if (str.length >= minSearchInput)
         //$("#searchContactsToAdd").css("background-color", "yellow");
             searchContactForNavigation(str);
         else {
@@ -50,7 +50,7 @@ $(document).on( 'pageinit',function(event){
     $("#searchContactsToCreateEvent").keyup(function() {
         var str = $("#searchContactsToCreateEvent").val()
         console.log("keydown: "+ str);
-        if (str.length >= 2)
+        if (str.length >= minSearchInput)
             searchContactForCreateEvents(str);
         else {
             $(".deleteSearchEventContacts").remove();
@@ -140,6 +140,12 @@ $(document).on('pagebeforeshow', '#page_contacts', function(e, data){
 $(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
     console.log("pagebeforeshow: page_controlAttendance");
     getEvents();
+});
+
+/*load events via jsonp*/
+$(document).on('pagebeforeshow', '#page_createEvent', function(e, data){
+    console.log("pagebeforeshow: page_createEvent");
+    loadContactGroups();
 });
 
 /*load events via jsonp*/
