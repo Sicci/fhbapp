@@ -855,7 +855,6 @@ function createContactGroup() {
     var cgname = $("#newGroupName").val();
     if (cgname.length < 3){
         alert("Bitte geben Sie einen Namen mit mindestens 3 Zeichen ein.");
-        /*TODO: remove active state from Erstellen btn, bei create Event wird der btn gar nicht active (evtl. input vs a tag?)*/
         return;
     }
 
