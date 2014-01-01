@@ -68,6 +68,12 @@ $(document).on('pagebeforeshow', '#page_profile', function(e, data){
     $("#btnLocateContact").removeClass("ui-disabled");
 });
 
+$(document).on('pagebeforeshow', '#page_attendees', function(e, data){
+    console.log("pagebeforeshow: page_attendees");
+    $("input").val('');
+    $("li").removeClass("ui-screen-hidden");
+});
+
 /**/
 $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
     console.log("pagebeforeshow: page_createGroup");
