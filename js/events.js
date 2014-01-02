@@ -160,6 +160,25 @@ $(document).on('pagebeforeshow', '#page_eventList', function(e, data){
     getEventlist();
 });
 
+$(document).on('pagebeforeshow', '#page_chat', function(e, data){
+    console.log("pageboforeshow: page_chat");
+    var chatIDs = [];
+    currentUser.gids.forEach(function(gid) {
+        chatIDs.push(gid+"@conference.candychat");
+    });
+    Candy = initChat();
+    Candy.init( 'http://fhbapp.no-ip.biz:7070/http-bind/', {
+        core: { debug: true, autojoin: chatIDs },
+        view: { language: 'de', resources: 'res-chat/' } });
+
+    Candy.Core.connect('candychat', null, currentUser.firstname+" "+currentUser.lastname);
+});
+
+$(document).on('pagehide', '#page_chat', function(e, data){
+    Candy.Core.disconnect();
+    Candy = null;
+});
+
 
 $(document).on('change', '#activateSemester', function () {
     if ($(this).val() == 'off') { //if switch is off

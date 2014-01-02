@@ -21,7 +21,7 @@ function myCreateEvent() {
     var ename = $("#newEventName").val(); //value from input
 
     if (ename.length < 3) {
-        alert("Bitte geben Sie einen Eventnamen mit mindestens 3 Buchstahben ein.");
+        alert("Bitte geben Sie einen Eventnamen mit mindestens 3 Zeichen ein.");
         return;
     }
 

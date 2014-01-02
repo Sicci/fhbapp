@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
     <link rel="stylesheet" type="text/css" href="css/jqm-datebox.css">
+    <link rel="stylesheet" type="text/css" href="res-chat/default.css" /> <!-- CSS chat -->
+
     <script src="phonegap.js"></script>
     <script src="barcodescanner.js"></script>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> <!-- TODO:load jquery from file -->
@@ -23,6 +25,9 @@
     <!-- jQuery Validate -->
     <script type="text/javascript" src="js/jquery/jquery.validate.min.js"></script>
     <script type="text/javascript" src="js/jquery/additional-methods.min.js"></script>
+
+    <script type="text/javascript" src="libs-chat/libs.min.js"></script> <!-- Chat Libs -->
+    <script type="text/javascript" src="js/candy.min.js"></script> <!-- Chat -->
 
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/events.js"></script>
@@ -188,8 +193,6 @@
     <div id="page_controlAttendance" data-role="page">
         <!-- %header% -->
        <div data-role="content">
-            <!--<h3>Anwesenheitskontrolle</h3>-->
-            <!--<a href="#page_createEvent" data-role="button">Neues Event erstellen</a><br>-->
             <ul id="eventList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Events durchsuchen...">
                 <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
                 <li data-role="list-divider" id="liFinishedEvents"><h3>Abgelaufene Events</h3></li>
@@ -203,42 +206,23 @@
     <div id="page_createEvent" data-role="page">
         <!-- %header% -->
        <div data-role="content">
-            <h3>Neues Event erstellen</h3>
             <form id="form_newEvent">
-              <!--  <fieldset data-role="fieldcontain"> -->
-                    <label for="newEventName">Eventname</label>
-                    <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
-                <!--</fieldset>-->
-                <!--  <fieldset data-role="fieldcontain"> -->
-                    <label for="newEventDescription">Eventbeschreibung</label>
-                    <input type="text" id="newEventDescription" name="edescription" placeholder="Eventbeschreibung" />
-                <!--</fieldset>-->
-                <!--  <fieldset data-role="fieldcontain"> -->
-                    <label for="newEventDate">Datum</label> <!-- TODO: datum und uhrzeit nebeneinander-->
-                    <input placeholder="Eventdatum" id="newEventDate" name="edate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
-                <!--</fieldset>-->
-                <!--  <fieldset data-role="fieldcontain"> -->
-                    <label for="newEventTime">Uhrzeit</label>
-                    <input placeholder="Eventzeitpunkt" id="newEventTime" name="etime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
-                <!--</fieldset>-->
-               <!-- <fieldset data-role="fieldcontain">
-                    <label for="newEventGroup" class="select ui-hidden-accessible">Gruppe auswählen:</label>
-                    <select disabled name="gid" id="newEventGroup">
-                        <option data-placeholder="true" value="">Gruppe auswählen</option>
-                        <option class="deleteEventGroupForReset" value="1">Mobile Informationssystem Gruppe</option>
-                        <option value="2">[Gruppe 2]</option>
-                        <option value="3">[Gruppe 3]</option>
-                    </select>
-                </fieldset> -->
+                <label for="newEventName">Eventname</label>
+                <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
+                <label for="newEventDescription">Eventbeschreibung</label>
+                <input type="text" id="newEventDescription" name="edescription" placeholder="Eventbeschreibung" />
+
+                <label for="newEventDate">Datum</label>
+                <input placeholder="Eventdatum" id="newEventDate" name="edate" type="date" data-role="datebox" data-options='{"mode": "calbox", "themeHeader":"b", "themeDate":"d", "theme": "d", "useTodayButton": false, "afterToday": true, "useFocus": true}'>
+                <label for="newEventTime">Uhrzeit</label>
+                <input placeholder="Eventzeitpunkt" id="newEventTime" name="etime" type="text" data-role="datebox" data-options='{"mode": "timeflipbox", "theme":"d", "themeHeader":"b", "themeDatePick":"c", "themeDate":"b", "useFocus": true}'>
+
                 <br>
                 <ul id="listEventContacts" data-role="listview" data-theme="d" data-divider-theme="c">
                     <li data-role="list-divider"><h3>Gruppe hinzufügen</h3><p class="ui-li-aside button"><a id="btnAddGroupToCreateEvent" data-role="button" data-mini="true" href="#">Gruppe hinzufügen</a> </p></li>
                     <li>
                         <select name="gid" id="newEventGroup">
-                            <option data-placeholder="true" value="">Gruppe auswählen...</option>
-                            <!--<option class="deleteEventGroupForReset" value="1">Mobile Informationssystem Gruppe</option>
-                            <option value="2">[Gruppe 2]</option>
-                            <option value="3">[Gruppe 3]</option>-->
+                            <option data-placeholder="true" value="">Gruppe auswählen...</option> <!-- TODO: aufm smartphone kann man den shit trotzdem noch auswählen, check in ajax value != '' -->
                         </select>
                     </li>
                     <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
@@ -310,12 +294,8 @@
     <div id="page_chat" data-role="page">
         <!-- %header% -->
         <div data-role="content">
-            <a href="#page_chatgroup" data-icon="star" data-role="button" data-theme="e">Globaler Chat</a>
-            <h4>Gruppen-Chats</h4>
-            <div data-role="controlgroup">
-                <a href="#page_chatgroup" data-icon="star" data-role="button">Mobile Informationssysteme</a>
-                <a href="#page_chatgroup" data-icon="star" data-role="button">Projekt XYZ</a>
-                <a href="#page_chatgroup" data-icon="star" data-role="button">Gruppen-Chat "Freunde"</a>
+            <div id="candy">
+                <!-- %chat% -->
             </div>
         </div><!-- /content -->
         <!-- %footer% -->
