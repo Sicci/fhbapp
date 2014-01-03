@@ -174,6 +174,11 @@ $(document).on('pagebeforeshow', '#page_chat', function(e, data){
     Candy.Core.connect('candychat', null, currentUser.firstname+" "+currentUser.lastname);
 });
 
+$(".message-form").live("submit", function(event) {
+    console.log("bind submit");
+    event.preventDefault();
+});
+
 $(document).on('pagehide', '#page_chat', function(e, data){
     Candy.Core.disconnect();
     Candy = null;
