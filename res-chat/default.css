@@ -1,16 +1,3 @@
-/**
- * Chat CSS
- *
- * @author Michael <michael.weibel@gmail.com>
- * @author Patrick <patrick.stadler@gmail.com>
- * @copyright 2011 Amiado Group AG, All rights reserved.
- */
-html, body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-}
-
 #candy {
 	position: absolute;
 	top: 88px;
@@ -35,7 +22,7 @@ ul {
 
 #chat-tabs {
 	list-style: none;
-	margin: 0 200px 0 0;
+	margin-right:125px;
 	padding: 0;
 	overflow: auto;
 	overflow-y: hidden;
@@ -99,7 +86,7 @@ ul {
 	padding: 2px 4px;
 	font-weight: bold;
 	font-size: 10px;
-	position: absolute;
+	position: relative;
 	top: 5px;
 	right: 22px;
 	border-radius: 3px;
@@ -110,12 +97,12 @@ ul {
 }
 
 #chat-toolbar {
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	right: 0;
 	font-size: 11px;
 	color: #666;
-	width: 200px;
+	width: 125px;
 	height: 24px;
 	padding-top: 7px;
 	background-color: #444;
@@ -149,10 +136,12 @@ ul {
 }
 
 #chat-sound-control {
+    display: none;
 	background-image: url(img/action/sound-off.png);
 }
 
 #chat-sound-control.checked {
+    display: none;
 	background-image: url(img/action/sound-on.png);
 }
 
@@ -161,14 +150,17 @@ ul {
 }
 
 #chat-autoscroll-control.checked {
+
 	background-image: url(img/action/autoscroll-on.png);
 }
 
 #chat-statusmessage-control {
 	background: url(img/action/statusmessage-off.png);
+    display: none;
 }
 
 #chat-statusmessage-control.checked {
+    display: none;
 	background: url(img/action/statusmessage-on.png);
 }
 
@@ -200,7 +192,7 @@ ul {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	width: 200px;
+	width: 125px;
 	margin: 30px 0 32px 0;
 	background-color: #333;
 	border-top: 1px solid black;
@@ -283,6 +275,7 @@ ul {
 	color: #999;
 	text-align: center;
 	cursor: pointer;
+    display: none;
 }
 
 .roster-pane li.context:hover {
@@ -304,7 +297,9 @@ ul {
 	left: 0;
 	height: auto;
 	width: auto;
-	margin: 30px 200px 31px 0;
+    margin-top: 30px;
+    margin-right: 125px;
+    margin-bottom: 31px;
 	background-color: #eee;
 	font-size: 13px;
 	padding: 0 5px;
@@ -320,7 +315,7 @@ ul {
 	box-shadow: 0 1px 0 0 white;
 }
 
-.message-pane small {
+.con small {
 	display: none;
 	color: #a00;
 	font-size: 10px;
@@ -398,31 +393,40 @@ ul {
 }
 
 .message-form-wrapper {
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	width: auto;
-	margin-right: 200px;
+	margin-right: 125px;
 	border-top: 1px solid #ccc;
 	background-color: white;
 	height: 31px;
 }
 
 .message-form {
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	margin-right: 320px;
 	padding: 0;
+}
+
+#inputTable {
+    width:100%;
+}
+
+#inputMessage {
+    width: 100%;
+}
+
+#colSubmit {
+    width:63px;
 }
 
 .message-form input {
 	border: 0 none;
-	padding: 5px 10px;
 	font-size: 14px;
-	width: 100%;
 	display: block;
 	outline-width: 0;
 	background-color: white;
@@ -432,21 +436,20 @@ ul {
 	cursor: pointer;
 	background-color: #ccc;
 	color: #666;
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	margin: 3px 203px 3px 3px;
+	position: relative;
+	margin: 0px 0px 3px 3px;
 	padding: 5px 7px;
 	width: auto;
 	font-size: 12px;
 	line-height: 12px;
+    float:right;
 	height: 25px;
 	font-weight: bold;
 	border-radius: 3px;
 }
 
 #tooltip {
-	position: absolute;
+	position: relative;
 	z-index: 10;
 	display: none;
 	margin: 13px -18px -3px -2px;
@@ -495,7 +498,7 @@ ul {
 }
 
 #context-menu {
-	position: absolute;
+	position: fixed;
 	z-index: 10;
 	display: none;
 	padding: 5px 10px;
@@ -575,7 +578,7 @@ ul {
 	padding: 20px 5px;
 	color: #333;
 	font-size: 16px;
-	position: fixed;
+	position: relative;
 	left: 50%;
 	top: 50%;
 	margin-left: -160px;
@@ -589,7 +592,7 @@ ul {
 }
 
 #chat-modal-overlay {
-	position: absolute;
+	position: relative;
 	left: 0;
 	top: 0;
 	right: 0;
@@ -653,7 +656,7 @@ ul {
 }
 
 #chat-modal .close {
-	position: absolute;
+	position: relative;
 	right: 0;
 	display: none;
 	padding: 0 5px;

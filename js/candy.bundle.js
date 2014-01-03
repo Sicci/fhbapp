@@ -1,4 +1,4 @@
-/** File: candy.js
+function initChat() {/** File: candy.js
  * Candy - Chats are not dead yet.
  *
  * Authors:
@@ -4583,7 +4583,7 @@ Candy.View.Pane = (function(self, $) {
 		 */
 		submit: function(event) {
 			var roomType = Candy.View.Pane.Chat.rooms[Candy.View.getCurrent().roomJid].type,
-				message = $(this).children('.field').val().substring(0, Candy.View.getOptions().crop.message.body);
+				message = $(this).find('.field').val().substring(0, Candy.View.getOptions().crop.message.body);
 
 			// deprecated
 			message = Candy.View.Event.Message.beforeSend(message);
@@ -4606,7 +4606,7 @@ Candy.View.Pane = (function(self, $) {
 				self.Message.show(Candy.View.getCurrent().roomJid, self.Room.getUser(Candy.View.getCurrent().roomJid).getNick(), message);
 			}
 			// Clear input and set focus to it
-			$(this).children('.field').val('').focus();
+			$(this).find('.field').val('').focus();
 			event.preventDefault();
 		},
 
@@ -4763,7 +4763,7 @@ Candy.View.Template = (function(self){
 	self.Room = {
 		pane: '<div class="room-pane roomtype-{{roomType}}" id="chat-room-{{roomId}}" data-roomjid="{{roomJid}}" data-roomtype="{{roomType}}">{{> roster}}{{> messages}}{{> form}}</div>',
 		subject: '<li><small>{{time}}</small><div class="subject"><span class="label">{{roomName}}</span><span class="spacer">▸</span>{{_roomSubject}} {{subject}}</div></li>',
-		form: '<div class="message-form-wrapper"><form method="post" class="message-form"><input name="message" class="field" type="text" autocomplete="off" maxlength="1000" /><input type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></form></div>'
+        form: '<div class="message-form-wrapper"><form method="post" class="message-form"><table id="inputTable"><tr><td id="colMessage"><input id="inputMessage" name="message" class="field" type="text" autocomplete="off" maxlength="1000" /></td><td id="colSubmit"><input id="inputSubmit" type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></td></tr></table></form></div>'
 	};
 
 	self.Roster = {
@@ -5593,3 +5593,5 @@ Candy.View.Translation = {
 		'antiSpamMessage' : 'Si us plau, no facis spam. Has estat bloquejat temporalment.'
 	}
 };
+    return Candy;
+}
