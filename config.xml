@@ -13,7 +13,9 @@
     </description>
 
     <preference name="phonegap-version" value="3.0.0" />
-
+	
+	<icon src="icon.png" />
+	
     <!-- deploy only for android -->
     <gap:platform name="android" />
    
