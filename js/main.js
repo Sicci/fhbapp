@@ -981,16 +981,21 @@ function loadContacts() {
 }
 
 
-function sortListByDate() {
+/*function sortListByDate() {
     $("p").sort(function(a,b){
         return new Date($(a).attr("data-date")) > new Date($(b).attr("data-date"));
     }).each(function(){
             $("body").prepend(this);
         });
-}
+}*/
 
 function scanCode() {
     //TODO how to know what to do with the code
+    /*
+    * raum scan --> update status with sid, uid, rid (rid muss aus dem qr-code hervorgehen)
+    * verification scan -->
+    *
+    * */
     //is it just a room or a event verification?!
     cordova.plugins.barcodeScanner.scan(
         function (result) {
@@ -1007,37 +1012,8 @@ function scanCode() {
     );
 }
 
-/* übernimmt der server
-function encodeData(){
-    var data = document.getElementById("data").value;
-    if (data != ''){
-        window.plugins.barcodeScanner.encode(
-            BarcodeScanner.Encode.TEXT_TYPE, data,
-            function(success){
-                alert("Encode success: " + success);
-            },
-            function(fail){
-                alert("Encoding failed: " + fail);
-            }
-        );
-    }
-    else{
-        alert("Please enter some data.");
-        return false;
-    }
-} */
-
-function sendMessage(){
-    /*
-     TODO: methode implementieren
-     */
-}
-
 function showPositionPage(uid) {
     console.log("show position page of uid "+uid);
     $.mobile.changePage("#page_position");
     $("#showParmHere3").html(uid);
 }
-/*function openEventProfilePage(name) {
-    $("#showEventName").html(name);
-}*/

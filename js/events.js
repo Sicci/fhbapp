@@ -172,6 +172,14 @@ $(document).on('pagebeforeshow', '#page_chat', function(e, data){
         view: { language: 'de', resources: 'res-chat/' } });
 
     Candy.Core.connect('candychat', null, currentUser.firstname+" "+currentUser.lastname);
+
+    //add onclick event to toolbar usercount
+    $("#chat-toolbar").off();
+    $("#chat-toolbar").on('click', function() {
+        $.each($(".roster-pane"), function( index, pane ) { //for each userlist (roster-pane) in all chat rooms
+            pane.style.display = (pane.style.display == "none") ? "block" : "none";
+        });
+    });
 });
 
 $(".message-form").live("submit", function(event) {
@@ -221,3 +229,4 @@ $(document).delegate('#page_createEvent', 'pageshow', function () {
     /*TODO: load contactgroups for selectmenu*/
     //$('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
 });
+

@@ -4417,7 +4417,7 @@ Candy.View.Pane = (function(self, $) {
 						userId : userId,
 						userJid: user.getJid(),
 						nick: user.getNick(),
-						displayNick: Candy.Util.crop(user.getNick(), Candy.View.getOptions().crop.roster.nickname),
+						displayNick: user.getNick(),//Candy.Util.crop(user.getNick(), Candy.View.getOptions().crop.roster.nickname),
 						role: user.getRole(),
 						affiliation: user.getAffiliation(),
 						me: currentUser !== undefined && user.getNick() === currentUser.getNick(),
@@ -4763,7 +4763,7 @@ Candy.View.Template = (function(self){
 	self.Room = {
 		pane: '<div class="room-pane roomtype-{{roomType}}" id="chat-room-{{roomId}}" data-roomjid="{{roomJid}}" data-roomtype="{{roomType}}">{{> roster}}{{> messages}}{{> form}}</div>',
 		subject: '<li><small>{{time}}</small><div class="subject"><span class="label">{{roomName}}</span><span class="spacer">▸</span>{{_roomSubject}} {{subject}}</div></li>',
-        form: '<div class="message-form-wrapper"><form data-ajax="false" method="post" class="message-form"><table id="inputTable"><tr><td id="colMessage"><input id="inputMessage" name="message" class="field" type="text" autocomplete="off" maxlength="1000" /></td><td id="colSubmit"><input id="inputSubmit" type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></td></tr></table></form></div>'
+        form: '<div class="message-form-wrapper"><form data-ajax="false" method="post" class="message-form"><table id="inputTable"><tr><td id="colMessage"><input id="inputMessage" name="message" class="field" type="text" autocomplete="off" maxlength="1000" /></td><td id="colSubmit"><input id="inputSubmit" type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></td><td id="colToolbar"></td></tr></table></form></div>'
 	};
 
 	self.Roster = {
