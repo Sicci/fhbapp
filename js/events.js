@@ -1,6 +1,6 @@
 /*only load contacts a single time via jsonp*/
 $(document).on('pageinit', '#page_createGroup', function(e, data){
-    loadContacts();
+    getContactsForCreateContactgroup();
 });
 
 
@@ -28,7 +28,7 @@ $(document).on( 'pageinit',function(event){
         console.log("keydown: "+ str);
         if (str.length >= minSearchInput)
         //$("#searchContactsToAdd").css("background-color", "yellow");
-            searchContact(str);
+            searchContactsForContactgroup(str);
         else $(".deleteSearchContactsToAdd").remove();
     });
 
@@ -51,7 +51,7 @@ $(document).on( 'pageinit',function(event){
         var str = $("#searchContactsToCreateEvent").val()
         console.log("keydown: "+ str);
         if (str.length >= minSearchInput)
-            searchContactForCreateEvents(str);
+            searchContactsForCreateEvents(str);
         else {
             $(".deleteSearchEventContacts").remove();
             if(str.length > 0) {
@@ -110,7 +110,7 @@ $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     console.log("pagebeforeshow: page_groups");
     $(".deleteGroupsForReset").remove();
     getGroups();
-    getContactGroups();
+    getContactgroups();
 });
 
 $(document).on('pagebeforeshow', '#page_navigation', function(e, data){
@@ -151,7 +151,7 @@ $(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
 /*load events via jsonp*/
 $(document).on('pagebeforeshow', '#page_createEvent', function(e, data){
     console.log("pagebeforeshow: page_createEvent");
-    loadContactGroups();
+    getContactgroupsForCreateEvent();
 });
 
 /*load events via jsonp*/

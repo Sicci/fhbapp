@@ -238,7 +238,7 @@
                         <a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a>
                     </div>
                     <div class="ui-block-b">
-                        <a href="#" id="btnCreateEvent" onclick="myCreateEvent();" data-role="button">Erstellen </a>
+                        <a href="#" id="btnCreateEvent" onclick="_createEvent();" data-role="button">Erstellen </a>
                     </div>
                 </div><!-- /grid-a -->
 
@@ -435,7 +435,7 @@
                 <div class="ui-grid-a">
                     <div class="ui-block-a"><a data-role="button" id="btn_backToGroups"
                                                href="#page_groups" >Abbrechen</a></div>
-                    <div class="ui-block-b"><a href="#" data-role="button" onclick="createContactGroup()">Erstellen </a></div>
+                    <div class="ui-block-b"><a href="#" data-role="button" onclick="createContactgroup()">Erstellen </a></div>
                 </div><!-- /grid-a -->
             </form>
         </div> <!-- /content -->
@@ -504,7 +504,7 @@
 </body>
 <script>
     $("#btnAddGroupToCreateEvent").on('click', function() {
-        addMemberOfGroupToCreateEvent($("#newEventGroup").val());
+        addContactgroupToCreateEvent($("#newEventGroup").val());
     });
 
     var pageArray = [
