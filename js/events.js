@@ -3,8 +3,9 @@ $(document).on('pageinit', '#page_createGroup', function(e, data){
     getContactsForCreateContactgroup();
 });
 
-
-$(document).on('pageinit', function(){
+//this code will just run once
+$(document).on('pageinit',function(event){
+    //validation for event creation
     var formNewEvent=$("#form_newEvent").validate({
         rules: {
             newEventName: {required:true, minlength:3},
@@ -20,23 +21,19 @@ $(document).on('pageinit', function(){
             }
         }
     });
-});
 
-$(document).on( 'pageinit',function(event){
+    //key up event for searching contacts to add them to contactgroups
     $("#searchContactsToAdd").keyup(function() {
         var str = $("#searchContactsToAdd").val()
-        console.log("keydown: "+ str);
         if (str.length >= minSearchInput)
-        //$("#searchContactsToAdd").css("background-color", "yellow");
             searchContactsForContactgroup(str);
         else $(".deleteSearchContactsToAdd").remove();
     });
 
+    //key up event for searching contacts for navigation
     $("#searchContactsForNavigation").keyup(function() {
         var str = $("#searchContactsForNavigation").val()
-        console.log("keydown: "+ str);
         if (str.length >= minSearchInput)
-        //$("#searchContactsToAdd").css("background-color", "yellow");
             searchContactForNavigation(str);
         else {
             $(".deleteNavigationContacts").remove();
@@ -47,9 +44,9 @@ $(document).on( 'pageinit',function(event){
         }
     });
 
+    //key up event for searching contacts for event creation
     $("#searchContactsToCreateEvent").keyup(function() {
         var str = $("#searchContactsToCreateEvent").val()
-        console.log("keydown: "+ str);
         if (str.length >= minSearchInput)
             searchContactsForCreateEvents(str);
         else {
@@ -62,19 +59,20 @@ $(document).on( 'pageinit',function(event){
     });
 });
 
-/*load groups and contactGroups via jsonp*/
+/*removes disable state from locate button on #page_profile each time this site will be shown*/
 $(document).on('pagebeforeshow', '#page_profile', function(e, data){
     console.log("pagebeforeshow: page_profile");
     $("#btnLocateContact").removeClass("ui-disabled");
 });
 
+/*set search field empty on #page_attendees and show previous hidden elements*/
 $(document).on('pagebeforeshow', '#page_attendees', function(e, data){
     console.log("pagebeforeshow: page_attendees");
     $("input").val('');
     $("li").removeClass("ui-screen-hidden");
 });
 
-/**/
+/*reset form each time it will be shown on page_createGroup*/
 $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
     console.log("pagebeforeshow: page_createGroup");
     $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
@@ -87,6 +85,7 @@ $(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
     }
 });
 
+/*start qr-scanner on mobile device if user enters #page_scanPosition*/
 $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
     console.log("pagebeforeshow: page_scanPosition");
     try {
@@ -102,7 +101,6 @@ $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
     catch (error) {
             showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#page_scanPosition");
     }
-
 });
 
 /*load groups and contactGroups via jsonp*/
@@ -113,6 +111,7 @@ $(document).on('pagebeforeshow', '#page_groups', function(e, data){
     getContactgroups();
 });
 
+/*reset #page_navigation to default state (remove previous input) */
 $(document).on('pagebeforeshow', '#page_navigation', function(e, data){
     console.log("pagebeforeshow: page_navigation");
     $(".deleteNavigationContacts").remove(); //clear search results
@@ -122,6 +121,7 @@ $(document).on('pagebeforeshow', '#page_navigation', function(e, data){
     $("#listNavigation").listview('refresh');
 });
 
+/*reset #page_manageContacts to default state (remove previous input) */
 $(document).on('pagebeforeshow', '#page_manageContacts', function(e, data){
     console.log("pagebeforeshow: page_manageContacts");
     $(".deleteSearchContactsToAdd").remove(); //clear search results
@@ -148,7 +148,7 @@ $(document).on('pagebeforeshow', '#page_controlAttendance', function(e, data){
     getEvents();
 });
 
-/*load events via jsonp*/
+/*load contactgroups for #page_createEvent via jsonp*/
 $(document).on('pagebeforeshow', '#page_createEvent', function(e, data){
     console.log("pagebeforeshow: page_createEvent");
     getContactgroupsForCreateEvent();
@@ -160,18 +160,21 @@ $(document).on('pagebeforeshow', '#page_eventList', function(e, data){
     getEventlist();
 });
 
+/*connect to candy chat*/
 $(document).on('pagebeforeshow', '#page_chat', function(e, data){
     console.log("pageboforeshow: page_chat");
     var chatIDs = [];
     currentUser.gids.forEach(function(gid) {
-        chatIDs.push(gid+"@conference.candychat");
+        chatIDs.push(gid+"@conference.candychat"); //each group has his own room
     });
+
+    //initialize chat
     Candy = initChat();
     Candy.init( 'http://fhbapp.no-ip.biz:7070/http-bind/', {
         core: { debug: true, autojoin: chatIDs },
         view: { language: 'de', resources: 'res-chat/' } });
 
-    Candy.Core.connect('candychat', null, currentUser.firstname+" "+currentUser.lastname);
+    Candy.Core.connect('candychat', null, currentUser.firstname+" "+currentUser.lastname); //connect to server with username
 
     //add onclick event to toolbar usercount
     $("#chat-toolbar").off();
@@ -182,17 +185,18 @@ $(document).on('pagebeforeshow', '#page_chat', function(e, data){
     });
 });
 
+/*prevent default behaviour of submitting the chat formular*/
 $(".message-form").live("submit", function(event) {
-    console.log("bind submit");
     event.preventDefault();
 });
 
+/*disconnect from chat if user leaves chat page*/
 $(document).on('pagehide', '#page_chat', function(e, data){
     Candy.Core.disconnect();
-    Candy = null;
+    Candy = null; //reset chat
 });
 
-
+/*der gute slider :D*/
 $(document).on('change', '#activateSemester', function () {
     if ($(this).val() == 'off') { //if switch is off
         $("#sliderSemester").slider('disable');
@@ -207,17 +211,20 @@ $(document).on('change', '#activateSemester', function () {
 });
 
 
-/* TODO: whenever a msg was send to chat do:
- document.getElementById('shoutContainer').scrollTop = 10000;
- */
 
+/*probably not necessary in fact of candy chat.... can be deleted if we dont have another chat*/
 $(document).delegate('.ui-page', 'pageshow', function () {
     var objDiv = document.getElementById("incomingMessages");
     objDiv.scrollTop = objDiv.scrollHeight;
+
+    /* TODO: whenever a msg was send to chat do:
+     document.getElementById('shoutContainer').scrollTop = 10000;
+     */
 });
 
-$(document).delegate('#page_createEvent', 'pageshow', function () {
-    currentEventContactList = [];
+/*reset #page_createEvent to initial state*/
+$(document).delegate('#page_createEvent', 'pageshow', function () { /*dunno why delegate and not 'on' <-- there is already an event for on(pagebeforeshow)*/
+    currentEventContactList = []; /*TODO: check if this adresses global variable and not local*/
     $(".deleteSearchEventContacts").remove();
     $(".deleteEventContacts").remove();
     $("#listEventContacts").append("<li class='centerText bold deleteEventContacts'>noch keine Kontakte hinzugefügt</li>");
@@ -226,7 +233,5 @@ $(document).delegate('#page_createEvent', 'pageshow', function () {
     $('#form_newEvent').each(function(){
         this.reset();
     });
-    /*TODO: load contactgroups for selectmenu*/
-    //$('#newEventGroup').val('Gruppe auswählen').selectmenu('refresh');
 });
 

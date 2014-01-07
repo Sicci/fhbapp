@@ -1,8 +1,8 @@
 var url = "http://fhbapp.rumbledore.de/";
 var currentSSID = ""; // session ID
 var currentUser = []; // user: uid, email, firstname, lastname, istutor, gids
-var currentContactList = [];
-var currentEventContactList = [];
+var currentContactList = []; //contactList for contactgroup
+var currentEventContactList = []; //contactList for events
 var currentCGID = null;
 var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
 var minSearchInput = 2;
@@ -12,7 +12,6 @@ $.mobile.loader.prototype.options.theme = "a";
 $.mobile.loader.prototype.options.theme = "a";
 moment.lang("de");
 
-/*TODO: für ajax Handler noch loader einfügen*/
 /*TODO: groups, cgs and events andersrum sortieren bitte*/
 
 /*
@@ -41,9 +40,8 @@ function checkLogin() {
         data: $("#formLogin").serialize(),
         async: true,
         success: function (result) {
-            /*TODO: check if success*/
-            ajax.parseJSONP(result.dologin);
-            showHomePage();
+                ajax.parseJSONP(result.dologin);
+                showHomePage();
         },
         error: function (request,error) {
             showFailurePage("Sie konnten nicht erfolgreich angemeldet werden. Bitte versuchen Sie es später erneut.", "#page_login");
@@ -67,12 +65,24 @@ function checkLogin() {
 }
 
 function logout() {
-    //ajax request with uid do/logout
-    /*TODO: do logout*/
-    currentUser = [];
-    currentSSID = "";
-    showLoginPage();
-
+    console.log("logout");
+    $.ajax({url: url + "do/logout",
+        dataType: "jsonp",
+        data: {ssid:currentSSID},
+        async: true,
+        success: function (result) {
+            if(isSessionValid(result.dologout)) {
+                if (result.dologout.success){
+                    currentUser = [];
+                    currentSSID = "";
+                    showLoginPage();
+                }
+            }
+        },
+        error: function (request,error) {
+            alert("Sie konnten nicht erfolgreich abgemeldet werden. Bitte versuchen Sie es später noch einmal.");
+        }
+    });
 }
 
 /*
@@ -374,7 +384,7 @@ function getContactsForCreateContactgroup() {
 
     var ajax = {
         parseJSONP:function(contacts){
-            $(".deleteCreateContactsForReset").remove();
+            $(".deleteCreateContactsForReset").remove(); //not necessary because this function will only called once (on init page)
             $.each( contacts, function(i, user) {
                 $("#createCG_userlist").append("<input type='checkbox' name='contact-"+user.uid+"' id='contact-"+user.uid+"' class='deleteCreateContactsForReset'/><label for='contact-"+user.uid+"'>"+user.firstname + " " + user.lastname +"</label>");
             });
@@ -415,9 +425,9 @@ function createContactgroup() {
         async: true,
         success: function (result) {
             if (isSessionValid(result.createcontactgroup)) {
-                /*TODO:proof if success */
-                if (result.createcontactgroup.success)
-                    showGroupPage(); /*TODO: show detail page of group instead*/
+                if (result.createcontactgroup.success) {
+                    getContactgroupDetails(result.createcontactgroup.cgid);
+                }
                 else {
                     alert("Kontaktgruppe konnte nicht erstellt werden.");
                 }
@@ -1078,8 +1088,7 @@ function showHomePage() {
     $(".footer_email").html(currentUser["email"]); //insert email adress to footer
 
     if (currentUser["uid"] == null) {
-        //showErrorPage_for_login() TODO:error page for login?*/
-        console.log("show error page for login"); //maybe redirect to login page
+        alert("Username und/oder Passwort falsch. Bitte versuchen Sie es erneut.");
         $.mobile.changePage("#page_login");
     }
     else {
@@ -1124,7 +1133,7 @@ function showContactGroupDetailPage() {
     $.mobile.changePage("#page_contactgroupDetails");
 }
 function showLoginPage() {
-    console.log("logout");
+    console.log("showLoginPage");
     $.mobile.changePage("#page_login");
 }
 function showUserDetailPage() {
