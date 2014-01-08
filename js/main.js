@@ -10,6 +10,9 @@ var minSearchInput = 2;
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
 $.mobile.loader.prototype.options.theme = "a";
+$.mobile.defaultPageTransition   = 'none'
+$.mobile.defaultDialogTransition = 'none'
+$.mobile.buttonMarkup.hoverDelay = 0
 moment.lang("de");
 
 /*TODO: groups, cgs and events andersrum sortieren bitte*/
