@@ -192,7 +192,7 @@ ul {
 
 .roster-pane {
 	position: absolute;
-    display: block;
+    display: none;
     z-index: 99;
 	overflow: auto;
 	top: 0;
@@ -382,6 +382,7 @@ ul {
 .message-pane .infomessage {
 	color: #888;
 	font-style: italic;
+	padding: 2px 0 2px 31px !important;
 }
 
 .message-pane div>a {
@@ -601,7 +602,7 @@ ul {
 	padding: 20px 5px;
 	color: #333;
 	font-size: 16px;
-	position: relative;
+	position: absolute;
 	left: 50%;
 	top: 50%;
 	margin-left: -160px;
@@ -615,12 +616,12 @@ ul {
 }
 
 #chat-modal-overlay {
-	position: relative;
+	position: absolute;
 	left: 0;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 90;
+	z-index: 98;
 	background-image: url(img/overlay.png);
 }
 
@@ -691,4 +692,8 @@ ul {
 #chat-modal .close:hover {
 	color: #333;
 	background-color: #aaa;
+}
+
+.hidden {
+    display: none !important;
 }
