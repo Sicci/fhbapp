@@ -1,7 +1,7 @@
 /*only load contacts a single time via jsonp*/
-$(document).on('pageinit', '#page_createGroup', function(e, data){
-    getContactsForCreateContactgroup();
-});
+/*$(document).on('pageinit', '#page_createContactgroup', function(e, data){
+
+});*/
 
 //this code will just run once
 $(document).on('pageinit',function(event){
@@ -57,6 +57,20 @@ $(document).on('pageinit',function(event){
             }
         }
     });
+
+    //key up event for searching contacts for contactgroup creation
+    $("#searchContactsToCreateCG").keyup(function() {
+        var str = $("#searchContactsToCreateCG").val()
+        if (str.length >= minSearchInput)
+            searchContactsForCreateContactgroup(str);
+        else {
+            $(".deleteSearchCGContacts").remove();
+            if(str.length > 0) {
+                $("#liSearchContactsToCreateCG").after("<li class='deleteSearchCGContacts centerText'>mindestens zwei Buchstaben zum Suchen eingeben</li>");
+                $("#listCGContacts").listview('refresh');
+            }
+        }
+    });
 });
 
 /*removes disable state from locate button on #page_profile each time this site will be shown*/
@@ -73,16 +87,10 @@ $(document).on('pagebeforeshow', '#page_attendees', function(e, data){
 });
 
 /*reset form each time it will be shown on page_createGroup*/
-$(document).on('pagebeforeshow', '#page_createGroup', function(e, data){
+$(document).on('pagebeforeshow', '#page_createContactgroup', function(e, data){
     console.log("pagebeforeshow: page_createGroup");
-    $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
-    $("input[type='checkbox']").removeAttr('checked');
-    $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
-    if ($("#sliderSemester").val() == 'off') { //if switch is off
-        $("#sliderSemester").slider('disable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('disable');
-    }
+    resetCreateContactgroup()
+
 });
 
 /*start qr-scanner on mobile device if user enters #page_scanPosition*/
@@ -180,7 +188,7 @@ $(document).on('pagebeforeshow', '#page_chat', function(e, data){
     $("#chat-toolbar").off();
     $("#chat-toolbar").on('click', function() {
         $.each($(".roster-pane"), function( index, pane ) { //for each userlist (roster-pane) in all chat rooms
-            pane.style.display = (pane.style.display == "none") ? "block" : "none";
+            pane.style.display = (pane.style.display == "block") ? "none" : "block";
         });
     });
 });
@@ -196,21 +204,6 @@ $(document).on('pagehide', '#page_chat', function(e, data){
     Candy = null; //reset chat
 });
 
-/*der gute slider :D*/
-$(document).on('change', '#activateSemester', function () {
-    if ($(this).val() == 'off') { //if switch is off
-        $("#sliderSemester").slider('disable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('disable');
-    }
-    else {
-        $("#sliderSemester").slider('enable');
-        $("#sliderSemester").slider('refresh');
-        $("#sliderSemester").textinput('enable');
-    }
-});
-
-
 
 /*probably not necessary in fact of candy chat.... can be deleted if we dont have another chat*/
 $(document).delegate('.ui-page', 'pageshow', function () {
@@ -222,16 +215,6 @@ $(document).delegate('.ui-page', 'pageshow', function () {
      */
 });
 
-/*reset #page_createEvent to initial state*/
-$(document).delegate('#page_createEvent', 'pageshow', function () { /*dunno why delegate and not 'on' <-- there is already an event for on(pagebeforeshow)*/
-    currentEventContactList = []; /*TODO: check if this adresses global variable and not local*/
-    $(".deleteSearchEventContacts").remove();
-    $(".deleteEventContacts").remove();
-    $("#listEventContacts").append("<li class='centerText bold deleteEventContacts'>noch keine Kontakte hinzugefügt</li>");
-    $("#listEventContacts").listview('refresh');
-    $('#form_newEvent').data('validator').resetForm();
-    $('#form_newEvent').each(function(){
-        this.reset();
-    });
-});
+
+
 

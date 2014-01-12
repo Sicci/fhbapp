@@ -15,7 +15,7 @@ $.mobile.defaultDialogTransition = 'none'
 $.mobile.buttonMarkup.hoverDelay = 0
 moment.lang("de");
 
-/*TODO: groups, cgs and events andersrum sortieren bitte*/
+/*TODO: groups und cgs andersrum sortieren bitte | falls, dann lösch .reverse()*/
 
 /*
 * checks if we have a valid session
@@ -25,6 +25,7 @@ function isSessionValid(result) {
     if (result.error == undefined)
         return 1;
     else {
+        console.log(result.error);
         alert("no valid session");
         showLoginPage();
         return 0;
@@ -42,7 +43,7 @@ function checkLogin() {
         dataType: "jsonp",
         data: $("#formLogin").serialize(),
         async: true,
-        success: function (result) {
+        success: function (result) { //TODO check if success?
                 ajax.parseJSONP(result.dologin);
                 showHomePage();
         },
@@ -63,6 +64,8 @@ function checkLogin() {
                     console.log("SSID: "+currentSSID);
                 }
             });
+            loadContactsOnStartup(); //TODO: find a better position?
+            loadGroupsOnStartup();
         }
     }
 }
@@ -88,19 +91,55 @@ function logout() {
     });
 }
 
-/*
-* loads all contacts from database and add them dynamically to the tab "Kontakte"
-* @parameter ssid
-* @return array of users: uid, firstname, lastname
-* */
-function getContacts() {
+function loadContactsOnStartup() {
     $.ajax({url: url+"get/contacts",
         dataType: "jsonp",
         data: {ssid:currentSSID},
         async: true,
         success: function (result) {
             if (isSessionValid(result.getcontacts)) {
-                //$.mobile.showPageLoadingMsg();/*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert*/
+                //$.mobile.showPageLoadingMsg();/*TODO: insert ajax loader pls*/
+                ajax.parseJSONP(result.getcontacts);
+                //$.mobile.hidePageLoadingMsg();
+            }
+        },
+        error: function (request,error) {
+            alert("Kontakte konnten nicht geladen werden.");
+        }
+    })
+
+    var ajax = {
+        parseJSONP:function(contacts){
+            var contactList = [];
+            $.each( contacts, function(i, user) {
+                contactList.push(user);
+            });
+            sessionStorage.setItem("contacts", JSON.stringify(contactList));
+        }
+    }
+}
+
+/*
+* loads all contacts from database and add them dynamically to the tab "Kontakte"
+* @parameter ssid
+* @return array of users: uid, firstname, lastname
+* */
+function getContacts() {
+    var contacts = JSON.parse(sessionStorage.getItem("contacts"));
+    console.log(contacts);
+    $("#userList").empty();
+    $.each( contacts, function(i, user) {
+        $("#userList").append("<li><a onclick=\"getContactDetails("+user.uid+")\" href=\"#\">"+user.firstname +" "+user.lastname+"</a></li>");
+        console.log(user);
+    });
+    $('#userList').listview('refresh');
+    /*$.ajax({url: url+"get/contacts",
+        dataType: "jsonp",
+        data: {ssid:currentSSID},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getcontacts)) {
+                //$.mobile.showPageLoadingMsg();/*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert
                 ajax.parseJSONP(result.getcontacts);
                 //$.mobile.hidePageLoadingMsg();
             }
@@ -122,7 +161,55 @@ function getContacts() {
             });
             $('#userList').listview('refresh');
         }
+    }*/
+}
+
+function loadGroupsOnStartup() {
+    $.ajax({url: url+"get/groups",
+        dataType: "jsonp",
+        data: {ssid:currentSSID},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getgroups)) /*TODO: add ajax loader!*/
+                ajax.parseJSONP(result.getgroups);
+        },
+        error: function (request,error) {
+            alert("Öffentliche Gruppen konnten nicht geladen werden.");
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(groups){
+            var groupList = [];
+            $.each(groups, function(i, group) {
+                groupList.push(group);
+            });
+            sessionStorage.setItem("groups", JSON.stringify(groupList));
+        }
     }
+
+    $.ajax({url: url+"get/contactgroups/",
+        dataType: "jsonp",
+        data: {ssid:currentSSID},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getcontactgroups))
+                ajax2.parseJSONP(result.getcontactgroups);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    });
+
+    var ajax2 = {
+        parseJSONP:function(contactgroups){
+            var contactgroupList = [];
+            $.each(contactgroups, function(i, contactGroup) {
+                contactgroupList.push(contactGroup);
+            });
+            sessionStorage.setItem("contactgroups", JSON.stringify(contactgroupList));
+        }
+    };
 }
 
 /*
@@ -131,7 +218,12 @@ function getContacts() {
 * @return array of groups: gid, gname
 * */
 function getGroups() {
-    $.ajax({url: url+"get/groups",
+    var groups = JSON.parse(sessionStorage.getItem("groups"));
+    $.each(groups.reverse(), function(i, group) {
+        $(".groupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
+    });
+    $('#groupList').listview('refresh');
+  /*  $.ajax({url: url+"get/groups",
         dataType: "jsonp",
         data: {ssid:currentSSID},
         async: true,
@@ -140,7 +232,7 @@ function getGroups() {
                 ajax.parseJSONP(result.getgroups);
         },
         error: function (request,error) {
-            showFailurePage("Ihre Gruppen konnten nicht erfolgreich geladen werden. Überprüfen Sie ihre Internetverbindung und versuchen es später noch einmal.", "#page_groups")
+            showFailurePage("Ihre Gruppen konnten nicht erfolgreich geladen werden. Überprüfen Sie ihre Internetverbindung und versuchen es später noch einmal.", "#page_groups");
         }
     });
 
@@ -151,7 +243,7 @@ function getGroups() {
             });
             $('#groupList').listview('refresh');
         }
-    }
+    }*/
 }
 
 /*
@@ -160,7 +252,18 @@ function getGroups() {
 * @return array of contactgroups: cgid, cgname, faculty, semester, cgcreationdate
 * */
 function getContactgroups() {
-    $.ajax({url: url+"get/contactgroups/",
+    var contactgroups = JSON.parse(sessionStorage.getItem("contactgroups"));
+    if (contactgroups.length > 0) {
+        $.each(contactgroups.reverse(), function(i, contactGroup) {
+            console.log(contactGroup);
+            $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactgroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
+        });
+    }
+    else {
+        $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><h3 class='centerText'>keine privaten Gruppen</h3></li>");
+    }
+    $('#groupList').listview('refresh');
+  /*  $.ajax({url: url+"get/contactgroups/",
         dataType: "jsonp",
         data: {ssid:currentSSID},
         async: true,
@@ -169,7 +272,6 @@ function getContactgroups() {
                 ajax.parseJSONP(result.getcontactgroups);
         },
         error: function (request,error) {
-            /*TODO: same like getGroups*/
             alert('Network error has occurred please try again!');
         }
     });
@@ -187,21 +289,7 @@ function getContactgroups() {
             }
             $('#groupList').listview('refresh');
         }
-    };
-
-    function insertGroupListDetails(contactGroup,position) {
-        var foo = "";
-        if (contactGroup.faculty != null) {
-            foo = contactGroup.faculty;
-        }
-
-        if (contactGroup.faculty != null && contactGroup.semester != null) {
-            foo = foo + ", Semester "+contactGroup.semester;
-        } else if (contactGroup.semester != null) {
-            foo = "Semester " + contactGroup.semester;
-        }
-        $("#groupListDetails"+position).html(foo);
-    }
+    };*/
 }
 
 /*
@@ -269,18 +357,6 @@ function getContactgroupDetails(cgid) {
         }
     });
 
-    /*abhängig der eingetragenen informationen (fachbereich/semester können null sein) wird die darstellung verändert*/
-    function insertContactGroupListDetails(contactGroup) {
-        if (contactGroup.faculty != null && contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"<span class='right'>"+contactGroup.semester+". Semester</span></h3><p>Fachbereich</p></li>");
-        }
-        else if (contactGroup.faculty != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.faculty+"</h3><p class=''>Fachbereich</p></li>");
-        }
-        else if (contactGroup.semester != null) {
-            $("#contactgroupDetailsList").append("<li class='deleteCGDetailsForReset'><h3>"+contactGroup.semester+". Semester</h3><p class=''>Studienhalbjahr</p></li>");
-        }
-    }
 
     var ajax = {
         parseJSONP: function (contactGroup) {
@@ -291,8 +367,8 @@ function getContactgroupDetails(cgid) {
             });
 
             $(".deleteCGDetailsForReset").remove();
+            $("#cgd-cgid").html(contactGroup.cgid);
             $(".contactgroupDetailName").html(contactGroup.cgname);
-            insertContactGroupListDetails(contactGroup);
 
             if (contactGroup.users != null) {
                 $.each(contactGroup.users, function (i, user) {
@@ -370,7 +446,7 @@ function getContactDetails(userID) {
  * load all contacts and display them on #page_createGroup
  * @parameter ssid
  * @return array of users: uid, firstname, lastname
- * */
+ *
 function getContactsForCreateContactgroup() {
     $.ajax({url: url+"get/contacts",
         dataType: "jsonp",
@@ -395,6 +471,41 @@ function getContactsForCreateContactgroup() {
             $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
         }
     }
+}*/
+
+/*
+ * search all contacts by string for #page_createContactgroup
+ * @parameter ssid, request(search string)
+ * @return array of users: uid, firstname, lastname
+ * */
+function searchContactsForCreateContactgroup(str) {
+    var contacts = JSON.parse(sessionStorage.getItem("contacts"));
+    contacts = $.grep(contacts, function(ele){
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+            return ele;
+    });
+
+    $(".deleteSearchCGContacts").remove();
+
+    if (contacts.length > 0) {
+        $.each(contacts, function(i, contact) {
+            if (isContactAlreadyInList(contact.uid, currentContactList) >= 0) {
+                $("#liSearchContactsToCreateCG").after("<li class='deleteSearchCGContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+            }
+            else { //if contact not in currentContactList
+                $("#liSearchContactsToCreateCG").after("<li class='deleteSearchCGContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='addCGContact-" + i + "' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+
+                $("#addCGContact-" + i).on('click', function () {
+                    addContactToCreateContactgroup(i, contact); //helper method to add contacts
+                    $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
+                });
+            }
+        });
+    }
+    else { //if there are no search results found
+        $("#liSearchContactsToCreateCG").after("<li class='deleteSearchCGContacts centerText'>keine Kontakte gefunden</li>");
+    }
+    $("#listCGContacts").listview('refresh');
 }
 
 /*
@@ -403,32 +514,26 @@ function getContactsForCreateContactgroup() {
 * @return success(1), gid
 * */
 function createContactgroup() {
+    var contactgroup = new Object();
     var cgname = $("#newGroupName").val();
     if (cgname.length < 3){
         alert("Bitte geben Sie einen Namen mit mindestens 3 Zeichen ein.");
         return;
     }
-
-    var semester = ""; //allowed to be empty
-    if (!$("#sliderSemester").is(":disabled"))
-        semester = $("#sliderSemester").val();
-
-    var faculty = $("#newGroupFachbereich").val(); //allowed to be empty
-
-
-    var contactList = []; //allowed to be empty
-    $("input[type='checkbox']:checked").each(function()
-    {
-        contactList.push(this.id.substring(8)); //delete 'contact-' in front of checkbox-id to get user id
-    });
+    contactgroup.cgname = cgname;
 
     $.ajax({url: url + "create/contactgroup",
         dataType: "jsonp",
-        data: {ssid:currentSSID, cgname:cgname, faculty:faculty, semester:semester, contactlist:contactList},
+        data: {ssid:currentSSID, cgname:cgname, contactlist:currentContactList},
         async: true,
         success: function (result) {
             if (isSessionValid(result.createcontactgroup)) {
                 if (result.createcontactgroup.success) {
+                    contactgroup.cgid = result.createcontactgroup.cgid;
+                    var contactgroups = JSON.parse(sessionStorage.getItem("contactgroups"));
+                    contactgroups.push(contactgroup);
+                    sessionStorage.setItem("contactgroups",JSON.stringify(contactgroups));
+
                     getContactgroupDetails(result.createcontactgroup.cgid);
                 }
                 else {
@@ -437,7 +542,7 @@ function createContactgroup() {
             }
         },
         error: function (request, error) {
-            showFailurePage("Ihre Gruppe konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createGroup");
+            showFailurePage("Ihre Gruppe konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.", "#page_createContactgroup");
         }
     });
 }
@@ -470,11 +575,11 @@ function getEvents() {
                 var d = new Date(event.edate*1000); //js works with millisecond while mysql works with seconds
 
                 if (d < new Date()) { //if event out of date
-                    $("#liFinishedEvents").after("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
+                    $("#eventList").append("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
                     finishedEvents++;
                 }
-                else {
-                    $("#liFinishedEvents").before("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
+                else { //if event is upcoming
+                    $("#eventList .ui-first-child").after("<li class='deleteEventsForReset'><a onclick=\"getEventDetails("+event.eid+")\" href=\"#\"><h3>"+event.ename+"</h3><p>"+moment(d).calendar()+"</p></li>");
                     remainingEvents++;
                 }
             });
@@ -524,6 +629,7 @@ function getEventDetails(eid) {
             $(".deleteEventDetailsForReset").remove();
 
             //add detail information dynamically to html
+            $("#ed-eid").html(event.eid);
             $(".eventDetailName").html(event.ename);
             $(".eventName").html(event.ename);
             $(".eventDetailDescription").html(event.edescription);
@@ -648,56 +754,28 @@ function getEventlist() {
 * @return success(1), eid
 * */
 function _createEvent() {
-    var ename = $("#newEventName").val();
-
-    if (ename.length < 3) {
-        alert("Bitte geben Sie einen Eventnamen mit mindestens 3 Zeichen ein.");
-        return;
-    }
-
-    var edescription = $("#newEventDescription").val(); //can be empty
-    var date = $("#newEventDate").val();
-
-    if (date.length <= 0) {
-        alert("Bitte geben Sie ein Datum ein.");
-        return;
-    }
-
-    var time = $("#newEventTime").val();
-
-    if (time.length <= 0) {
-        alert("Bitte geben Sie eine Uhrzeit an.");
-        return;
-    }
-
-    var mdate = moment(date+time, "DD.MM.YYYY HH:mm"); //create moment from moment.js for specific time formatting
-    var edate = "";
-     if (mdate.isValid()) { //check if date and time are valid
-        edate = mdate.unix();
-     }
-    else {
-         alert("Bitte geben Sie gültige Werte für Termin und Uhrzeit ein.");
-         return;
-     }
-
-     $.ajax({url: url + "create/event",
-     dataType: "jsonp",
-     data: {ssid:currentSSID, ename:ename, edate:edate, edescription:edescription, attendeelist: currentEventContactList}, //for currentEventContactList see @addContactToCreateEvent
-     async: true,
-     success: function (result) {
-         if (isSessionValid(result.createevent)) {
-             if (result.createevent.success)
-                getEventDetails(result.createevent.eid); //show event details of created event
-             else {
-                 /*TODO failure*/
+    var _event = new Object();
+    _event = getEventInformation();
+    if (_event != null) {
+         $.ajax({url: url + "create/event",
+             dataType: "jsonp",
+             data: {ssid:currentSSID, ename:_event.ename, edate:_event.edate, edescription:_event.edescription, attendeelist: currentEventContactList}, //for currentEventContactList see @addContactToCreateEvent
+             async: true,
+             success: function (result) {
+                 if (isSessionValid(result.createevent)) {
+                     if (result.createevent.success)
+                        getEventDetails(result.createevent.eid); //show event details of created event
+                     else {
+                         /*TODO failure*/
+                     }
+                 }
+             },
+             error: function (request, error) {
+                console.log(error);
+                showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es später erneut.", "#page_createEvent");
              }
-         }
-     },
-     error: function (request, error) {
-        console.log(error);
-        showFailurePage("Das Event konnte nicht erstellt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es später erneut.", "#page_createEvent");
-     }
-     });
+         });
+    }
 }
 
 /*
@@ -706,6 +784,34 @@ function _createEvent() {
 * @return array of users: uid, firstname, lastname
 * */
 function searchContactsForCreateEvents(str) {
+    var contacts = JSON.parse(sessionStorage.getItem("contacts"));
+    contacts = $.grep(contacts, function(ele){
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+            return ele;
+    });
+
+    $(".deleteSearchEventContacts").remove();
+
+    if (contacts.length > 0) {
+        $.each(contacts, function(i, contact) {
+            if (isContactAlreadyInList(contact.uid, currentEventContactList) >= 0) {
+                $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+            }
+            else { //if contact not in currentEventContactList
+                $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='addEventContact-" + i + "' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+
+                $("#addEventContact-" + i).on('click', function () {
+                    addContactToCreateEvent(i, contact); //helper method to add contacts
+                    $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
+                });
+            }
+        });
+    }
+    else { //if there are no search results found
+        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts centerText'>keine Kontakte gefunden</li>");
+    }
+    $("#listEventContacts").listview('refresh');
+    /*
     $.ajax({url: url+"search/contact",
         dataType: "jsonp",
         data: {ssid:currentSSID, request: str},
@@ -715,7 +821,6 @@ function searchContactsForCreateEvents(str) {
                 ajax.parseJSONP(result.searchcontact);
         },
         error: function (request,error) {
-            /*TODO failure*/
             //$(".deleteSearchEventContacts").remove();
             //$("#listNavigation").append("<li class='deleteNavigationContacts centerText errorMsg'>Fehler: Suchanfrage konnte nicht übermittelt werden.</li>");
             //$("#listNavigation").listview('refresh');
@@ -746,14 +851,14 @@ function searchContactsForCreateEvents(str) {
             }
             $("#listEventContacts").listview('refresh');
         }
-    }
+    }*/
 }
 
 /* TODO: auslagern
-* helper method to add contacts to current event
-* @parameter i (current position for identification), contact
-*
-* */
+ * helper method to add contacts to current event
+ * @parameter i (current position for identification), contact
+ *
+ * */
 function addContactToCreateEvent(i, contact) {
     if (isContactAlreadyInList(contact.uid, currentEventContactList) >= 0) {
         console.log("already in contactlist");
@@ -789,13 +894,53 @@ function addContactToCreateEvent(i, contact) {
     }
 }
 
+/* TODO: auslagern
+ * helper method to add contacts to current contactgroup
+ * @parameter i (current position for identification), contact
+ *
+ * */
+function addContactToCreateContactgroup(i, contact) {
+    if (isContactAlreadyInList(contact.uid, currentContactList) >= 0) {
+        console.log("already in contactlist");
+        //do nothing
+    }
+    else { //add contact to currentContactList
+
+        if ($(".deleteCGContacts").text() == "noch keine Kontakte hinzugefügt")
+            $(".deleteCGContacts").remove();
+
+        $("#liAddedContactstoCreateCG").after("<li class='deleteCGContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='deleteCGContact-" + i + "' href='#'><img class='delete' src='./images/delete.png'></a></div></li>");
+
+        //add delete function
+        $("#deleteCGContact-" + i).on('click', function () {
+            console.log("delete contact");
+
+            currentContactList = jQuery.grep(currentContactList, function (value) { //remove specific entry from array
+                return value != contact.uid;
+            });
+
+            $(event.target).closest("li").remove();
+            if ($(".deleteCGContacts").length == 0) {
+                $("#liAddedContactstoCreateCG").after("<li class='deleteCGContacts centerText'>noch keine Kontakte hinzugefügt</li>");
+            }
+            $("#listCGContacts").listview('refresh');
+            if ($("#searchContactsToCreateCG").val().length >= minSearchInput) //if search field is not empty
+                searchContactsForCreateContactgroup($("#searchContactsToCreateCG").val()); //update search results
+        });
+
+        $("#listCGContacts").listview('refresh');
+
+        currentContactList.push(contact.uid);
+    }
+}
+
 /*
 * add all members of a specific contactgroup to an event
 * @parameter ssid, cgid
 * @return contactgroup: cgid, cgname, faculty, semester, cgcreationdate, array of users: uid, firstname, lastname
 * */
 function addContactgroupToCreateEvent(cgid) {
-    $.ajax({url: url+"get/contactgroup",
+     $.ajax({url: url+"get/contactgroup",
         dataType: "jsonp",
         data: {ssid:currentSSID, cgid:cgid},
         async: true,
@@ -832,7 +977,23 @@ function addContactgroupToCreateEvent(cgid) {
 * @return array of contactgroups: cgid, cgname, faculty, semester, cgcreationdate
 * */
 function getContactgroupsForCreateEvent() {
-    $.ajax({url: url+"get/contactgroups/",
+    var contactgroups = JSON.parse(sessionStorage.getItem("contactgroups"));
+    $(".deleteEventGroupOption").remove(); //reset previous page calls side-effects
+    $("#newEventGroup").removeClass("ui-disabled"); //reset previous page calls side-effects
+    $("#btnAddGroupToCreateEvent").removeClass("ui-disabled"); //reset previous page calls side-effects
+
+    if (contactgroups.length > 0) {
+        $.each(contactgroups, function(i, contactGroup) {
+            $("#newEventGroup").append('<option class="deleteEventGroupOption" value="'+contactGroup.cgid+'">'+contactGroup.cgname+'</option>');
+        });
+    }
+    else { //if current user has no contactgroups
+        $("#newEventGroup").prepend("<option class='deleteEventGroupOption'>keine Kontaktgruppen vorhanden</option>");
+        $("#newEventGroup").addClass("ui-disabled");
+        $("#btnAddGroupToCreateEvent").addClass("ui-disabled");
+    }
+    $('#newEventGroup').selectmenu('refresh');
+    /*   $.ajax({url: url+"get/contactgroups/",
         dataType: "jsonp",
         data: {ssid:currentSSID},
         async: true,
@@ -841,7 +1002,7 @@ function getContactgroupsForCreateEvent() {
                 ajax.parseJSONP(result.getcontactgroups);
         },
         error: function (request,error) {
-            /*TODO: failure*/
+
             alert('Network error has occurred please try again!');
         }
     });
@@ -864,7 +1025,7 @@ function getContactgroupsForCreateEvent() {
             }
             $('#newEventGroup').selectmenu('refresh');
         }
-    }
+    }*/
 }
 
 /* TODO: auslagern
@@ -931,6 +1092,35 @@ function addContactToCG(contact) {
 * @return array of users: uid, firstname, lastname
 * */
 function searchContactsForContactgroup(str) {
+    var contacts = JSON.parse(sessionStorage.getItem("contacts"));
+    contacts = $.grep(contacts, function(ele){
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+            return ele;
+    });
+
+    $(".deleteSearchContactsToAdd").remove();
+    if (contacts.length > 0) {
+        $.each( contacts, function(i, contact) {
+            if (isContactAlreadyInList(contact.uid, currentContactList) >= 0) {
+                console.log("already in list "+contact.firstname + " "+ contact.uid);
+                $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
+            }
+            else
+            { //if contact is not already in contactgroup
+                console.log("not in list "+ contact.firstname + " "+ contact.uid);
+                $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside'><a id='addContact-"+i+"' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
+                $("#addContact-"+i).on('click', function() {
+                    addContactToCG(contact); //safe to db immediately
+                });
+            }
+        });
+    }
+    else { //if there was no contact found by search string
+        $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd centerText'>keine Kontakte gefunden</li>");
+    }
+    $("#manageContactgroupDetailsList").listview('refresh');
+
+    /*
     $.ajax({url: url+"search/contact",
         dataType: "jsonp",
         data: {ssid:currentSSID,request: str},
@@ -970,8 +1160,9 @@ function searchContactsForContactgroup(str) {
             }
             $("#manageContactgroupDetailsList").listview('refresh');
         }
-    }
+    }*/
 }
+
 
 /*
 * search all contacts by string for #page_navigation
@@ -979,7 +1170,27 @@ function searchContactsForContactgroup(str) {
 * @return array of users: uid, firstname, lastname
 * */
 function searchContactForNavigation(str) {
-    $.ajax({url: url+"search/contact",
+    var contacts = JSON.parse(sessionStorage.getItem("contacts"));
+    contacts = $.grep(contacts, function(ele){
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+            return ele;
+    });
+
+    $(".deleteNavigationContacts").remove();
+
+    if (contacts.length > 0) {
+        $.each( contacts, function(i, contact) {
+            $("#listNavigation").append("<li class='deleteNavigationContacts'><a id='nav-contact-"+i+"'>"+contact.firstname+ " " +contact.lastname+"</a></li>");
+            $("#nav-contact-"+i).on('click', function(){
+                showPositionPage(contact.uid);
+            });
+        });
+    }
+    else {
+        $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte gefunden</li>");
+    }
+    $("#listNavigation").listview('refresh');
+    /*$.ajax({url: url+"search/contact",
         dataType: "jsonp",
         data: {ssid:currentSSID, request: str},
         async: true,
@@ -1012,7 +1223,7 @@ function searchContactForNavigation(str) {
             }
             $("#listNavigation").listview('refresh');
         }
-    }
+    }*/
 }
 
 /*
@@ -1131,6 +1342,10 @@ function showEvents() {
     console.log("showEvents");
     $.mobile.changePage("#page_controlAttendance");
 }
+function showCreateEvent() {
+    console.log("showCreateEvent");
+    $.mobile.changePage("#page_createEvent");
+}
 function showContactGroupDetailPage() {
     console.log("showContactGroupDetailPage");
     $.mobile.changePage("#page_contactgroupDetails");
@@ -1218,4 +1433,246 @@ function updateAttendance(qrcontent) {
             showFailurePage("Es gab einen Fehler beim Übertragen des QR-Codes. Ihre Eventteilnahme konnte nicht verifiziert werden.", "#page_scanPosition");
         }
     });
+}
+
+/*TODO: not tested yet
+* delete current contactgroup
+* @parameter ssid, cgid
+* @return success(1)
+* */
+function deleteContactgroup() {
+    var _cgid = $("#cgd-cgid").html();
+    $.ajax({url: url + "delete/contactgroup",
+        dataType: "jsonp",
+        data: {ssid:currentSSID, cgid:_cgid},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.deletecontactgroup)) {
+                if (result.deletecontactgroup.success) {
+
+                    showGroupPage();
+                    /*TODO: remove cg from sessionStorage*/
+                }
+            }
+        },
+        error: function (request, error) {
+            alert("Kontaktgruppe konnte nicht gelöscht werden.");
+        }
+    });
+}
+
+/*TODO: not tested yet
+ * delete current event
+ * @parameter ssid, eid
+ * @return success(1)
+ * */
+function deleteEvent() {
+    var _eid = $("#ed-eid").html();
+    $.ajax({url: url + "delete/event",
+        dataType: "jsonp",
+        data: {ssid:currentSSID, eid:_eid},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.deleteevent)) {
+                if (result.deleteevent.success) {
+                    showEvents();
+                }
+            }
+        },
+        error: function (request, error) {
+            alert("Event konnte nicht gelöscht werden.");
+        }
+    });
+}
+
+/* TODO: auslagern
+* helper method to reset input fields of createEvent formular
+* */
+function resetCreateEvent() {
+    currentEventContactList = [];
+    $("#ce-eid").html(""); //empty hidden field
+    $(".deleteSearchEventContacts").remove();
+    $(".deleteEventContacts").remove();
+    $("#listEventContacts").append("<li class='centerText bold deleteEventContacts'>noch keine Kontakte hinzugefügt</li>");
+    $("#listEventContacts").listview('refresh');
+    $('#form_newEvent').data('validator').resetForm();
+    $('#form_newEvent').each(function(){
+        this.reset();
+    });
+    $("#btnCreateEvent").find(".ui-btn-text").html("Erstellen");
+}
+
+/* TODO: auslagern
+ * helper method to reset input fields of createEvent formular
+ * */
+function resetCreateContactgroup() {
+    currentContactList = [];
+    $(".deleteSearchCGContacts").remove();
+    $(".deleteCGContacts").remove();
+    $("#listCGContacts").append("<li class='centerText bold deleteCGContacts'>noch keine Kontakte hinzugefügt</li>");
+    $("#listCGContacts").listview('refresh');
+    $('input').not('[type="button"]').val(''); // clear inputs except buttons, setting value to blank
+}
+
+/*
+* defines what to do when the user hit the button create event
+* */
+function createNewEvent() {
+    try {
+        resetCreateEvent();
+    }
+    catch (error) {
+        console.log(error);
+    }
+    showCreateEvent();
+}
+
+/*TODO: not tested yet
+* show page_createEvent with already filled information for update event
+* @parameter ssid, eid
+* @return attendees of event + event details
+* */
+function showUpdateEvent() {
+    var _eid = $("#ed-eid").html();
+    try {
+        resetCreateEvent();
+    }
+    catch (error) {
+        console.log(error);
+    }
+    showCreateEvent();
+    $("#ce-eid").html(_eid);
+
+    $.ajax({url: url + "get/event",
+        dataType: "jsonp",
+        data: {ssid:currentSSID, eid:_eid},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getevent)) {
+                    ajax.parseJSONP(result.getevent);
+            }
+        },
+        error: function (request, error) {
+            alert("Eventdetails konnten nicht geladen werden.");
+        }
+    });
+
+    $.ajax({url: url + "get/attendees",
+        dataType: "jsonp",
+        data: {ssid:currentSSID, eid:_eid},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getattendees)) {
+                $.each(result.getattendees, function (i, attendee) {
+                   addContactToCreateEvent(i, attendee);
+                });
+            }
+        },
+        error: function (request, error) {
+            alert("Eventdetails konnten nicht geladen werden.");
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(event){
+            $("#newEventName").val(event.ename);
+            $("#newEventDescription").val(event.edescription);
+            var edate = event.edate;
+            $("#newEventDate").val(moment(edate*1000).format("DD.MM.YYYY"));
+            $("#newEventTime").val(moment(edate*1000).format("HH:mm"));
+        }
+    }
+    $("#btnCreateEvent").find(".ui-btn-text").html("Speichern");
+}
+
+function getEventInformation() {
+    var _event = new Object();
+    var ename = $("#newEventName").val();
+
+    if (ename.length < 3) {
+        alert("Bitte geben Sie einen Eventnamen mit mindestens 3 Zeichen ein.");
+        return null;
+    }
+
+    var edescription = $("#newEventDescription").val(); //can be empty
+    var date = $("#newEventDate").val();
+
+    if (date.length <= 0) {
+        alert("Bitte geben Sie ein Datum ein.");
+        return ull;
+    }
+
+    var time = $("#newEventTime").val();
+
+    if (time.length <= 0) {
+        alert("Bitte geben Sie eine Uhrzeit an.");
+        return null;
+    }
+
+    var mdate = moment(date+time, "DD.MM.YYYY HH:mm"); //create moment from moment.js for specific time formatting
+    var edate = "";
+    if (mdate.isValid()) { //check if date and time are valid
+        edate = mdate.unix();
+    }
+    else {
+        alert("Bitte geben Sie gültige Werte für Termin und Uhrzeit ein.");
+        return null;
+    }
+    _event.ename = ename;
+    _event.edescription = edescription;
+    _event.edate = edate;
+    return _event;
+
+}
+
+/*todo: not tested yet
+* update current event
+* @parameter: ssid, eid, edescription, ename, edate, attendeelist
+* @return: success (1)
+* */
+function updateEvent(eid) {
+    var _event = new Object();
+    _event = getEventInformation();
+    if (_event != null) {
+        $.ajax({url: url + "update/event",
+            dataType: "jsonp",
+            data: {ssid:currentSSID, eid:eid, ename:_event.ename, edate:_event.edate, edescription:_event.edescription, attendeelist: currentEventContactList}, //for currentEventContactList see @addContactToCreateEvent
+            async: true,
+            success: function (result) {
+                if (isSessionValid(result.updateevent)) {
+                    if (result.updateevent.success) {
+                        getEventDetails(eid);
+                    }
+                }
+            },
+            error: function (request, error) {
+                alert("Eventdetails konnten nicht geladen werden.");
+            }
+        });
+    }
+}
+
+/*
+* decide what action on page has to be done by continue on page_createEvent
+* */
+function continueFromCreateEvent() {
+    var _eid = $("#ce-eid").html();
+    if (_eid != "") {
+       updateEvent(_eid);
+    }
+    else {
+        _createEvent();
+    }
+}
+
+/*
+* dices what action on page has to be done by hitting back
+* */
+function backFromCreateEvent() {
+    if ($("#ce-eid").html() != "") {
+        showEventDetailPage();
+    }
+    else {
+        showEvents();
+    }
 }

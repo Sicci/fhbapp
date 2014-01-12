@@ -196,7 +196,7 @@
         <!-- %header% -->
        <div data-role="content">
             <ul id="eventList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Events durchsuchen...">
-                <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createEvent">Neues Event erstellen</a></div></li>
+                <li data-role="list-divider"><h3>Events</h3><br><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" onclick="createNewEvent()" href="#">Neues Event erstellen</a></div></li>
                 <li data-role="list-divider" id="liFinishedEvents"><h3>Abgelaufene Events</h3></li>
 
             </ul>
@@ -209,6 +209,7 @@
         <!-- %header% -->
        <div data-role="content">
             <form id="form_newEvent">
+                <p id="ce-eid" class="hidden"></p> <!-- hidden field for event id -->
                 <label for="newEventName">Eventname</label>
                 <input type="text" id="newEventName" name="ename" placeholder="Eventname" />
                 <label for="newEventDescription">Eventbeschreibung</label>
@@ -235,10 +236,10 @@
                 <br><br>
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
-                        <a data-role="button" id="btn_backToControlAttendance" href="#page_controlAttendance">Abbrechen</a>
+                        <a data-role="button" id="btnBackFromCreateEvent" onclick="backFromCreateEvent()" href="#">Abbrechen</a>
                     </div>
                     <div class="ui-block-b">
-                        <a href="#" id="btnCreateEvent" onclick="_createEvent();" data-role="button">Erstellen </a>
+                        <a href="#" id="btnCreateEvent" onclick="continueFromCreateEvent()" data-role="button">Erstellen </a>
                     </div>
                 </div><!-- /grid-a -->
 
@@ -256,11 +257,14 @@
                 <img id="eventQRCode" src="images/qrcode.png" />
             </div>
             <ul id="eventDetailsList" data-role="listview">
+                <li id="ed-eid" class="hidden"></li> <!-- hidden field for event id -->
                 <li >
                     <h3 class="eventDetailName">Eventname</h3>
                     <p>Eventname</p>
-                    <p class="ui-li-aside button">
+                    <p class="ui-li-aside button" style="top: 6px">
                         <a data-inline="true" data-mini="true" data-role="button" href="#page_controlAttendance" >Zurück</a>
+                        <a id="btnEditEvent" onclick="showUpdateEvent()" href="#" data-role="button" data-mini="true" data-inline="true">Bearbeiten</a><br>
+                        <a id="deleteEvent" onclick="deleteEvent()" href="#" data-role="button" data-mini="true" data-inline="true">Löschen</a><br>
                     </p>
                 </li>
                 <li id="eventInsertAfter">
@@ -319,7 +323,7 @@
        <div data-role="content">
             <ul id="groupList" data-role="listview" data-theme="d" data-divider-theme="c" data-filter="true" data-filter-placeholder="Gruppen durchsuchen...">
                 <li class="groupDivider" data-role="list-divider"><h3>Gruppen</h3></li>
-                <li class="privateGroupDivider" data-role="list-divider"><h3>Private Gruppen</h3><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createGroup">Neue Gruppe erstellen</a></div></li>
+                <li class="privateGroupDivider" data-role="list-divider"><h3>Private Gruppen</h3><div class="ui-li-aside button"><a data-role="button" data-mini="true" data-inline="true" href="#page_createContactgroup">Neue Gruppe erstellen</a></div></li>
             </ul>
         </div><!-- /content -->
         <!-- %footer% -->
@@ -331,7 +335,7 @@
        <div data-role="content">
             <ul data-role="listview" data-theme="c" data-divider-theme="d" >
                 <li data-role="list-divider">Profil von <span class="profile_name"></span></li>
-                <li><h3 class="profile_name"></h3><p>Name</p><p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p></li>
+                <li><h3 class="profile_name"></h3><p>Name</p><!--<p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p>--></li>
                 <li><h3 class="profile_status"></h3><p>Status</p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
                 <li><h3 class="profile_email"></h3><p>E-Mail</p></li>
                 <li><h3 class="profile_wohnort"></h3><p>Wohnort</p></li>
@@ -357,7 +361,7 @@
         <!-- %header% -->
         <div data-role="content">
             <ul id="groupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
-                <li><h3 class="groupDetailName"></h3><p>Gruppenname</p><p class="ui-li-aside button" > <a id="btnToGroupChat" data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p></li>
+                <li><h3 class="groupDetailName"></h3><p>Gruppenname</p><!--<p class="ui-li-aside button" > <a id="btnToGroupChat" data-inline="true" data-mini="true" data-role="button" href="#">Zum Gruppenchat</a></p>--></li>
             </ul><br>
             <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
                 <h4>Kontakte</h4>
@@ -373,8 +377,13 @@
         <!-- %header% -->
        <div data-role="content">
             <ul id="contactgroupDetailsList" data-role="listview" data-theme="c" data-divider-theme="d">
-                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p><div class="ui-li-aside button"><a id="btnCGDetailsBack" href="#page_groups" data-role="button" data-mini="true" data-inline="true">Zurück</a>
-                    <a id="btnManageContactgroupContacts" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte verwalten</a></div></li>
+                <li id="cgd-cgid" class="hidden"></li> <!--hidden field for cgid-->
+                <li><h3 class="contactgroupDetailName"></h3><p>Gruppenname</p>
+                    <div class="ui-li-aside button" style="top: 6px">
+                        <a id="btnCGDetailsBack" href="#page_groups" data-role="button" data-mini="true" data-inline="true">Zurück</a>
+                        <a id="btnManageContactgroupContacts" href="#" data-role="button" data-mini="true" data-inline="true">Kontakte verwalten</a><br>
+                        <a id="btnDeleteContactgroup" onclick="deleteContactgroup()" href="#" data-role="button" data-mini="true" data-inline="true">Löschen</a>
+                    </div></li>
             </ul><br>
             <div class="collapsibleContacts" data-collapsed="true" data-theme="a" data-content-theme="c" data-inset="false" data-role="collapsible">
                 <h4>Kontakte</h4>
@@ -400,38 +409,20 @@
     </div><!-- /page -->
 
     <!-- create group page -->
-    <div id="page_createGroup" data-role="page">
+    <div id="page_createContactgroup" data-role="page">
         <!-- %header% -->
        <div data-role="content">
             <form id="createGroup">
-                <fieldset data-role="fieldcontain">
                     <label for="newGroupName">Gruppenname:</label>
-                    <input type="text" name="newGroupName" id="newGroupName" value="" placeholder="Gruppenname"/>
-                </fieldset>
-                <fieldset data-role="fieldcontain">
-                    <label for="newGroupFachbereich">Fachbereich:</label>
-                    <input type="text" name="newGroupFachbereich" id="newGroupFachbereich" value=""
-                           placeholder="Fachbereich"/>
-                </fieldset>
-                <fieldset data-role="fieldcontain">
-                    <div class="onFormRight"><label class="ui-hidden-accessible" for="activateSemester">Semester
-                        aktivieren:</label>
-                        <select name="activateSemester" id="activateSemester" data-role="slider">
-                            <option value="off">Aus</option>
-                            <option value="on">Ein</option>
-                        </select>
-                    </div>
-                    <br><br>
-                    <label for="sliderSemester">Semester:</label>
-                    <input disabled type="range" name="slider-1" id="sliderSemester" value="1" min="1" max="6"/>
-                </fieldset>
-                <div id="createCG_userlist_container">
-                    <fieldset id="createCG_userlist" data-role="controlgroup">
-                        <legend>Kontakte auswählen:</legend>
-                        <!-- automatically generated content-->
-                    </fieldset>
-                </div>
-                <br>
+                    <input type="text" name="newGroupName" id="newGroupName" value="" placeholder="Gruppenname"/><br>
+
+                <ul id="listCGContacts" data-role="listview" data-theme="d" data-divider-theme="c">
+                    <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
+                    <li id="liSearchContactsToCreateCG"><input type="search" name="search" id="searchContactsToCreateCG" placeholder="Kontakte durchsuchen" /></li>
+                    <li id="liAddedContactstoCreateCG" data-role="list-divider"><h3>Hinzugefügte Kontakte</h3></li>
+                </ul>
+
+                <br><br>
                 <div class="ui-grid-a">
                     <div class="ui-block-a"><a data-role="button" id="btn_backToGroups"
                                                href="#page_groups" >Abbrechen</a></div>
@@ -518,7 +509,7 @@
         {"pageID":"page_contacts", "activePage":"contacts", "pageTitle":"Kontakte"},
         {"pageID":"page_controlAttendance", "activePage":"", "pageTitle":"Anwesenheitskontrolle"},
         {"pageID":"page_createEvent", "activePage":"", "pageTitle":"Event erstellen"},
-        {"pageID":"page_createGroup", "activePage":"", "pageTitle":"Gruppe erstellen"},
+        {"pageID":"page_createContactgroup", "activePage":"", "pageTitle":"Gruppe erstellen"},
         {"pageID":"page_eventDetails", "activePage":"", "pageTitle":"Event <span class=\"eventName\"></span>"},
         {"pageID":"page_eventList", "activePage":"", "pageTitle":"Eventliste"},
         {"pageID":"page_groupDetails", "activePage":"", "pageTitle":"Gruppe <span class=\"groupDetailName\"></span>"},
