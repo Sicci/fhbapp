@@ -481,7 +481,7 @@ function getContactsForCreateContactgroup() {
 function searchContactsForCreateContactgroup(str) {
     var contacts = JSON.parse(sessionStorage.getItem("contacts"));
     contacts = $.grep(contacts, function(ele){
-        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0))
             return ele;
     });
 
@@ -786,7 +786,7 @@ function _createEvent() {
 function searchContactsForCreateEvents(str) {
     var contacts = JSON.parse(sessionStorage.getItem("contacts"));
     contacts = $.grep(contacts, function(ele){
-        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0))
             return ele;
     });
 
@@ -1094,7 +1094,7 @@ function addContactToCG(contact) {
 function searchContactsForContactgroup(str) {
     var contacts = JSON.parse(sessionStorage.getItem("contacts"));
     contacts = $.grep(contacts, function(ele){
-        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0))
             return ele;
     });
 
@@ -1172,7 +1172,7 @@ function searchContactsForContactgroup(str) {
 function searchContactForNavigation(str) {
     var contacts = JSON.parse(sessionStorage.getItem("contacts"));
     contacts = $.grep(contacts, function(ele){
-        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0)) //TODO: optimierung möglich?
+        if ((ele.firstname.toLowerCase().indexOf(str.toLowerCase()) >= 0) || (ele.lastname.toLowerCase().indexOf(str.toLowerCase()) >= 0))
             return ele;
     });
 
@@ -1435,8 +1435,7 @@ function updateAttendance(qrcontent) {
     });
 }
 
-/*TODO: not tested yet
-* delete current contactgroup
+/*delete current contactgroup
 * @parameter ssid, cgid
 * @return success(1)
 * */
@@ -1449,9 +1448,12 @@ function deleteContactgroup() {
         success: function (result) {
             if (isSessionValid(result.deletecontactgroup)) {
                 if (result.deletecontactgroup.success) {
-
+                    var contactgroups = JSON.parse(sessionStorage.getItem("contactgroups"));
+                    contactgroups = jQuery.grep(contactgroups, function(value) { //remove specific entry from array
+                        return value.cgid != _cgid;
+                    });
+                    sessionStorage.setItem("contactgroups",JSON.stringify(contactgroups));
                     showGroupPage();
-                    /*TODO: remove cg from sessionStorage*/
                 }
             }
         },
@@ -1461,8 +1463,7 @@ function deleteContactgroup() {
     });
 }
 
-/*TODO: not tested yet
- * delete current event
+/* delete current event
  * @parameter ssid, eid
  * @return success(1)
  * */
@@ -1527,8 +1528,7 @@ function createNewEvent() {
     showCreateEvent();
 }
 
-/*TODO: not tested yet
-* show page_createEvent with already filled information for update event
+/* show page_createEvent with already filled information for update event
 * @parameter ssid, eid
 * @return attendees of event + event details
 * */
@@ -1625,8 +1625,7 @@ function getEventInformation() {
 
 }
 
-/*todo: not tested yet
-* update current event
+/* update current event
 * @parameter: ssid, eid, edescription, ename, edate, attendeelist
 * @return: success (1)
 * */
