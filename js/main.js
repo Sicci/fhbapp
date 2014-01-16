@@ -1701,6 +1701,7 @@ function searchPosition(isStudentInFH) {
 
     var ajax = {
         parseJSONP:function(position){
+            alert("search position ajax");
             // todo check if destination gps coords are valid
             updateCurrentLocation(position.sender.geolat,position.sender.geolng);
             setDestinationLocation(position.target.geolat,position.target.geolng);
