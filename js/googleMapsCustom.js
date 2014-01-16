@@ -12,8 +12,8 @@ var userHasGPSCoordinates = false;
 // Updates your current location (e.g. entered a room) in latitue and longitude
 function updateCurrentLocation(roomLat,roomLng) {
     if (!userHasGPSCoordinates ){
-        alert("set room data");
         userHasGPSCoordinates = true;
+        alert(roomLat+ " "+roomLng);
         currentPosition = new google.maps.LatLng(roomLat, roomLng);
     }
 }
@@ -29,7 +29,7 @@ function locError(error) {
     userHasGPSCoordinates = false;
     console.log("error: the current position could not be located");
     //$("#map_canvas").html("Google Maps nicht erreichbar.");
-    searchPosition(0); //if no gps is activated we asume the user is in fh
+    searchPosition(1); //if no gps is activated we asume the user is in fh
 }
 
 // Callback when Google Maps connection accessed and completed
