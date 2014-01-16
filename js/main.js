@@ -1428,7 +1428,7 @@ function updateAttendance(qrcontent) {
         async: true,
         success: function (result) {
             /*TODO:proof if success */
-            showAttendanceVerifiedPage();
+            //showAttendanceVerifiedPage();
         },
         error: function (request, error) {
             showFailurePage("Es gab einen Fehler beim Übertragen des QR-Codes. Ihre Eventteilnahme konnte nicht verifiziert werden.", "#page_scanPosition");
