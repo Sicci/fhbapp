@@ -1675,3 +1675,36 @@ function backFromCreateEvent() {
         showEvents();
     }
 }
+
+
+/*
+ * load details of a specific public group and show them on #page_groupDetails
+ * @parameter ssid, gid
+ * @return group: gid, gname, array of users: uid, firstname, lastname
+ *
+ * */
+function updatePositionDetails() {
+    $.ajax({url: url + "search/position",
+        dataType: "jsonp",
+        data: {ssid:currentSSID, uid:10, infh:studentInFHbool},
+        async: true,
+        success: function (result) {
+            if (isSessionValid("")) {
+                //TODO
+                ajax.parseJSONP(result.searchposition);
+            }
+        },
+        error: function (request, error) {
+            alert('Fehler bei der Übertragung. Details über ihre ausgewählte Gruppe konnten nicht geladen werden.');
+        }
+    });
+
+    var ajax = {
+        parseJSONP:function(position){
+            //alert(position.sender.geolat);
+            updateCurrentLocation(position.sender.geolat,position.sender.geolng);
+            setDestinationLocation(position.target.geolat,position.target.geolng);
+            $("#detailedDescription").html(position.geopath);
+        }
+    }
+}
