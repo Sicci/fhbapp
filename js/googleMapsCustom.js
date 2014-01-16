@@ -13,6 +13,7 @@ var userHasGPSCoordinates = false;
 function updateCurrentLocation(roomLat,roomLng) {
     if (!userHasGPSCoordinates ){
         alert("set room data");
+        userHasGPSCoordinates = true;
         currentPosition = new google.maps.LatLng(roomLat, roomLng);
     }
 }
