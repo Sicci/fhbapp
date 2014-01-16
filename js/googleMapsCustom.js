@@ -33,7 +33,7 @@ function locError(error) {
 
 // Callback when Google Maps connection accessed and completed
 function locSuccess(pos) {
-    alert("locSuccess: "+pos.coords.latitude);
+    alert("locSuccess: "+pos.coords.latitude+pos.coords.longitude);
     //todo check if coords != null
     userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
@@ -55,6 +55,7 @@ function isStudentInFH() {
 
 // Show Google Maps canvas and shows the direction from yourself to the target
 function initializeMapAndCalculateRoute(destinationLat, destinationLng){
+    alert("draw map");
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsService = new google.maps.DirectionsService();
 
@@ -75,6 +76,7 @@ function initializeMapAndCalculateRoute(destinationLat, destinationLng){
 
 // Add a marker to the Google Maps canvas
 function addMarker(map, position, title) {
+    alert("add marker for "+title);
     var marker = new google.maps.Marker({
         position: position,
         map: map,
