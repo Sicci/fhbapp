@@ -13,7 +13,7 @@ var userHasGPSCoordinates = false;
 function updateCurrentLocation(roomLat,roomLng) {
     if (!userHasGPSCoordinates ){
         userHasGPSCoordinates = true;
-        alert(roomLat+ " "+roomLng);
+        alert("update current location to room location"+roomLat+ " "+roomLng);
         currentPosition = new google.maps.LatLng(roomLat, roomLng);
     }
 }
@@ -36,7 +36,7 @@ function locError(error) {
 function locSuccess(pos) {
     alert("locSuccess: "+pos.coords.latitude+" "+pos.coords.longitude);
     //todo check if coords != null
-    userHasGPSCoordinates = true;
+    userHasGPSCoordinates = false; //todo change to true
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
     searchPosition(isStudentInFH());
 }
@@ -44,6 +44,7 @@ function locSuccess(pos) {
 // checks if student is near fh brandenburg
 // returns 0 or 1
 function isStudentInFH() {
+    return 1;
     var _lat = currentPosition.lat();
     var _lng = currentPosition.lng();
     if (_lat < cornerTopLeft[0] && lat > cornerBotRight[0]){
@@ -56,7 +57,6 @@ function isStudentInFH() {
 
 // Show Google Maps canvas and shows the direction from yourself to the target
 function initializeMapAndCalculateRoute(destinationLat, destinationLng){
-    alert("draw map");
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsService = new google.maps.DirectionsService();
 
@@ -91,14 +91,15 @@ function addMarker(map, position, title) {
 }
 
 // Calculates the route from youself to the target
-function calculateRoute(lat,lon) {
+function calculateRoute(destinationLat,destinationLon) {
+    alert("calculate route");
     var directionTravelMode;
     if (!isStudentInFH()){
         directionTravelMode="DRIVING";}
     else{
         directionTravelMode="WALKING";
     }
-    var targetDestination =  new google.maps.LatLng(lat, lon);
+    var targetDestination =  new google.maps.LatLng(destinationLat, destinationLon);
     if (currentPosition != '' && targetDestination != '') {
         var request = {
             origin: currentPosition,
