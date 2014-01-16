@@ -98,13 +98,7 @@ $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
     console.log("pagebeforeshow: page_scanPosition");
     try {
         console.log("start qr scanner");
-        var scanResult = scanCode();
-        if (scanResult != null)
-            updateAttendance(scanResult);
-        else {
-            alert("Fehler beim Einscannen");
-            //showHomePage();
-        }
+        scanCode();
     }
     catch (error) {
             showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#page_scanPosition");

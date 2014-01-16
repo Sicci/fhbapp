@@ -1411,11 +1411,11 @@ function scanCode() {
                 "Result: " + result.text + "\n" +
                 "Format: " + result.format + "\n" +
                 "Cancelled: " + result.cancelled);
-            return result.text;
+            if (result.text != "")
+                updateAttendance();
         },
         function (error) {
             alert("Scanning failed: " + error);
-            return null;
         }
     );
 }
