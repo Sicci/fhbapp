@@ -6,6 +6,7 @@ var currentEventContactList = []; //contactList for events
 var currentCGID = null;
 var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
 var minSearchInput = 2;
+var targetUID = "";
 
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
@@ -1374,7 +1375,7 @@ function showContacts() {
 function showPositionPage(uid) {
     console.log("show position page of uid "+uid);
     $.mobile.changePage("#page_position");
-    $("#showParmHere3").html(uid); /*TODO change that*/
+    targetUID = uid;
 }
 function showFailurePage(errorMessage, retryAction) {
     $.mobile.changePage("#page_error");
@@ -1683,25 +1684,24 @@ function backFromCreateEvent() {
  * @return group: gid, gname, array of users: uid, firstname, lastname
  *
  * */
-function updatePositionDetails() {
+function searchPosition(isStudentInFH) {
     $.ajax({url: url + "search/position",
         dataType: "jsonp",
-        data: {ssid:currentSSID, uid:10, infh:studentInFHbool},
+        data: {ssid:currentSSID, uid:targetUID, infh:isStudentInFH},
         async: true,
         success: function (result) {
-            if (isSessionValid("")) {
-                //TODO
+            if (isSessionValid(result.searchposition)) {
                 ajax.parseJSONP(result.searchposition);
             }
         },
         error: function (request, error) {
-            alert('Fehler bei der Übertragung. Details über ihre ausgewählte Gruppe konnten nicht geladen werden.');
+            alert('Verbindungsfehler.');
         }
     });
 
     var ajax = {
         parseJSONP:function(position){
-            //alert(position.sender.geolat);
+            // todo check if destination gps coords are valid
             updateCurrentLocation(position.sender.geolat,position.sender.geolng);
             setDestinationLocation(position.target.geolat,position.target.geolng);
             $("#detailedDescription").html(position.geopath);

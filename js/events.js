@@ -204,6 +204,10 @@ $(document).on('pagehide', '#page_chat', function(e, data){
     Candy = null; //reset chat
 });
 
+/*load gps data from current user*/
+$(document).on("pagebeforeshow", "#page_position", function() {
+    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:600000, timeout:10000});
+});
 
 /*probably not necessary in fact of candy chat.... can be deleted if we dont have another chat*/
 $(document).delegate('.ui-page', 'pageshow', function () {
@@ -214,6 +218,7 @@ $(document).delegate('.ui-page', 'pageshow', function () {
      document.getElementById('shoutContainer').scrollTop = 10000;
      */
 });
+
 
 
 
