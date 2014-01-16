@@ -12,6 +12,7 @@ var userHasGPSCoordinates = false;
 // Updates your current location (e.g. entered a room) in latitue and longitude
 function updateCurrentLocation(roomLat,roomLng) {
     if (!userHasGPSCoordinates ){
+        alert("set room data");
         currentPosition = new google.maps.LatLng(roomLat, roomLng);
     }
 }
@@ -23,6 +24,7 @@ function setDestinationLocation(roomLat, roomLng) {
 
 // Callback when Google Maps connection denied
 function locError(error) {
+    alert("locError");
     userHasGPSCoordinates = false;
     console.log("error: the current position could not be located");
     //$("#map_canvas").html("Google Maps nicht erreichbar.");
@@ -31,6 +33,7 @@ function locError(error) {
 
 // Callback when Google Maps connection accessed and completed
 function locSuccess(pos) {
+    alert("locSuccess");
     userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
     searchPosition(isStudentInFH());
