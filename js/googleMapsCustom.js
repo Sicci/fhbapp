@@ -33,7 +33,8 @@ function locError(error) {
 
 // Callback when Google Maps connection accessed and completed
 function locSuccess(pos) {
-    alert("locSuccess");
+    alert("locSuccess: "+pos.coords.latitude);
+    //todo check if coords != null
     userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
     searchPosition(isStudentInFH());
