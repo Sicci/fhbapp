@@ -4,7 +4,7 @@ var currentUser = []; // user: uid, email, firstname, lastname, istutor, gids
 var currentContactList = []; //contactList for contactgroup
 var currentEventContactList = []; //contactList for events
 var currentCGID = null;
-var qrcodeURL = "http://fhbapp.rumbledore.de/qrcode/?qrrequest=";
+var qrcodeURL = "http://fhbapp.rumbledore.de/generate/qrcode/?qrrequest=";
 var minSearchInput = 2;
 var targetUID = "";
 
