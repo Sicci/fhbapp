@@ -23,13 +23,16 @@ moment.lang("de");
 * @return 1 if session is valid (no error message was send)
 * */
 function isSessionValid(result) {
-    if (result.error == undefined)
-        return 1;
-    else {
-        console.log(result.error);
+    if (result.error == "NoSession") {
         alert("no valid session");
         showLoginPage();
         return 0;
+    }
+    else {
+        if (result.error != undefined) {
+            console.log("Fehler: "+result.error);
+        }
+        return 1;
     }
 }
 
@@ -1427,13 +1430,38 @@ function updateAttendance(qrcontent) {
         data: {uid:currentUser.uid, eqrcontent:qrcontent},
         async: true,
         success: function (result) {
-            /*TODO:proof if success */
-            //showAttendanceVerifiedPage();
+            if (isSessionValid(result.updateattendance)) {
+                if (result.updateattendance.success) {
+                    ajax.parseJSONP(result.updateattendance);
+                }
+                else {
+                    if (result.updateAttendance.error == "NotFound") {
+                        alert("qrcode unbekannt");
+                    }
+                    else if (result.updateAttendance.error == "NoAccess") {
+                        alert("nutzer hat keine berechtigung sich für dieses event zu registrieren");
+                    }
+                }
+                showHomePage();
+            }
         },
         error: function (request, error) {
             showFailurePage("Es gab einen Fehler beim Übertragen des QR-Codes. Ihre Eventteilnahme konnte nicht verifiziert werden.", "#page_scanPosition");
         }
     });
+
+    var ajax = {
+        parseJSONP:function(scanResult){
+            console.log(scanResult);
+            if (scanResult.room != undefined) {
+                alert("raum erfolgreich eingescannt");
+            }
+            else if(scanResult.event != undefined) {
+                alert("event erfolgreich eingescannt");
+            }
+
+        }
+    }
 }
 
 /*delete current contactgroup
@@ -1701,12 +1729,17 @@ function searchPosition(isStudentInFH) {
 
     var ajax = {
         parseJSONP:function(position){
-
-            // todo check if destination gps coords are valid
-            updateCurrentLocation(position.sender.geolat,position.sender.geolng);
-            setDestinationLocation(position.target.geolat,position.target.geolng);
-            $("#detailedDescription").html(position.geopath);
-            alert(position.geopath);
+            if (position.error == "BadDatabase") {
+                $("#map_container").hide();
+                $("#detailedDescription").html('<b style="color:red;">Position konnte nicht ermittelt werden.</b><br>Aufgrund fehlender GPS-Informationen konnte die Person nicht lokalisiert werden. ' +
+                    'Eventuell können ihre GPS-Koordinaten nicht ermittelt werden oder der Standort ihrer gesuchten Person ist derzeit unbekannt.');
+            }
+            else {
+                $("#map_container").show();
+                updateCurrentLocation(position.sender.geolat,position.sender.geolng);
+                setDestinationLocation(position.target.geolat,position.target.geolng);
+                $("#detailedDescription").html("<b>Position von </b><br>"+position.geopath);
+            }
         }
     }
 }

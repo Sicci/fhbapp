@@ -36,7 +36,7 @@ function locError(error) {
 function locSuccess(pos) {
     alert("locSuccess: "+pos.coords.latitude+" "+pos.coords.longitude);
     //todo check if coords != null
-    userHasGPSCoordinates = false; //todo change to true
+    userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
     searchPosition(isStudentInFH());
 }
@@ -44,10 +44,9 @@ function locSuccess(pos) {
 // checks if student is near fh brandenburg
 // returns 0 or 1
 function isStudentInFH() {
-    return 1;
     var _lat = currentPosition.lat();
     var _lng = currentPosition.lng();
-    if (_lat < cornerTopLeft[0] && lat > cornerBotRight[0]){
+    if (_lat < cornerTopLeft[0] && _lat > cornerBotRight[0]){
         if (_lng > cornerTopLeft[1] && _lng < cornerBotRight[1]){
             return 1;
         }

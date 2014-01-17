@@ -200,7 +200,13 @@ $(document).on('pagehide', '#page_chat', function(e, data){
 
 /*load gps data from current user*/
 $(document).on("pagebeforeshow", "#page_position", function() {
-    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: true});
+    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: false});
+});
+
+$(document).on("pagebeforehide", "#page_position", function() {
+    $("#map_container").hide();
+    $("#directions").html("");
+    $("#detailedDescription").html("");
 });
 
 /*probably not necessary in fact of candy chat.... can be deleted if we dont have another chat*/
