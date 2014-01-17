@@ -1415,7 +1415,7 @@ function scanCode() {
                 "Format: " + result.format + "\n" +
                 "Cancelled: " + result.cancelled);
             if (result.text != "")
-                updateAttendance();
+                updateAttendance(result.text);
         },
         function (error) {
             alert("Scanning failed: " + error);
