@@ -1435,10 +1435,11 @@ function updateAttendance(qrcontent) {
                     ajax.parseJSONP(result.updateattendance);
                 }
                 else {
-                    if (result.updateAttendance.error == "NotFound") {
+                    alert(result.updateattendance.error);
+                    if (result.updateattendance.error == "NotFound") {
                         alert("qrcode unbekannt");
                     }
-                    else if (result.updateAttendance.error == "NoAccess") {
+                    else if (result.updateattendance.error == "NoAccess") {
                         alert("nutzer hat keine berechtigung sich für dieses event zu registrieren");
                     }
                 }
