@@ -1427,7 +1427,7 @@ function scanCode() {
 function updateAttendance(qrcontent) {
     $.ajax({url: url + "update/attendance",
         dataType: "jsonp",
-        data: {uid:currentUser.uid, eqrcontent:qrcontent},
+        data: {ssid:currentSSID, eqrcontent:qrcontent},
         async: true,
         success: function (result) {
             if (isSessionValid(result.updateattendance)) {

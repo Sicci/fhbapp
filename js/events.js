@@ -200,7 +200,7 @@ $(document).on('pagehide', '#page_chat', function(e, data){
 
 /*load gps data from current user*/
 $(document).on("pagebeforeshow", "#page_position", function() {
-    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: false});
+    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: false}); //TODO: change to true
 });
 
 $(document).on("pagebeforehide", "#page_position", function() {
