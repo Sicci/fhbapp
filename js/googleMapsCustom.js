@@ -13,19 +13,13 @@ var userHasGPSCoordinates = false;
 function updateCurrentLocation(roomLat,roomLng) {
     if (!userHasGPSCoordinates ){
         userHasGPSCoordinates = true;
-        alert("update current location to room location"+roomLat+ " "+roomLng);
         currentPosition = new google.maps.LatLng(roomLat, roomLng);
     }
 }
 
-// Sets the target location in latitue and longitude
-function setDestinationLocation(roomLat, roomLng) {
-    initializeMapAndCalculateRoute(roomLat,roomLng);
-}
 
 // Callback when Google Maps connection denied
 function locError(error) {
-    alert("locError");
     userHasGPSCoordinates = false;
     console.log("error: the current position could not be located");
     //$("#map_canvas").html("Google Maps nicht erreichbar.");
@@ -34,7 +28,6 @@ function locError(error) {
 
 // Callback when Google Maps connection accessed and completed
 function locSuccess(pos) {
-    alert("locSuccess: "+pos.coords.latitude+" "+pos.coords.longitude);
     //todo check if coords != null
     userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
@@ -55,7 +48,7 @@ function isStudentInFH() {
 }
 
 // Show Google Maps canvas and shows the direction from yourself to the target
-function initializeMapAndCalculateRoute(destinationLat, destinationLng){
+function setDestinationAndDrawMap(destinationLat, destinationLng){
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsService = new google.maps.DirectionsService();
 
@@ -76,7 +69,6 @@ function initializeMapAndCalculateRoute(destinationLat, destinationLng){
 
 // Add a marker to the Google Maps canvas
 function addMarker(map, position, title) {
-    alert("add marker for "+title);
     var marker = new google.maps.Marker({
         position: position,
         map: map,
@@ -90,8 +82,7 @@ function addMarker(map, position, title) {
 }
 
 // Calculates the route from youself to the target
-function calculateRoute(destinationLat,destinationLon) {
-    alert("calculate route");
+function calculateRoute(destinationLat, destinationLon) {
     var directionTravelMode;
     if (!isStudentInFH()){
         directionTravelMode="DRIVING";}
@@ -106,10 +97,16 @@ function calculateRoute(destinationLat,destinationLon) {
             travelMode: google.maps.DirectionsTravelMode[directionTravelMode]
         };
         directionsService.route(request, function(response, status) {
+            console.log(response);
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setPanel(document.getElementById("directions"));
                 directionsDisplay.setDirections(response);
-                $("#results").show();
+                if (!isStudentInFH()) {
+                    $("#results").show();
+                }
+                else {
+                    $("#results").hide();
+                }
             }
             else {
                 $("#results").hide();

@@ -1738,8 +1738,15 @@ function searchPosition(isStudentInFH) {
             else {
                 $("#map_container").show();
                 updateCurrentLocation(position.sender.geolat,position.sender.geolng);
-                setDestinationLocation(position.target.geolat,position.target.geolng);
-                $("#detailedDescription").html("<b>Position von </b><br>"+position.geopath);
+                setDestinationAndDrawMap(position.target.geolat,position.target.geolng);
+                if (isStudentInFH) {
+                    $("#detailedDescription").html('<h3>Position von '+position.target.firstname+'</h3>'+position.geopath);
+                }
+                else {
+                    $("#detailedDescription").html('<h3>Position von '+position.target.firstname+'</h3>');
+                    $("#results").append("<br>"+position.geopath);
+                }
+
             }
         }
     }
