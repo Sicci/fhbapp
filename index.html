@@ -411,22 +411,17 @@
         <!-- %footer% -->
     </div><!-- /page -->
 
-    <!-- single chat page -->
-    <div id="page_chatSingle" data-role="page">
-        <!-- %header% -->
-       <div data-role="content">
-            <div id="incomingMessages" name="incomingMessages" class="msgContainerDiv">
-                <div class="message"><span class="username">[name]</span>: Hallo </div>
-                <div class="message"><span class="username">[name]</span>: Hi</div>
-                <div class="message"><span class="username">[name]</span>: Wie geht's?</div>
-            </div>
-            <div class="bottom">
-                <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
-                <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
-            </div>
-       </div><!-- /content -->
-        <!-- %footer% -->
-    </div><!-- /page -->
+        <!-- chat page -->
+        <div id="page_chat" data-role="page">
+                <!-- %header% -->
+                <div data-role="content">
+                    <div id="candy">
+                    <!-- %chat% -->
+                </div>
+            </div><!-- /content -->
+            <!-- %footer% -->
+        </div><!-- /page -->
+
 
     <div id="page_error" data-role="page">
         <div data-role="content">
@@ -466,7 +461,7 @@
         {"pageID":"page_position", "activePage":"", "pageTitle":"Position"},
         {"pageID":"page_profile", "activePage":"", "pageTitle":"Profil von <span class=\"profile_name\"></span>"},
         {"pageID":"page_scanPosition", "activePage":"", "pageTitle":"QR-Code einscannen"},
-        {"pageID":"page_getStatuses", "activePage":"", "pageTitle":"Anwesenheitsverifikation"}
+        {"pageID":"page_getStatuses", "activePage":"", "pageTitle":"Statusverlauf"}
     ];
 
     for (var pageObj in pageArray) {
