@@ -88,6 +88,7 @@
 			
 			if(!$err) {
 				$geopath = "";
+				$inSameBuilding = false;
 				if($INFH) {
 				
 					// Du befindest dich ...
@@ -95,6 +96,7 @@
 					
 					if($aLastPositionSender["building"]==$aLastPositionTarget["building"]) {
 						$geopath.= sprintf(" Die gesuchte Person ist ebenfalls hier.");
+						$inSameBuilding = true;
 						
 						if($aLastPositionSender["floor"]==$aLastPositionTarget["floor"]) {
 							if($aLastPositionSender["rname"]==$aLastPositionTarget["rname"]) {
@@ -163,13 +165,14 @@
 					}
 				}
 				
-				$geopath.= sprintf(" Du befindest dich nun vor dem %s. Gehe hinein.", $aLastPositionTarget["building"]);
-				if($aLastPositionTarget["floor"]!=0)
-					$geopath.= sprintf(" Begib dich in den %s Stock. Dort", $aLastPositionTarget["floor"]);
-				else 
-					$geopath.= sprintf(" Im Erdgeschoss");
-				$geopath.= sprintf(" findest du %s in %s.", $aLastPositionTarget["firstname"], $aLastPositionTarget["rname"]);
-
+				if(!$inSameBuilding) {
+					$geopath.= sprintf(" Du befindest dich nun vor dem %s. Gehe hinein.", $aLastPositionTarget["building"]);
+					if($aLastPositionTarget["floor"]!=0)
+						$geopath.= sprintf(" Begib dich in den %s Stock. Dort", $aLastPositionTarget["floor"]);
+					else 
+						$geopath.= sprintf(" Im Erdgeschoss");
+					$geopath.= sprintf(" findest du %s in %s.", $aLastPositionTarget["firstname"], $aLastPositionTarget["rname"]);
+				}
 
 				#####################################################################
 				
