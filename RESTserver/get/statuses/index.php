@@ -13,6 +13,8 @@
 
 		$oStatement = $dbh->prepare('
 			SELECT  s.sid as "sid",
+					s.eid as "eid",
+					s.rid as "rid",
 					s.sdescription as "sdescription",
 					UNIX_TIMESTAMP(s.screationdate) as "screationdate"
 			
