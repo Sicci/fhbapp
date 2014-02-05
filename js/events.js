@@ -1,7 +1,3 @@
-/*only load contacts a single time via jsonp*/
-/*$(document).on('pageinit', '#page_createContactgroup', function(e, data){
-
-});*/
 
 //this code will just run once
 $(document).on('pageinit',function(event){
@@ -90,7 +86,6 @@ $(document).on('pagebeforeshow', '#page_attendees', function(e, data){
 $(document).on('pagebeforeshow', '#page_createContactgroup', function(e, data){
     console.log("pagebeforeshow: page_createGroup");
     resetCreateContactgroup()
-
 });
 
 /*start qr-scanner on mobile device if user enters #page_scanPosition*/
@@ -101,7 +96,7 @@ $(document).on('pagebeforeshow', '#page_scanPosition', function(e, data){
         scanCode();
     }
     catch (error) {
-            showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#page_scanPosition");
+        showFailurePage("QR-Scanner kann im Browser nicht geladen werden.", "#page_scanPosition");
     }
 });
 
@@ -134,9 +129,6 @@ $(document).on('pagebeforeshow', '#page_manageContacts', function(e, data){
 
 $(document).on('pagebeforeshow', '#page_contactgroupDetails', function(e, data){
     console.log("pagebeforeshow: page_contactgroupDetails");
-    /*TODO:bei changes der cg muss sie neu geladen werden*/
-    //if manage contact group contacts has changed some contacts (e.g. delete user a or add user b)
-    //load cg again (how to determine which cg has to be loaded?)
 });
 
 /*load contacts via jsonp*/
@@ -200,7 +192,7 @@ $(document).on('pagehide', '#page_chat', function(e, data){
 
 /*load gps data from current user*/
 $(document).on("pagebeforeshow", "#page_position", function() {
-    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: false}); //TODO: change to true
+    navigator.geolocation.getCurrentPosition(locSuccess, locError, {maximumAge:90000, timeout:20000, enableHighAccuracy: true});
 });
 
 $(document).on("pagebeforehide", "#page_position", function() {
@@ -209,15 +201,6 @@ $(document).on("pagebeforehide", "#page_position", function() {
     $("#detailedDescription").html("");
 });
 
-/*probably not necessary in fact of candy chat.... can be deleted if we dont have another chat*/
-$(document).delegate('.ui-page', 'pageshow', function () {
-    var objDiv = document.getElementById("incomingMessages");
-    objDiv.scrollTop = objDiv.scrollHeight;
-
-    /* TODO: whenever a msg was send to chat do:
-     document.getElementById('shoutContainer').scrollTop = 10000;
-     */
-});
 
 
 

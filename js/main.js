@@ -1,13 +1,16 @@
-var url = "http://fhbapp.rumbledore.de/";
+var url = "http://fhbapp.rumbledore.de/"; //default url for requests
 var currentSSID = ""; // session ID
 var currentUser = []; // user: uid, email, firstname, lastname, istutor, gids
 var currentContactList = []; //contactList for contactgroup
 var currentEventContactList = []; //contactList for events
-var currentCGID = null;
-var qrcodeURL = "http://fhbapp.rumbledore.de/generate/qrcode/?qrrequest=";
-var minSearchInput = 2;
-var targetUID = "";
+var currentCGID = null; //contactgroup id of last selected group
+var qrcodeURL = "http://fhbapp.rumbledore.de/generate/qrcode/?qrrequest="; //URL to get QR-Codes
+var minSearchInput = 2; //min value for search input
+var targetUID = ""; //uid from person I want to find
 
+/*
+ * settings for jquery mobile and other frameworks
+ */
 $.mobile.loader.prototype.options.textVisible = true;
 $.mobile.loader.prototype.options.theme = "a";
 $.mobile.loader.prototype.options.theme = "a";
@@ -15,8 +18,6 @@ $.mobile.defaultPageTransition   = 'none'
 $.mobile.defaultDialogTransition = 'none'
 $.mobile.buttonMarkup.hoverDelay = 0
 moment.lang("de");
-
-/*TODO: groups und cgs andersrum sortieren bitte | falls, dann lösch .reverse()*/
 
 /*
 * checks if we have a valid session
@@ -47,9 +48,8 @@ function checkLogin() {
         dataType: "jsonp",
         data: $("#formLogin").serialize(),
         async: true,
-        success: function (result) { //TODO check if success?
+        success: function (result) {
                 ajax.parseJSONP(result.dologin);
-                showHomePage();
         },
         error: function (request,error) {
             showFailurePage("Sie konnten nicht erfolgreich angemeldet werden. Bitte versuchen Sie es später erneut.", "#page_login");
@@ -58,18 +58,24 @@ function checkLogin() {
 
     var ajax = {
         parseJSONP:function(login){
-            $.each( login, function(property, value) {
-                if (property != "ssid") {
-                    currentUser[property] = value;
-                    console.log(property + ": "+currentUser[property]);
-                }
-                else {
-                    currentSSID = value;
-                    console.log("SSID: "+currentSSID);
-                }
-            });
-            loadContactsOnStartup(); //TODO: find a better position?
-            loadGroupsOnStartup();
+            if (login.error == "NotFound") {
+                alert("Username und/oder Passwort falsch. Bitte versuchen Sie es erneut.");
+            }
+            else {
+                $.each( login, function(property, value) {
+                    if (property != "ssid") {
+                        currentUser[property] = value;
+                        console.log(property + ": "+currentUser[property]);
+                    }
+                    else {
+                        currentSSID = value;
+                        console.log("SSID: "+currentSSID);
+                    }
+                });
+                showHomePage();
+                loadContactsOnStartup();
+                loadGroupsOnStartup();
+            }
         }
     }
 }
@@ -102,9 +108,7 @@ function loadContactsOnStartup() {
         async: true,
         success: function (result) {
             if (isSessionValid(result.getcontacts)) {
-                //$.mobile.showPageLoadingMsg();/*TODO: insert ajax loader pls*/
                 ajax.parseJSONP(result.getcontacts);
-                //$.mobile.hidePageLoadingMsg();
             }
         },
         error: function (request,error) {
@@ -137,35 +141,6 @@ function getContacts() {
         console.log(user);
     });
     $('#userList').listview('refresh');
-    /*$.ajax({url: url+"get/contacts",
-        dataType: "jsonp",
-        data: {ssid:currentSSID},
-        async: true,
-        success: function (result) {
-            if (isSessionValid(result.getcontacts)) {
-                //$.mobile.showPageLoadingMsg();/*TODO: kA ob das so überhaupt was bringt oder funktioniert..beforeSend hat bisher nich funktioniert
-                ajax.parseJSONP(result.getcontacts);
-                //$.mobile.hidePageLoadingMsg();
-            }
-        },
-        error: function (request,error) {
-            $("#userList").empty();
-            $("#userList").append("<li class='centerText errorMsg'>Kontakte konnten nicht geladen werden.</li>");
-            $('#userList').listview('refresh');
-            $(".ui-li-divider").html("Fehler");
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(contacts){
-            $("#userList").empty();
-            $.each( contacts, function(i, user) {
-                $("#userList").append("<li><a onclick=\"getContactDetails("+user.uid+")\" href=\"#\">"+user.firstname +" "+user.lastname+"</a></li>");
-                console.log(user);
-            });
-            $('#userList').listview('refresh');
-        }
-    }*/
 }
 
 function loadGroupsOnStartup() {
@@ -174,7 +149,7 @@ function loadGroupsOnStartup() {
         data: {ssid:currentSSID},
         async: true,
         success: function (result) {
-            if (isSessionValid(result.getgroups)) /*TODO: add ajax loader!*/
+            if (isSessionValid(result.getgroups))
                 ajax.parseJSONP(result.getgroups);
         },
         error: function (request,error) {
@@ -227,27 +202,6 @@ function getGroups() {
         $(".groupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
     });
     $('#groupList').listview('refresh');
-  /*  $.ajax({url: url+"get/groups",
-        dataType: "jsonp",
-        data: {ssid:currentSSID},
-        async: true,
-        success: function (result) {
-            if (isSessionValid(result.getgroups))
-                ajax.parseJSONP(result.getgroups);
-        },
-        error: function (request,error) {
-            showFailurePage("Ihre Gruppen konnten nicht erfolgreich geladen werden. Überprüfen Sie ihre Internetverbindung und versuchen es später noch einmal.", "#page_groups");
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(groups){
-            $.each(groups, function(i, group) {
-                $(".groupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getGroupDetails("+group.gid+")\" href=\"#\"><h3>"+group.gname+"</h3></a></li>");
-            });
-            $('#groupList').listview('refresh');
-        }
-    }*/
 }
 
 /*
@@ -267,33 +221,7 @@ function getContactgroups() {
         $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><h3 class='centerText'>keine privaten Gruppen</h3></li>");
     }
     $('#groupList').listview('refresh');
-  /*  $.ajax({url: url+"get/contactgroups/",
-        dataType: "jsonp",
-        data: {ssid:currentSSID},
-        async: true,
-        success: function (result) {
-            if (isSessionValid(result.getcontactgroups))
-                ajax.parseJSONP(result.getcontactgroups);
-        },
-        error: function (request,error) {
-            alert('Network error has occurred please try again!');
-        }
-    });
 
-    var ajax = {
-        parseJSONP:function(contactgroups){
-            if (contactgroups.length > 0) {
-                $.each( contactgroups, function(i, contactGroup) {
-                    $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><a onclick=\"getContactgroupDetails("+contactGroup.cgid+")\" href=\"#\"><h3>"+contactGroup.cgname+"</h3><p id='groupListDetails"+i+"'></p></a></li>");
-                    insertGroupListDetails(contactGroup,i);
-                });
-            }
-            else {
-                $(".privateGroupDivider").after("<li class='deleteGroupsForReset'><h3 class='centerText'>keine privaten Gruppen</h3></li>");
-            }
-            $('#groupList').listview('refresh');
-        }
-    };*/
 }
 
 /*
@@ -445,37 +373,6 @@ function getContactDetails(userID) {
         }
     }
 }
-
-/*
- * load all contacts and display them on #page_createGroup
- * @parameter ssid
- * @return array of users: uid, firstname, lastname
- *
-function getContactsForCreateContactgroup() {
-    $.ajax({url: url+"get/contacts",
-        dataType: "jsonp",
-        data: {ssid:currentSSID},
-        async: true,
-        success: function (result) {
-            if(isSessionValid(result.getcontacts))
-                ajax.parseJSONP(result.getcontacts);
-        },
-        error: function (request,error) {
-            alert('Network error has occurred please try again!');
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(contacts){
-            $(".deleteCreateContactsForReset").remove(); //not necessary because this function will only called once (on init page)
-            $.each( contacts, function(i, user) {
-                $("#createCG_userlist").append("<input type='checkbox' name='contact-"+user.uid+"' id='contact-"+user.uid+"' class='deleteCreateContactsForReset'/><label for='contact-"+user.uid+"'>"+user.firstname + " " + user.lastname +"</label>");
-            });
-            $("#createCG_userlist_container").trigger('create');
-            $("input[type='checkbox']").attr("class","deleteCreateContactsForReset").checkboxradio("refresh");
-        }
-    }
-}*/
 
 /*
  * search all contacts by string for #page_createContactgroup
@@ -667,7 +564,6 @@ function getEventAttendees(eid) {
                 ajax.parseJSONP(eid, result.getattendees);
         },
         error: function (request, error) {
-            /*TODO:failure page einfügen, evtl retry btn here überschreiben*/
             alert('Network error has occurred please try again!');
         }
     });
@@ -770,7 +666,7 @@ function _createEvent() {
                      if (result.createevent.success)
                         getEventDetails(result.createevent.eid); //show event details of created event
                      else {
-                         /*TODO failure*/
+                         alert("Fehler bei Eventerstellung.")
                      }
                  }
              },
@@ -815,53 +711,11 @@ function searchContactsForCreateEvents(str) {
         $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts centerText'>keine Kontakte gefunden</li>");
     }
     $("#listEventContacts").listview('refresh');
-    /*
-    $.ajax({url: url+"search/contact",
-        dataType: "jsonp",
-        data: {ssid:currentSSID, request: str},
-        async: true,
-        success: function (result) {
-            if(isSessionValid(result.searchcontact))
-                ajax.parseJSONP(result.searchcontact);
-        },
-        error: function (request,error) {
-            //$(".deleteSearchEventContacts").remove();
-            //$("#listNavigation").append("<li class='deleteNavigationContacts centerText errorMsg'>Fehler: Suchanfrage konnte nicht übermittelt werden.</li>");
-            //$("#listNavigation").listview('refresh');
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(contacts){
-            $(".deleteSearchEventContacts").remove();
-
-            if (contacts.length > 0) {
-                $.each(contacts, function(i, contact) {
-                    if (isContactAlreadyInList(contact.uid, currentEventContactList) >= 0) {
-                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
-                    }
-                    else { //if contact not in currentEventContactList
-                        $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts'>" + contact.firstname + " " + contact.lastname + "<div class='ui-li-aside'><a id='addEventContact-" + i + "' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
-
-                        $("#addEventContact-" + i).on('click', function () {
-                            addContactToCreateEvent(i, contact); //helper method to add contacts
-                            $(event.target).closest("div").addClass("asideText").html("hinzugefügt");
-                        });
-                    }
-                });
-            }
-            else { //if there are no search results found
-                $("#liSearchContactsToCreateEvent").after("<li class='deleteSearchEventContacts centerText'>keine Kontakte gefunden</li>");
-            }
-            $("#listEventContacts").listview('refresh');
-        }
-    }*/
 }
 
-/* TODO: auslagern
+/*
  * helper method to add contacts to current event
  * @parameter i (current position for identification), contact
- *
  * */
 function addContactToCreateEvent(i, contact) {
     if (isContactAlreadyInList(contact.uid, currentEventContactList) >= 0) {
@@ -898,10 +752,9 @@ function addContactToCreateEvent(i, contact) {
     }
 }
 
-/* TODO: auslagern
+/*
  * helper method to add contacts to current contactgroup
  * @parameter i (current position for identification), contact
- *
  * */
 function addContactToCreateContactgroup(i, contact) {
     if (isContactAlreadyInList(contact.uid, currentContactList) >= 0) {
@@ -997,42 +850,9 @@ function getContactgroupsForCreateEvent() {
         $("#btnAddGroupToCreateEvent").addClass("ui-disabled");
     }
     $('#newEventGroup').selectmenu('refresh');
-    /*   $.ajax({url: url+"get/contactgroups/",
-        dataType: "jsonp",
-        data: {ssid:currentSSID},
-        async: true,
-        success: function (result) {
-            if(isSessionValid(result.getcontactgroups))
-                ajax.parseJSONP(result.getcontactgroups);
-        },
-        error: function (request,error) {
-
-            alert('Network error has occurred please try again!');
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(contactgroups){
-            $(".deleteEventGroupOption").remove(); //reset previous page calls side-effects
-            $("#newEventGroup").removeClass("ui-disabled"); //reset previous page calls side-effects
-            $("#btnAddGroupToCreateEvent").removeClass("ui-disabled"); //reset previous page calls side-effects
-
-            if (contactgroups.length > 0) {
-                $.each( contactgroups, function(i, contactGroup) {
-                    $("#newEventGroup").append('<option class="deleteEventGroupOption" value="'+contactGroup.cgid+'">'+contactGroup.cgname+'</option>');
-                });
-            }
-            else { //if current user has no contactgroups
-                $("#newEventGroup").prepend("<option class='deleteEventGroupOption'>keine Kontaktgruppen vorhanden</option>");
-                $("#newEventGroup").addClass("ui-disabled");
-                $("#btnAddGroupToCreateEvent").addClass("ui-disabled");
-            }
-            $('#newEventGroup').selectmenu('refresh');
-        }
-    }*/
 }
 
-/* TODO: auslagern
+/*
 * helper method to check if contact is already in a specific array list
 * @parameter uid, list
 * @return -1 if user is not in list
@@ -1124,47 +944,7 @@ function searchContactsForContactgroup(str) {
     }
     $("#manageContactgroupDetailsList").listview('refresh');
 
-    /*
-    $.ajax({url: url+"search/contact",
-        dataType: "jsonp",
-        data: {ssid:currentSSID,request: str},
-        async: true,
-        success: function (result) {
-            if (isSessionValid(result.searchcontact))
-                ajax.parseJSONP(result.searchcontact);
-        },
-        error: function (request,error) {
-            $(".deleteSearchContactsToAdd").remove();
-            $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd centerText errorMsg'>Suchanfrage konnte nicht übermittelt werden.</li>");
-            $("#manageContactgroupDetailsList").listview('refresh');
-        }
-    });
 
-    var ajax = {
-        parseJSONP:function(contacts){
-            $(".deleteSearchContactsToAdd").remove();
-            if (contacts.length > 0) {
-                $.each( contacts, function(i, contact) {
-                    if (isContactAlreadyInList(contact.uid, currentContactList) >= 0) {
-                        console.log("already in list "+contact.firstname + " "+ contact.uid);
-                        $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside asideText'>bereits hinzugefügt</div></li>");
-                    }
-                    else
-                    { //if contact is not already in contactgroup
-                        console.log("not in list "+ contact.firstname + " "+ contact.uid);
-                        $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd'>"+contact.firstname+ " " +contact.lastname+"<div class='ui-li-aside'><a id='addContact-"+i+"' href='#'><img class='add' src='./images/add.png' /></a></div></li>");
-                        $("#addContact-"+i).on('click', function() {
-                             addContactToCG(contact);
-                        });
-                    }
-                });
-            }
-            else { //if there was no contact found by search string
-                $("#liSearchContactsToAdd").after("<li class='deleteSearchContactsToAdd centerText'>keine Kontakte gefunden</li>");
-            }
-            $("#manageContactgroupDetailsList").listview('refresh');
-        }
-    }*/
 }
 
 
@@ -1194,40 +974,6 @@ function searchContactForNavigation(str) {
         $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte gefunden</li>");
     }
     $("#listNavigation").listview('refresh');
-    /*$.ajax({url: url+"search/contact",
-        dataType: "jsonp",
-        data: {ssid:currentSSID, request: str},
-        async: true,
-        success: function (result) {
-            if(isSessionValid(result.searchcontact)) {
-                ajax.parseJSONP(result.searchcontact);
-            }
-        },
-        error: function (request,error) {
-            $(".deleteNavigationContacts").remove();
-            $("#listNavigation").append("<li class='deleteNavigationContacts centerText errorMsg'>Fehler: Suchanfrage konnte nicht übermittelt werden.</li>");
-            $("#listNavigation").listview('refresh');
-        }
-    });
-
-    var ajax = {
-        parseJSONP:function(contacts){
-            $(".deleteNavigationContacts").remove();
-
-            if (contacts.length > 0) {
-                $.each( contacts, function(i, contact) {
-                        $("#listNavigation").append("<li class='deleteNavigationContacts'><a id='nav-contact-"+i+"'>"+contact.firstname+ " " +contact.lastname+"</a></li>");
-                        $("#nav-contact-"+i).on('click', function(){
-                            showPositionPage(contact.uid);
-                        });
-                    });
-            }
-            else {
-                $("#listNavigation").append("<li class='deleteNavigationContacts centerText'>keine Kontakte gefunden</li>");
-            }
-            $("#listNavigation").listview('refresh');
-        }
-    }*/
 }
 
 /*
@@ -1254,7 +1000,7 @@ function deleteContactFromCG(cgid, uid) {
                     ajax.parseJSONP();
                 }
                 else {
-                    alert("Kontakte konnte nicht gelöscht werden.");
+                    alert("Kontakt konnte nicht gelöscht werden.");
                 }
         },
         error: function (request, error) {
@@ -1265,7 +1011,6 @@ function deleteContactFromCG(cgid, uid) {
     var ajax = {
         parseJSONP:function(){
             $(listElement).closest("li").remove();
-            /*TODO start update search results @see create event page*/
             if ($(".deleteManageContactsForReset").length == 0) {
                 $("#manageContactgroupDetailsList").append("<li class='deleteManageContactsForReset centerText'>keine Kontakte vorhanden</li>");
             }
@@ -1274,7 +1019,7 @@ function deleteContactFromCG(cgid, uid) {
     }
 }
 
-/* TODO:auslagern
+/*
 * helper method to show #page_manageContacts and load all members of the current contactgroup
 * @paremeter contactgroup (last/current loaded contactgroup)
 * */
@@ -1283,7 +1028,7 @@ function manageContactgroupContacts(contactGroup) {
     loadContactsFromCG(contactGroup);
 }
 
-/* TODO: auslagern
+/*
 * helper method to load all contacts from the current contactgroup and add them to currentContactList
 * with this method we prevent loading the whole contactlist several times if the contactgroup stays the same
 * */
@@ -1304,19 +1049,12 @@ function loadContactsFromCG(contactGroup) {
 
 function showHomePage() {
     $(".footer_email").html(currentUser["email"]); //insert email adress to footer
-
-    if (currentUser["uid"] == null) {
-        alert("Username und/oder Passwort falsch. Bitte versuchen Sie es erneut.");
-        $.mobile.changePage("#page_login");
-    }
-    else {
         if (currentUser["istutor"] == 0) {
             showStudentHomePage();
         }
         else {
             showDozentHomePage();
         }
-    }
 }
 function showStudentHomePage() {
     console.log("showStudentPage");
@@ -1390,30 +1128,13 @@ function showFailurePage(errorMessage, retryAction) {
 }
 
 
-
-/*function sortListByDate() {
-    $("p").sort(function(a,b){
-        return new Date($(a).attr("data-date")) > new Date($(b).attr("data-date"));
-    }).each(function(){
-            $("body").prepend(this);
-        });
-}*/
-
-/*TODO just update attendance*/
+/**
+ * start qr code scanner
+ * server knows what to do with the qr-code
+ */
 function scanCode() {
-    //TODO how to know what to do with the code
-    /*
-    * raum scan --> update status with sid, uid, rid (rid muss aus dem qr-code hervorgehen)
-    * verification scan -->
-    *
-    * */
-    //is it just a room or a event verification?!
     cordova.plugins.barcodeScanner.scan(
         function (result) {
-            alert("We got a barcode\n" +
-                "Result: " + result.text + "\n" +
-                "Format: " + result.format + "\n" +
-                "Cancelled: " + result.cancelled);
             if (result.text != "")
                 updateAttendance(result.text);
         },
@@ -1423,7 +1144,10 @@ function scanCode() {
     );
 }
 
-/*TODO: send qr code to server and server will do the rest*/
+/*
+ * update position if qr code was a room code
+ * verify attendance if qr code was an event code
+ */
 function updateAttendance(qrcontent) {
     $.ajax({url: url + "update/attendance",
         dataType: "jsonp",
@@ -1516,7 +1240,7 @@ function deleteEvent() {
     });
 }
 
-/* TODO: auslagern
+/*
 * helper method to reset input fields of createEvent formular
 * */
 function resetCreateEvent() {
@@ -1533,7 +1257,7 @@ function resetCreateEvent() {
     $("#btnCreateEvent").find(".ui-btn-text").html("Erstellen");
 }
 
-/* TODO: auslagern
+/*
  * helper method to reset input fields of createEvent formular
  * */
 function resetCreateContactgroup() {

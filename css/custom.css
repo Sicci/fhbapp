@@ -145,8 +145,6 @@ div .button {
 .msgContainerDiv {
     overflow-y: scroll;
     overflow-wrap: break-word;
-    /*max-width: 320px;*/
-    /*height:300px*/
     position: absolute;
     right: 15px;
     left: 15px;
@@ -229,14 +227,6 @@ label.error {
     text-align: center !important;
 }
 
-/*.customListItem {
-    padding: .7em 15px;
-    border: 1px solid #ccc;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    border-bottom-width: 1px;
-}*/
 
 #liSearchContactsToAdd div {
     margin: 0 !important;

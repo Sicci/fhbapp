@@ -22,13 +22,11 @@ function updateCurrentLocation(roomLat,roomLng) {
 function locError(error) {
     userHasGPSCoordinates = false;
     console.log("error: the current position could not be located");
-    //$("#map_canvas").html("Google Maps nicht erreichbar.");
     searchPosition(1); //if no gps is activated we asume the user is in fh
 }
 
 // Callback when Google Maps connection accessed and completed
 function locSuccess(pos) {
-    //todo check if coords != null
     userHasGPSCoordinates = true;
     currentPosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
     searchPosition(isStudentInFH());
@@ -117,4 +115,3 @@ function calculateRoute(destinationLat, destinationLon) {
         $("#results").hide();
     }
 }
-// http://stackoverflow.com/questions/13345479/clean-example-of-directions-with-google-maps-in-jquery-mobile

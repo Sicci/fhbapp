@@ -27,6 +27,5 @@ function showHeader(pageID, activePage, pageTitle) {
     }
 
     header_html+='</ul></div></div><!-- /header -->';
-
     $("div[id='"+pageID+"']").append(header_html);
 }

@@ -3,17 +3,19 @@
 <html>
 <head>
     <title>FH-Brandenburg App Home</title>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link rel="stylesheet" type="text/css" href="res-chat/default.css" /> <!-- CSS chat -->
 	<link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
+    <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">-->
     <link rel="stylesheet" type="text/css" href="css/jqm-datebox.css">
 
 
     <script src="phonegap.js"></script>
     <script src="barcodescanner.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> <!-- TODO:load jquery from file -->
-    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script><!-- TODO:load jquery from file -->
+    <!--<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script> -->
+    <script type="javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
     <script type="text/javascript" src="js/datebox/jqm-datebox.core.js"></script>
     <!-- moment.js Library -->
     <script type="text/javascript" src="js/moment/moment-with-langs.min.js"></script>
@@ -39,10 +41,6 @@
     <script type="text/javascript" src="js/events.js"></script>
     <script type="text/javascript" src="js/header.js"></script>
     <script type="text/javascript" src="js/footer.js"></script>
-
-	<!--<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
-	<script src="js/jquery-1.10.2.min.js"></script>
-	<script src="js/jquery.mobile-1.3.2.min.js"></script>-->
 
 </head>
 <body>
@@ -94,28 +92,12 @@
                         <img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3>
                         <p>Verifizieren Sie Ihre Anwesenheit</p></a>
                     </li>
-                    <!--<li>
-                        <img class="ui-li-icon" src="images/status3.png"/><h3>Status einstellen</h3>
-                        <p>Ändern Sie Ihren aktuellen Status</p>
-                        <fieldset id="custom-grid" class="ui-grid-a">
-                            <div class="ui-block-a">
-                                <label for="selectStatus" class="select ui-hidden-accessible">Status</label>
-                                <select disabled name="selectStatus" id="selectStatus" data-mini="true">
-                                    <option value="toFH">Auf dem Weg zur FH</option>
-                                    <option value="fromFH">Verlasse die FH</option>
-                                    <option value="mensa">In der Mensa</option>
-                                </select></div>
-                            <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
-                                                       data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
-                        </fieldset>
-                    </li>-->
                     <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png">
                         <h3>Navigation</h3>
                         <p>Suchen und Finden Sie Personen</p></a>
                     </li>
                 </ul>
                 <br>
-                <!--<div class="bottom"><a href="#page_homeDozent" data-role="button" data-inline="true" data-mini="true">Dozentenansicht</a> </div>-->
             </div>
         </div>
         <!-- /content -->
@@ -134,22 +116,8 @@
                     <img class="ui-li-icon" src="images/list2.png"><h3>Eventliste</h3>
                     <p>Liste aller teilzunehmenden Events</p></a></li>
                 <li><a href="#page_controlAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
-              <!--  <li><img class="ui-li-icon" src="images/status3.png"><h3>Status einstellen</h3><p>Ändern Sie Ihren aktuellen Status</p>
-                    <fieldset id="custom-grid" class="ui-grid-a">
-                        <div class="ui-block-a">
-                            <label for="selectStatus" class="select ui-hidden-accessible">Status</label>
-                            <select disabled name="selectStatus" id="selectStatus" data-mini="true">
-                                <option value="toFH">Auf dem Weg zur FH</option>
-                                <option value="fromFH">Verlasse die FH</option>
-                                <option value="mensa">In der Mensa</option>
-                            </select></div>
-                        <div class="ui-block-b"><a class="ui-disabled" href="#" data-role="button" data-mini="false" data-inline="false"
-                                                   data-icon="refresh" data-iconpos="notext">Aktualisieren</a></div>
-                    </fieldset>
-                    </li>-->
                 <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und Finden Sie Personen</p></a></li>
                 </ul><br>
-                <!--<div class="bottom"><a href="#" onclick="showHomePage()" data-role="button" data-inline="true" data-mini="true">Studentenansicht</a> </div>-->
             </div>
         </div><!-- /content -->
 
@@ -171,15 +139,6 @@
         <!-- %header% -->
         <div data-role="content">
             <ul id="listEventlist" data-role="listview" data-theme="d" data-divider-theme="c">
-            <!--    <li>
-                    Friday
-                    <h3> Eventname</h3>
-                    <p class="bold">Eventbeschreibung</p>
-                    <p>Eventersteller</p>
-                    <p class="ui-li-aside">Uhrzeit</p>
-                </li>
-                <li>Friday</li>
-                <li>Saturday</li>-->
             </ul>
         </div><!-- /content -->
         <!-- %footer% -->
@@ -228,7 +187,7 @@
                     <li data-role="list-divider"><h3>Gruppe hinzufügen</h3><p class="ui-li-aside button"><a id="btnAddGroupToCreateEvent" data-role="button" data-mini="true" href="#">Gruppe hinzufügen</a> </p></li>
                     <li>
                         <select name="gid" id="newEventGroup">
-                            <option data-placeholder="true" value="">Gruppe auswählen...</option> <!-- TODO: aufm smartphone kann man den shit trotzdem noch auswählen, check in ajax value != '' -->
+                            <option data-placeholder="true" value="">Gruppe auswählen...</option>
                         </select>
                     </li>
                     <li data-role="list-divider"><h3>Kontakte hinzufügen</h3></li>
@@ -245,7 +204,6 @@
                         <a href="#" id="btnCreateEvent" onclick="continueFromCreateEvent()" data-role="button">Erstellen </a>
                     </div>
                 </div><!-- /grid-a -->
-
             </form>
         </div><!-- /content -->
         <!-- %footer% -->
@@ -277,8 +235,6 @@
                 <li><a href="#popup_eventQrcode" data-rel="popup" id="btnQRCode"><img class="ui-li-icon listIcon" src="images/qrcode_small.png" />QR-Code anzeigen</a></li>
                 <li><a id="btnAttendees" href="#page_attendees"><img class="ui-li-icon listIcon" src="images/list.png" />Teilnehmerliste</a></li>
             </ul>
-
-
         </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
@@ -338,18 +294,14 @@
        <div data-role="content">
             <ul data-role="listview" data-theme="c" data-divider-theme="d" >
                 <li data-role="list-divider">Profil von <span class="profile_name"></span></li>
-                <li><h3 class="profile_name"></h3><p>Name</p><!--<p class="ui-li-aside button" ><a data-inline="true" data-mini="true" data-role="button" href="#page_chatSingle">Nachricht senden</a></p>--></li>
+                <li><h3 class="profile_name"></h3><p>Name</p></li>
                 <li><h3 class="profile_status"></h3><p>Status</p><p class="ui-li-aside button" ><a id="btnLocateContact" data-inline="true" data-mini="true" data-role="button" href="#">Lokalisieren</a></p></li>
                 <li><h3 class="profile_email"></h3><p>E-Mail</p></li>
                 <li><h3 class="profile_wohnort"></h3><p>Wohnort</p></li>
                 <li><h3>Gruppen</h3><p class="bold profile_gruppen"></p></li>
             </ul><br><br>
-            <!--
-            TODO: Select Menü muss wieder auf Default Eintrag gesetzt werden, wenn es verlassen/ neu aufgerufen wird.
-                Der Inhalt der Select Menu's sollte nur Gruppen anzeigen, in denen der Nutzer noch NICHT ist.
-            -->
             <label for="select-choice-min" class="select ui-hidden-accessible">Kontakt zu einer Gruppe hinzufügen:</label>
-            <select disabled data-native-menu="true" name="select-choice-min" id="select-choice-min" data-mini="true"> <!--TODO:kontakte zu gruppe hinzufügen-->
+            <select disabled data-native-menu="true" name="select-choice-min" id="select-choice-min" data-mini="true">
                 <option data-placeholder="true">Kontakt zu einer Gruppe hinzufügen</option>
                 <option value="grp1">Mobile Informationssysteme</option>
                 <option value="grp2">[Gruppe2]</option>
@@ -460,7 +412,6 @@
            <div id="results" >
                <div id="directions"></div>
            </div>
-
         </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
@@ -475,18 +426,10 @@
                 <div class="message"><span class="username">[name]</span>: Wie geht's?</div>
             </div>
             <div class="bottom">
-            <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
-            <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
+                <label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" />
+                <a onclick="sendMessage()" href="#" data-role="button">Absenden</a>
             </div>
-            <!--
-            <h4>Chat mit Person [Name]
-            <p>Person X: Hallo</p>
-            <p>Ich: Ho</p>
-            <p>Person X: Na wie gehts</p>-->
-            <!--<div class="chatText"><label class="input ui-hidden-accessible" for="chatText">Chat-Eingabe</label><input type="text" name="chatText" id="chatText" /></div>
-            <div class="bottom"><a onclick="sendMessage()" href="#" data-role="button">Absenden</a></div>-->
-
-        </div><!-- /content -->
+       </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
 
@@ -535,7 +478,6 @@
         showFooter(pageArray[pageObj].pageID);
         showHeader(pageArray[pageObj].pageID,pageArray[pageObj].activePage,pageArray[pageObj].pageTitle);
     }
-
 </script>
 </html>
 

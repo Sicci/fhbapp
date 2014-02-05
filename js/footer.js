@@ -8,4 +8,3 @@ function showFooter(pageID) {
 
     $("#"+pageID).append(footer_html);
 }
-
