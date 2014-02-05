@@ -82,7 +82,7 @@
                 <ul data-role="listview" class="startPage">
                     <li>
                         <a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3>
-                        <p>Verifizieren Sie Ihren aktuellen Standort<br>oder ihre Eventteilnahme</p></a>
+                        <p>Verifizieren Sie Ihren aktuellen Standort<br>oder Ihre Eventteilnahme</p></a>
                     </li>
                     <li><a href="#page_eventList">
                         <img class="ui-li-icon" src="images/list2.png"><h3>Eventliste</h3>
@@ -110,11 +110,15 @@
         <div data-role="content">
             <div>
                 <br><ul data-role="listview"  class="startPage">
-                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort</p></a></li>
+                <li><a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3><p>Verifizieren Sie Ihren aktuellen Standort<br>oder Ihre Eventteilnahme</p></a></li>
                 <li><a href="#page_eventList">
                     <img class="ui-li-icon" src="images/list2.png"><h3>Eventliste</h3>
                     <p>Liste aller teilzunehmenden Events</p></a></li>
                 <li><a href="#page_controlAttendance"><img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitskontrolle</h3><p>Kontrollieren Sie die Anwesenheit der Studenten</p></a></li>
+                <li><a href="#page_getStatuses">
+                    <img class="ui-li-icon" src="images/stats.png"><h3>Statusverlauf</h3>
+                    <p>Übersicht ihrer zuletzt aufgezeichneten Tätigkeiten</p></a>
+                </li>
                 <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png"><h3>Navigation</h3><p>Suchen und Finden Sie Personen</p></a></li>
                 </ul><br>
             </div>
@@ -147,7 +151,6 @@
     <div id="page_getStatuses" data-role="page">
         <!-- %header% -->
       <div data-role="content">
-            <!--<h3>Anwesenheitsverifikation</h3>-->
           <ul id="statusList" data-role="listview" data-theme="d" data-divider-theme="c">
               <li data-role="list-divider"><h3>Statusverlauf</h3></li>
               <!-- dynamically loaded -->
