@@ -1049,12 +1049,18 @@ function loadContactsFromCG(contactGroup) {
 
 function showHomePage() {
     $(".footer_email").html(currentUser["email"]); //insert email adress to footer
+    if (currentUser["uid"] == null) {
+        alert("Es ist ein unerwarteter Fehler aufgetreten. Bitte loggen Sie sich erneut ein.");
+        $.mobile.changePage("#page_login");
+           }
+    else {
         if (currentUser["istutor"] == 0) {
             showStudentHomePage();
         }
         else {
             showDozentHomePage();
         }
+    }
 }
 function showStudentHomePage() {
     console.log("showStudentPage");
@@ -1457,7 +1463,9 @@ function searchPosition(isStudentInFH) {
             if (position.error == "BadDatabase") {
                 $("#map_container").hide();
                 $("#detailedDescription").html('<b style="color:red;">Position konnte nicht ermittelt werden.</b><br>Aufgrund fehlender GPS-Informationen konnte die Person nicht lokalisiert werden. ' +
-                    'Eventuell können ihre GPS-Koordinaten nicht ermittelt werden oder der Standort ihrer gesuchten Person ist derzeit unbekannt.');
+                    'Eventuell können ihre GPS-Koordinaten nicht ermittelt werden oder der Standort ihrer gesuchten Person ist derzeit unbekannt.<br>' +
+                    '<a id="btn_retry_navigation" href="#page_navigation" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c">' +
+                    '<span class="ui-btn-inner"><span class="ui-btn-text">Erneut versuchen</span></span></a> ');
             }
             else {
                 $("#map_container").show();
