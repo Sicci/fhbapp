@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt eine Liste aller globalen Gruppen zurück
-		[für den Benutzer mit der UID $SSUID]
+		Gibt eine Liste aller globalen Gruppen zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

@@ -1,9 +1,9 @@
 <?php
 	/*
 		Nimmt die gescannten QR-Informationen $_GET['qrcontent'] entgegen und 
-		verifiziert den Nutzer entweder für ein Event, oder aktualisiert seine Position.
-		In beiden Fällen wird ein neuer Status angelegt.
-		[für den Benutzer mit der UID $SSUID => Besitzer]
+		verifiziert den Nutzer entweder fÃ¼r ein Event, oder aktualisiert seine Position.
+		In beiden FÃ¤llen wird ein neuer Status angelegt.
+		[fÃ¼r den Benutzer mit der UID $SSUID => Besitzer]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

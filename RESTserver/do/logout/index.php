@@ -1,7 +1,7 @@
 <?php
 	/*
-		Führt LogOut durch und zerstört die Session 
-		[für den Benutzer mit der UID $SSUID]
+		FÃ¼hrt LogOut durch und zerstÃ¶rt die Session 
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

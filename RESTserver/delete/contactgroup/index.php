@@ -1,6 +1,6 @@
 <?php
 	/*
-		Löscht eine Kontaktgruppe mit der KontaktgruppenID $_GET['cgid']
+		LÃ¶scht eine Kontaktgruppe mit der KontaktgruppenID $_GET['cgid']
 		[von dem Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');

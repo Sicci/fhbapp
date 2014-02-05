@@ -1,6 +1,6 @@
 <?php
 	/*
-		Klasse für das Datenbank-PDO zur Kommunikation 
+		Klasse fÃ¼r das Datenbank-PDO zur Kommunikation 
 		mit dem Datenbank-Server
 	*/
 class DBHandler extends PDO{
@@ -23,7 +23,7 @@ class DBHandler extends PDO{
 		$this->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
 	
-	/* Ausführen des Queries und Fetchen der Ergebnisse */
+	/* AusfÃ¼hren des Queries und Fetchen der Ergebnisse */
 	public function query(&$oStatement, $aParameters = array ()) {
 
 		try {

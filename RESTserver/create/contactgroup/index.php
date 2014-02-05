@@ -1,7 +1,7 @@
 <?php
 	/*
 		Erstellt eine Kontaktgruppe mit dem Namen $_GET['cgname']
-		[für den Benutzer mit der UID $SSUID]
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

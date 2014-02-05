@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt eine Liste der letzten 10 eigenen Statuses zurück.
-		[für den Benutzer mit der UID $SSUID]
+		Gibt eine Liste der letzten 10 eigenen Statuses zurÃ¼ck.
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

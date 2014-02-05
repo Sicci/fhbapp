@@ -1,8 +1,8 @@
 <?php
 	/*
-		Gibt eine Liste aller Events zurück, zu denen der Nutzer
+		Gibt eine Liste aller Events zurÃ¼ck, zu denen der Nutzer
 		eingeschrieben ist, und, die noch nicht 3h abgelaufen sind
-		[für den Benutzer mit der UID $SSUID]
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

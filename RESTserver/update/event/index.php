@@ -1,7 +1,7 @@
 <?php
 	/*
 		Aktualisiert die Teilnehmerliste eines Events
-		[für den Benutzer mit der UID $SSUID => Besitzer]
+		[fÃ¼r den Benutzer mit der UID $SSUID => Besitzer]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

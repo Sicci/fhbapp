@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt Detailinformationen für den Nutzer mit der UID $_GET['uid'] zurück
-		[für den Benutzer mit der UID $SSUID]
+		Gibt Detailinformationen fÃ¼r den Nutzer mit der UID $_GET['uid'] zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

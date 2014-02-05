@@ -1,6 +1,6 @@
 <?php
 	/*
-		Löscht ein Event mit der EventID $_GET['eid']
+		LÃ¶scht ein Event mit der EventID $_GET['eid']
 		[von dem Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');

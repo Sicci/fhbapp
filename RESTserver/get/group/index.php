@@ -1,8 +1,8 @@
 <?php
 	/*
-		Gibt Detailinformationen für eine globable Gruppe mit der GruppenID $_GET['gid'] 
-		einschließlich aller ihrer Mitglieder zurück
-		[für den Benutzer mit der UID $SSUID]
+		Gibt Detailinformationen fÃ¼r eine globable Gruppe mit der GruppenID $_GET['gid'] 
+		einschlieÃŸlich aller ihrer Mitglieder zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

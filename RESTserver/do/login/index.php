@@ -1,7 +1,7 @@
 <?php
 	/*
 		Versucht die Authentifizierung eines Users mit dem 
-		LoginNamen $_GET['uname'] und dem LoginPasswort $_GET['upassword'] durchzuführen 
+		LoginNamen $_GET['uname'] und dem LoginPasswort $_GET['upassword'] durchzufÃ¼hren 
 	*/
 	include_once('../../DBHandler.php');
 	include_once('../../JSONHelper.php');

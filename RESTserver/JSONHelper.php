@@ -8,7 +8,7 @@ class JSONHelper{
 	public function __construct() {
 	}
 	
-	// Objekte hinzufügen, die als mehrdimensionale Arrays strukturiert sind
+	// Objekte hinzufÃ¼gen, die als mehrdimensionale Arrays strukturiert sind
 	public static function addArrayObjects(&$sResult, $aContent) {
 		if(count($aContent)>0) {
 			foreach ($aContent as $aValue) {
@@ -21,7 +21,7 @@ class JSONHelper{
 		}
 	}
 	
-	// Array aus Key/Value-Paaren hinzufügen
+	// Array aus Key/Value-Paaren hinzufÃ¼gen
 	public static function addKeyValues(&$sResult, $aContent) {
 		if(count($aContent)>0) {
 			foreach ($aContent as $key => $value) {
@@ -32,14 +32,14 @@ class JSONHelper{
 		}
 	}
 	
-	// Einzelnen Key hinzufügen
+	// Einzelnen Key hinzufÃ¼gen
 	public static function addKey(&$sResult, $sKey) {
 		if(strlen($sKey)>0) {
 			$sResult.= sprintf("\"%s\":", $sKey);
 		}
 	}
 	
-	// Einzelnen Value hinzufügen (mit Typüberprüfung)
+	// Einzelnen Value hinzufÃ¼gen (mit TypÃ¼berprÃ¼fung)
 	public static function addValue(&$sResult, $xValue) {
 		if(!is_null($xValue)) {
 			if(is_numeric($xValue)) { // Number
@@ -80,7 +80,7 @@ class JSONHelper{
 		JSONHelper::addC($sResult);
 	}
 	
-	// Handler für Rückgabeobjekt aus Pfad generieren und setzen z.B. {"dologin":{...}} aus do/login/
+	// Handler fÃ¼r RÃ¼ckgabeobjekt aus Pfad generieren und setzen z.B. {"dologin":{...}} aus do/login/
 	public static function setHandler(&$handler) {
 		$path_info = pathinfo($_SERVER["SCRIPT_FILENAME"]);
 		$path = $path_info["dirname"];
@@ -88,7 +88,7 @@ class JSONHelper{
 		$handler = $x[count($x)-2].$x[count($x)-1];
 	}
 	
-	// Fehler-Rückgabe generieren
+	// Fehler-RÃ¼ckgabe generieren
 	public static function generateError(&$sResult, $msg = "unknown") {
 			JSONHelper::setHandler($handler);
 			
@@ -104,7 +104,7 @@ class JSONHelper{
 			JSONHelper::addRB($sResult);	
 	}
 	
-	// Erfolg-Rückgabe generieren
+	// Erfolg-RÃ¼ckgabe generieren
 	public static function generateSuccess(&$sResult, $addParams = array()) {
 			JSONHelper::setHandler($handler);
 			
@@ -143,7 +143,7 @@ class JSONHelper{
 		$sResult.= sprintf("{");
 	}
 	
-	// Neues Objekt schließen
+	// Neues Objekt schlieÃŸen
 	public static function addRB (&$sResult) {
 		$sResult.= sprintf("}");
 	}
@@ -153,12 +153,12 @@ class JSONHelper{
 		$sResult.= sprintf("[");
 	}
 	
-	// Neuen Array schließen
+	// Neuen Array schlieÃŸen
 	public static function addRAB (&$sResult) {
 		$sResult.= sprintf("]");
 	}
 	
-	// Komma hinzufügen
+	// Komma hinzufÃ¼gen
 	public static function addC (&$sResult) {
 		$sResult.= sprintf(",");
 	}

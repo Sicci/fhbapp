@@ -1,7 +1,7 @@
 <?php
 	/*
 		Erstellt ein Event mit dem Namen $_GET['ename'] am Datum $_GET['edate'] 
-		[für den Benutzer mit der UID $SSUID]
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

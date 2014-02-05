@@ -1,8 +1,8 @@
 <?php
 	/*
-		Gibt Detailinformationen für die Kontaktgruppe mit der KontaktgruppenID $_GET['cgid'] 
-		einschließlich aller ihrer Mitglieder zurück zurück
-		[für den Benutzer mit der UID $SSUID => Besitzer]
+		Gibt Detailinformationen fÃ¼r die Kontaktgruppe mit der KontaktgruppenID $_GET['cgid'] 
+		einschlieÃŸlich aller ihrer Mitglieder zurÃ¼ck zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID => Besitzer]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

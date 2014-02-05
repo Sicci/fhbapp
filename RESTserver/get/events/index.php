@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt eine Liste aller Events zurück
-		[für den Benutzer mit der UID $SSUID => Besitzer]
+		Gibt eine Liste aller Events zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID => Besitzer]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

@@ -1,6 +1,6 @@
 <?php
 	/*
-		Gibt eine Liste aller möglichen Kontakte zurück
+		Gibt eine Liste aller mÃ¶glichen Kontakte zurÃ¼ck
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

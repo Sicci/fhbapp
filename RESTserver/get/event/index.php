@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt Detailinformationen für ein Event mit der EventID $_GET['eid'] zurück
-		[für den Benutzer mit der UID $SSUID]
+		Gibt Detailinformationen fÃ¼r ein Event mit der EventID $_GET['eid'] zurÃ¼ck
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

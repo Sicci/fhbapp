@@ -1,7 +1,7 @@
 <?php
 	/*
-		Gibt eine Liste aller Nutzernamen zurück, die das Suchmuster $_GET['request'] enthalten
-		[für den Benutzer mit der UID $SSUID]
+		Gibt eine Liste aller Nutzernamen zurÃ¼ck, die das Suchmuster $_GET['request'] enthalten
+		[fÃ¼r den Benutzer mit der UID $SSUID]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);

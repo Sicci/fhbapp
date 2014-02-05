@@ -1,8 +1,8 @@
 <?php
 	/*
-		Gibt eine Liste aller Teilnehmer für das Event mit der EventID $_GET['eid']
-		zurück, und ob sie sich bereits dafür verifiziert haben
-		[für den Benutzer mit der UID $SSUID => Besitzer]
+		Gibt eine Liste aller Teilnehmer fÃ¼r das Event mit der EventID $_GET['eid']
+		zurÃ¼ck, und ob sie sich bereits dafÃ¼r verifiziert haben
+		[fÃ¼r den Benutzer mit der UID $SSUID => Besitzer]
 	*/
 	include_once('../../config.php');
 	SESSIONHelper::init($SSUID);
