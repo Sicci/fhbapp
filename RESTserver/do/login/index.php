@@ -11,7 +11,7 @@
 		$dbh = new DBHandler();
 		
 		$UNAME = $_GET['uname'];
-		$UPASSWORD = $_GET['upassword'];
+		$UPASSWORD = md5($_GET['upassword']);
 
 		$oStatement = $dbh->prepare('
 			SELECT 	l.uid 			as "uid", 
