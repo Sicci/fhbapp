@@ -268,6 +268,33 @@ function getGroupDetails(gid) {
     }
 }
 
+function getStatusList() {
+    $.ajax({url: url + "get/statuses",
+        dataType: "jsonp",
+        data: {ssid:currentSSID},
+        async: true,
+        success: function (result) {
+            if (isSessionValid(result.getstatuses)) {
+                ajax.parseJSONP(result.getstatuses);
+            }
+        },
+        error: function (request, error) {
+            alert('Fehler bei der Übertragung. Versuchen sie es später erneut.');
+        }
+    });
+
+    var ajax = {
+        parseJSONP: function (statuses) {
+            $(".deleteStatusForReset").remove();
+            $.each(statuses, function (i, status) {
+                console.log("add status");
+               $("#statusList").append('<li class="deleteStatusForReset">'+moment(status.screationdate*1000).format("HH:mm - DD.MM YYYY")+' - '+status.sdescription+'</li>');
+            });
+            $("#statusList").listview('refresh');
+        }
+    }
+}
+
 /*
 * load details of a specific private contactgroup and show them on #page_contactgroupDetails
 * @parameter ssid, cgid

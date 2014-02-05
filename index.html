@@ -82,14 +82,14 @@
                 <ul data-role="listview" class="startPage">
                     <li>
                         <a href="#page_scanPosition"><img class="ui-li-icon" src="images/barcode.png"><h3>QR-Code scannen</h3>
-                        <p>Verifizieren Sie Ihren aktuellen Standort</p></a>
+                        <p>Verifizieren Sie Ihren aktuellen Standort<br>oder ihre Eventteilnahme</p></a>
                     </li>
                     <li><a href="#page_eventList">
-                        <img class="ui-li-icon" src="images/check.png"><h3>Eventliste</h3>
+                        <img class="ui-li-icon" src="images/list2.png"><h3>Eventliste</h3>
                         <p>Liste aller teilzunehmenden Events</p></a></li>
-                    <li><a href="#page_verifyAttendance">
-                        <img class="ui-li-icon" src="images/check.png"><h3>Anwesenheitsverifikation</h3>
-                        <p>Verifizieren Sie Ihre Anwesenheit</p></a>
+                    <li><a href="#page_getStatuses">
+                        <img class="ui-li-icon" src="images/stats.png"><h3>Statusverlauf</h3>
+                        <p>Übersicht ihrer zuletzt aufgezeichneten Tätigkeiten</p></a>
                     </li>
                     <li><a href="#page_navigation"><img class="ui-li-icon" src="images/map2.png">
                         <h3>Navigation</h3>
@@ -144,10 +144,14 @@
     </div><!-- /page -->
 
     <!-- verify attendance page -->
-    <div id="page_verifyAttendance" data-role="page">
+    <div id="page_getStatuses" data-role="page">
         <!-- %header% -->
       <div data-role="content">
-            <h3>Anwesenheitsverifikation</h3>
+            <!--<h3>Anwesenheitsverifikation</h3>-->
+          <ul id="statusList" data-role="listview" data-theme="d" data-divider-theme="c">
+              <li data-role="list-divider"><h3>Statusverlauf</h3></li>
+              <!-- dynamically loaded -->
+          </ul>
         </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
@@ -250,17 +254,6 @@
                 <li id="liAttendeesVerified" data-role="list-divider">Teilnahme verifiziert</li>
                 <li id="liAttendeesNotVerified" data-role="list-divider">Teilnahme nicht verifiziert</li>
             </ul>
-        </div><!-- /content -->
-        <!-- %footer% -->
-    </div><!-- /page -->
-
-    <!-- chat page -->
-    <div id="page_chat" data-role="page">
-        <!-- %header% -->
-        <div data-role="content">
-            <div id="candy">
-                <!-- %chat% -->
-            </div>
         </div><!-- /content -->
         <!-- %footer% -->
     </div><!-- /page -->
@@ -470,7 +463,7 @@
         {"pageID":"page_position", "activePage":"", "pageTitle":"Position"},
         {"pageID":"page_profile", "activePage":"", "pageTitle":"Profil von <span class=\"profile_name\"></span>"},
         {"pageID":"page_scanPosition", "activePage":"", "pageTitle":"QR-Code einscannen"},
-        {"pageID":"page_verifyAttendance", "activePage":"", "pageTitle":"Anwesenheitsverifikation"}
+        {"pageID":"page_getStatuses", "activePage":"", "pageTitle":"Anwesenheitsverifikation"}
     ];
 
     for (var pageObj in pageArray) {

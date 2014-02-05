@@ -154,6 +154,12 @@ $(document).on('pagebeforeshow', '#page_eventList', function(e, data){
     getEventlist();
 });
 
+/*load statuses via jsonp*/
+$(document).on('pagebeforeshow', '#page_getStatuses', function(e, data){
+    console.log("pagebeforeshow: page_getStatuses");
+    getStatusList();
+});
+
 /*connect to candy chat*/
 $(document).on('pagebeforeshow', '#page_chat', function(e, data){
     console.log("pageboforeshow: page_chat");
