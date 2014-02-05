@@ -1167,10 +1167,10 @@ function updateAttendance(qrcontent) {
                 else {
                     alert(result.updateattendance.error);
                     if (result.updateattendance.error == "NotFound") {
-                        alert("qrcode unbekannt");
+                        alert("QR-Code unbekannt.");
                     }
                     else if (result.updateattendance.error == "NoAccess") {
-                        alert("nutzer hat keine berechtigung sich für dieses event zu registrieren");
+                        alert("Nutzer hat keine Berechtigung sich für dieses Event zu registrieren.");
                     }
                 }
                 showHomePage();
@@ -1185,10 +1185,10 @@ function updateAttendance(qrcontent) {
         parseJSONP:function(scanResult){
             console.log(scanResult);
             if (scanResult.room != undefined) {
-                alert("raum erfolgreich eingescannt");
+                alert("Raum wurde erfolgreich eingescannt. Ihre Position wurde aktualisiert.");
             }
             else if(scanResult.event != undefined) {
-                alert("event erfolgreich eingescannt");
+                alert("Event-Code wurde erfolgreich eingescannt. Ihre Teilnahme an diesem Event wurde bestätigt.");
             }
 
         }
