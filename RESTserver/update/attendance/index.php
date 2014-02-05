@@ -107,9 +107,10 @@
 							SET `hasverified` = 1
 							
 							WHERE `eid` = ?
+							AND `uid` = ?
 							');
 						
-						$aContent = array($EID);
+						$aContent = array($EID, $UID);
 						$aResult = $dbh->query($oStatement, $aContent);
 						
 						$oStatement = $dbh->prepare('
