@@ -102,7 +102,7 @@
 							if($aLastPositionSender["rname"]==$aLastPositionTarget["rname"]) {
 								$geopath.= sprintf(" Ihr seid beide im selben Raum.");
 							} else {
-								$geopath.= sprintf(" Ihr seid auf dem selben Flur.");
+								$geopath.= sprintf(" Ihr seid im selben Stockwerk.");
 								$geopath.= sprintf(" Begib dich in %s.", $aLastPositionTarget["rname"]);
 							}
 						}
@@ -168,7 +168,7 @@
 				if(!$inSameBuilding) {
 					$geopath.= sprintf(" Du befindest dich nun vor dem %s. Gehe hinein.", $aLastPositionTarget["building"]);
 					if($aLastPositionTarget["floor"]!=0)
-						$geopath.= sprintf(" Begib dich in den %s Stock. Dort", $aLastPositionTarget["floor"]);
+						$geopath.= sprintf(" Begib dich in den %s. Stock. Dort", $aLastPositionTarget["floor"]);
 					else 
 						$geopath.= sprintf(" Im Erdgeschoss");
 					$geopath.= sprintf(" findest du %s in %s.", $aLastPositionTarget["firstname"], $aLastPositionTarget["rname"]);
