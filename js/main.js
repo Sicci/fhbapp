@@ -286,11 +286,23 @@ function getStatusList() {
     var ajax = {
         parseJSONP: function (statuses) {
             $(".deleteStatusForReset").remove();
+            var lastDivider = "";
             $.each(statuses, function (i, status) {
                 console.log("add status");
-               $("#statusList").append('<li class="deleteStatusForReset">'+moment(status.screationdate*1000).format("HH:mm - DD.MM YYYY")+' - '+status.sdescription+'</li>');
+                var newDivider = moment(status.screationdate*1000).format("dddd, DD.MMMM YYYY");
+                if (lastDivider != newDivider) { //create a new divider if edate differs from other events
+                    $("#statusList").append("<li class='deleteStatusForReset' data-role='list-divider'>"+newDivider+"</li>");
+                    lastDivider = newDivider;
+                }
+                if (status.eid != null) {
+                    $("#statusList").append("<li class='deleteStatusForReset'><h3>Anwesenheitsverifikation</h3><p class='bold'>"+ status.sdescription+"</p><p class='ui-li-aside'><span class='bold'>"+moment(status.screationdate*1000).format("HH:mm")+"</span> Uhr</p></li>");
+                }
+                    else if (status.rid != null) {
+                    $("#statusList").append("<li class='deleteStatusForReset'><h3>Positionsupdate</h3><p class='bold'>"+ status.sdescription+"</p><p class='ui-li-aside'><span class='bold'>"+moment(status.screationdate*1000).format("HH:mm")+"</span> Uhr</p></li>");
+                }
+
+                $('#statusList').listview('refresh');
             });
-            $("#statusList").listview('refresh');
         }
     }
 }
