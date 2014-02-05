@@ -127,7 +127,7 @@
 										
 									case "Wirtschaftsgebäude":
 										$geopath.= sprintf(" und wende dich nach Osten.");
-										$geopath.= sprintf(" Folge dem Weg weitere 20m.");
+										$geopath.= sprintf(" Folge dem Weg etwa 20m.");
 										$geopath.= sprintf(" Biege nun links ab und gehe 50m in nördliche Richtung auf das rote Gebäude zu.");
 										break;
 								}
